@@ -1,0 +1,4 @@
+#Wed Dec 18 14:10:42 COT 2019
+base.0=C\:\\Users\\kevyn.DESKTOP-FH5NT57\\Documents\\Backup Movil\\Swappi\\platforms\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex

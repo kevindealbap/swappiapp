@@ -1,0 +1,64 @@
+.my-custom-menu {
+    --width: 500px;
+}
+.header{
+    text-align: center;
+}
+.btn-circle.btn-xl {
+    width: 80px;
+    height: 80px;
+    padding: 0 0;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+    background: transparent ;
+}
+
+.no-scroll .scroll-content{
+    overflow: hidden;
+}
+
+.vincular{
+    width: 95%;
+    height: 50px;
+    background: transparent linear-gradient(270deg, #0ABF04 0%, #09A603 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 16px #0093E929;
+    border-radius: 50px;
+    opacity: 1;
+    color: white;
+    outline:none;
+}
+
+.btn-sw{
+    width: 116px;
+    height: 50px;
+    margin-top: 10%;
+    background: #09A603 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 10px #40404029;
+    border-radius: 50px 0px 0px 50px;
+    opacity: 1;
+    float: right;
+}
+
+.btn-circle {
+    border:none;
+    width: 14px;
+    height:14px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+    background: transparent linear-gradient(180deg, #481B75 0%, #0093E9 100%) 0% 0% no-repeat padding-box;
+}
+.headMenu{
+    text-align: center;
+    --background: transparent linear-gradient(245deg, #09A603 0%, #09A603 100%) 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+.tabs-border{
+    border-radius: 20px 20px 0px 0px;
+    opacity: 1;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+box-shadow: 0px 0px 16px #00000029;
+}

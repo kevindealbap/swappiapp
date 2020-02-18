@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar class="header">
+      <ion-buttons slot="start">
+          <ion-back-button text="Atrás" icon="arrow-back"></ion-back-button>
+      </ion-buttons>
+    <ion-title>Tarjeta Swappi</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  
+  <div>
+    <img [src]="cardImage" />
+  </div>
+  <p class="text">Ingresa todos los datos requeridos</p>
+  <div>
+    <ion-grid fixed>
+      <ion-row>
+        <!-- <ion-col size="12">
+            <div class="input-group mb-3">
+                <input type="text" [(ngModel)]="name" class="form-control material" placeholder="Nombre">
+                <div class="input-group-prepend">
+                  <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                  </div>
+                </div>
+            </div>
+        </ion-col> -->
+        <ion-col size="12">
+            <div class="input-group mb-3">
+                <input type="number" [(ngModel)]="ntarjeta" value="{{ntarjeta}}" class="form-control material" placeholder="N° Tarjeta">
+                <div class="input-group-prepend">
+                  <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+                      <i class="fa fa-credit-card" aria-hidden="true"></i>
+                  </div>
+                </div>
+            </div>
+        </ion-col>
+        <ion-col size="6">
+            <div class="input-group mb-3">
+                <input type="text" id="fech" [(ngModel)]="fech" value="{{fech}}" (keypress)="test($event)" mask-placeholder="_" class="form-control material" placeholder="MM/YY">
+                <div class="input-group-prepend">
+                  <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+                      <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                  </div>
+                </div>
+            </div>
+        </ion-col>
+        <ion-col size="6">
+            <div class="input-group mb-3">
+                <input type="number" [(ngModel)]="ccv" value="{{ccv}}" pattern="[0-9]{3,3}" maxlength="3" minlength="3" class="form-control material" placeholder="CCV">
+                <div class="input-group-prepend">
+                  <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+                      <i class="fa fa-lock" aria-hidden="true"></i>
+                  </div>
+                </div>
+            </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div *ngIf="swicht > 0">
+      <button id="btn-Sesion" (click)="desactivar()">DESACTIVAR TARJETA</button>
+    </div>
+    <div *ngIf="swicht == 0">
+      <button id="btn-Sesion" (click)="verificar()">ACTIVAR TARJETA</button>
+    </div>
+   
+  </div>
+</ion-content>

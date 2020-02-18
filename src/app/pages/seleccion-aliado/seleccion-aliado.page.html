@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar class="header">
+      <ion-buttons slot="start">
+          <ion-back-button text="Atrás" icon="arrow-back"></ion-back-button>
+      </ion-buttons>
+    <ion-title>
+      Seleccionar Aliados
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div style="margin: 16px;text-align: center;">
+      <div class="input-group mb-3 content">
+          <input type="text"  class="form-control material" placeholder="Buscar">
+          <div class="input-group-prepend">
+            <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </div>
+          </div>
+      </div>
+    </div>
+    <ion-grid *ngIf="aliados.length > 0" class="ion-padding">
+      <ion-row *ngFor="let item of aliados">
+        <ion-col size="6">
+          <ion-card class="color-card" [routerLink]="['/service-aliado']" routerDirection="root">
+            <ion-card-header>
+              <ion-card-subtitle class="grises"><img src="../../../assets/imgs/{{item.al_image}}"></ion-card-subtitle>
+              <ion-card-title style="font-size: 13px;font-weight: bold;" >{{item.al_name}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  
+</ion-content>

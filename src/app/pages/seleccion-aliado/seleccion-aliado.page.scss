@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+.header{
+    text-align: center;
+}
+
+::placeholder{
+    color: #0093E9;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+.content{
+    margin-top: 7%;
+    height: 10%;
+}
+
+.material{
+    width: 10%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 8px;
+    opacity: 1;
+    border-right-style: none;
+    color: #0093E9;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+
+.icon-style{
+    border-left-style: none;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    color: #0093E9;
+}
+ion-content{
+    --background: rgb(248, 244, 244);
+}
+.color-card{
+ --background:#fff;
+}
+.grises img {
+    filter: url('#grayscale'); /* Versión SVG para IE10, Chrome 17, FF3.5, Safari 5.2 and Opera 11.6 */
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%); /* Para cuando es estándar funcione en todos */
+    filter: Gray(); /* IE4-8 and 9 */
+    
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    }

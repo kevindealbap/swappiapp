@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+.my-custom-menu {
+    --width: 500px;
+}
+
+.header{
+    text-align: center;
+}
+
+::placeholder{
+    color: #0093E9;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+
+.content{
+    margin-top: 7%;
+    height: 10%;
+}
+
+.btn-circle.btn-xl {
+    width: calc(0% + 100px);
+    height: calc(0% + 100px);
+    padding: 0 0;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+    background: transparent;    
+}
+
+.btn-circle {
+    border:none;
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+    background: transparent linear-gradient(180deg, #481B75 0%, #0093E9 100%) 0% 0% no-repeat padding-box;
+}
+.btn-save{
+    width: 100%;
+    height: 50px;
+    background: transparent linear-gradient(270deg, #0ABF04 0%, #09A603 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 16px #0093E929;
+    border-radius: 50px;
+    opacity: 1;
+    color: white;
+    outline:none;
+}

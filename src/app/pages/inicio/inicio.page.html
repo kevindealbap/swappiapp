@@ -1,0 +1,111 @@
+<ion-header>
+    <ion-toolbar class="header">
+        <ion-buttons slot="start">
+            <ion-icon style="zoom: 2.0;" (click)="openFirst()" name="menu"></ion-icon>
+        </ion-buttons>
+      <ion-title>
+          <img class="img-logo" style="margin-right: 12%;" src="../../../assets/imgs/swappi.svg" width="86">
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-menu side="start" menuId="first" type="overlay">
+      <ion-header>
+        <ion-toolbar class="headMenu">
+          <img src="../../../assets/imgs/swappi-inicio.png">
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item routerLink="/perfil" routerDirection="forward"><i padding class="fa fa-user-circle-o" aria-hidden="true"></i>Mi perfil</ion-item>
+          <ion-item routerLink="/tarjeta-swappi" routerDirection="forward"><i padding class="fa fa-credit-card" aria-hidden="true"></i>Tarjeta Swappi</ion-item>
+          <ion-item><i padding class="fa fa-cog" aria-hidden="true"></i>Historial de movimientos</ion-item>
+          <ion-item><i padding class="fa fa-paper-plane-o" aria-hidden="true"></i>Notificaciones</ion-item>
+          <ion-item><i padding class="fa fa-cog" aria-hidden="true"></i>Ajustes</ion-item>
+          <ion-item><i padding class="fa fa-book" aria-hidden="true"></i>Términos y condiciones</ion-item>
+          <ion-item><i padding class="fa fa-info-circle" aria-hidden="true"></i>Ayuda</ion-item>
+          <ion-item (click)="logout()"><i padding class="fa fa-sign-out" aria-hidden="true"></i>
+            Cerrar sesión</ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    
+    
+    <ion-router-outlet main></ion-router-outlet>
+
+    <ion-content class="no-scroll">
+      <ion-card  style="z-index:2;margin:0;padding: 0;position:absolute; background-color: white;margin-top: 2%;height: 21%;width: 95%;margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;">
+          <ion-grid fixed>
+              <ion-row>
+                <ion-col size="12">Bienvenido, <b>{{name}}</b></ion-col>
+                <ion-col size="7">
+                  <img src="https://icon-library.net/images/avatar-icon-png/avatar-icon-png-10.jpg" class="btn btn-primary btn-circle btn-xl">
+                  </ion-col>
+                <ion-col size="5">
+                  <h4><b>Plata</b></h4>
+                  <label style="color: #0093E9;font-weight: bold;">$ 0</label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+        </ion-card>
+        <img src="../../../assets/imgs/sound-wave2.png" style="opacity: 1;width: 100%;z-index:0;position:absolute;height: 28%;">
+        <img src="../../../assets/imgs/sound-wave.png" style="opacity: 1;width: 100%;z-index:1;position:absolute;height: 22%;">
+
+        <ion-grid fixed style="margin-top: 45%;">
+          <ion-row>
+            <ion-col size="8">
+                <h5 padding style="z-index:3;position:absolute; background-color: white;width: 95%;background-color: transparent;">Cuentas vinculadas</h5>
+            </ion-col>
+            <ion-col size="4"><button class="btn-sw"><img src="../../../assets/imgs/swappi-inicio.png"></button></ion-col>
+          </ion-row>
+        </ion-grid>
+        <div style="text-align: center;margin-top: 10%;" *ngIf="cuentas.length == 0">
+          <img src="../../../assets/imgs/sad-sleepy-emoticon-face-square.png"><br>
+          <p style="margin-top: 5%;color: #555555;">No tienes cuentas vinculadas</p>
+        </div>
+        <div style="text-align: center;margin-top: 10%;" *ngIf="cuentas.length > 0">
+            <div *ngFor="let item of cuentas">
+              <ion-card>
+                <ion-grid fixed>
+                  <ion-row>
+                    <ion-col size="3"><img src="../../../assets/imgs/{{item.imagen}}" style="width: 70%;"></ion-col>
+                    <ion-col size="6" style="text-align: left;"><b>{{item.name}}</b><br>{{item.cantidad | number}} Pts.</ion-col>
+                    <ion-col size="3" style="color: #0093E9;"><br><b>$ {{item.dinero | number}}</b></ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card>
+            </div>
+        </div>
+        <ion-fab routerLink="/seleccion-aliado" routerDirection="forward" vertical="bottom" horizontal="end" slot="fixed" style="margin-bottom: 15%;">
+          <ion-fab-button color="success">
+            <ion-icon name="add"></ion-icon>
+          </ion-fab-button>
+      </ion-fab>
+      
+    </ion-content>
+    <ion-tabs>
+        <ion-tab-bar slot="bottom" class="tabs-border">
+          <ion-tab-button>
+            <ion-icon name="cash"></ion-icon>
+            <ion-label>Comprar</ion-label>
+          </ion-tab-button>
+      
+          <ion-tab-button routerLink="/recarga-tarjeta" routerDirection="forward">
+            <ion-icon name="card"></ion-icon>
+            <ion-label>Recargar</ion-label>
+          </ion-tab-button>
+      
+          <ion-tab-button>
+            <ion-icon name="contacts"></ion-icon>
+            <ion-label>Transferir</ion-label>
+          </ion-tab-button>
+      
+          <ion-tab-button>
+            <ion-icon name="git-compare"></ion-icon>
+            <ion-label>Canjear</ion-label>
+          </ion-tab-button>
+        </ion-tab-bar>
+      </ion-tabs>
