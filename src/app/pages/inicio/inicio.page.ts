@@ -11,10 +11,12 @@ import swal from 'sweetalert2';
 })
 
 export class InicioPage implements OnInit {
-  name=null;
-  email=null;
-  cedula=null;
-  celular=null;
+  
+  name :string;
+  lastNames : string;
+  email:string;
+  cedula : string;
+  celular:string;
 
   cuentas:any[]=[];
 
@@ -25,6 +27,7 @@ export class InicioPage implements OnInit {
 
   ngOnInit() {
     this.name=localStorage.getItem('name');
+    this.lastNames=localStorage.getItem('lastNames');
     this.email=localStorage.getItem('email');
     this.cedula=localStorage.getItem('cedula');
     this.celular=localStorage.getItem('celular');

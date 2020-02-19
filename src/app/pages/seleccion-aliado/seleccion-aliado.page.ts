@@ -14,7 +14,7 @@ aliados:any=[];
     public navCtrl: NavController) { }
 
   ngOnInit() {
-    this.getAliados('/aliados/aliadosList');
+    this.getAliados('/partner-list');
   }
 
   getAliados(endpoint){

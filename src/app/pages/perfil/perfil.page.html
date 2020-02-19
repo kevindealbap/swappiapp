@@ -20,7 +20,7 @@
   <img src="../../../assets/imgs/sound-wave.png" style="opacity: 1;width: 100%;z-index:1;position:absolute;height: 14%;">
 
   <div style="width: 100%;text-align: center;">
-    <h1 style="background-color: transparent;margin-top: 40%;font-family: 'Roboto', sans-serif;font-size: 24px;">Kevyn Taylor</h1>
+    <h1 style="background-color: transparent;margin-top: 40%;font-family: 'Roboto', sans-serif;font-size: 24px;">{{name}} </h1>
     <p style="text-align: center;
     font: Light 15px/24px Roboto;
     letter-spacing: 0;
@@ -29,60 +29,67 @@
   </div>
   <div style="margin: 16px;text-align: center;">
     <div class="input-group mb-3 content">
-        <input type="text"  class="form-control material" placeholder="Nombre completo">
+        <input type="text" [(ngModel)]="name" class="form-control material" placeholder="Nombre completo">
+        <div class="input-group-prepend">
+          <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+              <i class="fa fa-user" aria-hidden="true"></i>
+          </div>
+        </div>
+    </div>
+    <div class="input-group mb-3 content">
+        <input type="number" [(ngModel)]="cedula" class="form-control material" placeholder="Cedula" disabled>
+        <div class="input-group-prepend">
+          <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+              <i class="fa fa-address-card" aria-hidden="true"></i>
+          </div>
+        </div>
+    </div>
+    <div class="input-group mb-3 content">
+        <input type="number"  class="form-control material" [(ngModel)]="celular" placeholder="Celular">
+        <div class="input-group-prepend">
+          <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+          </div>
+        </div>
+    </div>
+    <div class="input-group mb-3 content">
+        <input type="email"  class="form-control material" placeholder="Correo" [(ngModel)]="correo">
         <div class="input-group-prepend">
           <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
               <i class="fa fa-envelope" aria-hidden="true"></i>
           </div>
         </div>
     </div>
-    <div class="input-group mb-3 content">
-        <input type="number"  class="form-control material" placeholder="Celular">
-        <div class="input-group-prepend">
-          <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-              <i class="fa fa-envelope" aria-hidden="true"></i>
-          </div>
-        </div>
-    </div>
-    <div class="input-group mb-3 content">
-        <input type="number"  class="form-control material" placeholder="Cedula">
-        <div class="input-group-prepend">
-          <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-              <i class="fa fa-envelope" aria-hidden="true"></i>
-          </div>
-        </div>
-    </div>
-    <div class="input-group mb-3 content">
-        <input type="email"  class="form-control material" placeholder="Correo">
-        <div class="input-group-prepend">
-          <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-              <i class="fa fa-envelope" aria-hidden="true"></i>
-          </div>
-        </div>
-    </div>
-    <div class="input-group mb-3 content">
+   <!--  <div class="input-group mb-3 content">
         <input type="password"  class="form-control material" placeholder="Password">
         <div class="input-group-prepend">
           <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <i class="fa fa-lock" aria-hidden="true"></i>
           </div>
         </div>
-    </div>
+    </div> -->
     <div class="input-group mb-3 content">
         <input type="text"  class="form-control material" placeholder="Dirección">
         <div class="input-group-prepend">
           <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <i class="fa fa-address-book" aria-hidden="true"></i>
           </div>
         </div>
     </div>
+
     <div class="input-group mb-3 content">
-        <input type="date"  class="form-control material" placeholder="Fecha Nacimiento">
+<ion-label> Fecha de Nacimiento</ion-label>
+    </div>
+
+    <div class="input-group mb-3 content">
+    
+        <input type="date"  class="form-control material">
         <div class="input-group-prepend">
           <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <i class="fa fa-calendar" aria-hidden="true"></i>
           </div>
         </div>
+        
     </div>
     <div class="input-group mb-3 content">
         <ion-select placeholder="Estado civil" class="form-control material">
@@ -91,6 +98,9 @@
             <ion-select-option value="u">Union Libre</ion-select-option>
             <ion-select-option value="v">Viudo/a</ion-select-option>
           </ion-select>
+          <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+            <i class="fa fa-genderless" aria-hidden="true"></i>
+        </div>
     </div>
 
     <button class="btn-save">GUARDAR</button>

@@ -1,0 +1,8 @@
+{
+    "/delivery/all/*": {
+    "target": "http://192.168.2.197:8083/api/delivery/all",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+    }
+}

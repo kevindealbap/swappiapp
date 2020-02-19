@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import * as Bcryptjs from "bcryptjs";
 import { MethodApiServiceService } from '../../services/method-api-service.service';
 import { NavController } from '@ionic/angular';
-import { runInThisContext } from 'vm';
 @Component({
   selector: 'app-registrar',
   templateUrl: './registrar.page.html',
@@ -44,8 +43,8 @@ export class RegistrarPage implements OnInit {
     .subscribe(
       response => {
         if(response) {
-          localStorage.setItem('names', this.name);
-          localStorage.setItem('lastNames', this.lastname);
+          localStorage.setItem('name', this.name);
+          localStorage.setItem('lastName', this.lastname);
           localStorage.setItem('email', this.email);
           localStorage.setItem('cedula', this.cedula.toString());
           localStorage.setItem('celular', this.celular.toString());

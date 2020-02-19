@@ -3,6 +3,7 @@ import * as Bcryptjs from "bcryptjs";
 import { NavController } from '@ionic/angular';
 import { MethodApiServiceService } from '../../services/method-api-service.service';
 import swal from 'sweetalert2';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +13,10 @@ import swal from 'sweetalert2';
 export class LoginPage implements OnInit {
 
   cedula:number;
-  password:string;
+  password:any;
   datos=null;
-
+  passcrypt : any;
+estado : any;
 
   constructor(private _methodsApiRestService: MethodApiServiceService,
     public navCtrl: NavController) { }
@@ -25,34 +27,43 @@ export class LoginPage implements OnInit {
     if(id!="null" && id!=null){
       this.navCtrl.navigateRoot('/inicio');
     }
+
+    
+    
+    
   }
 
 
+
+
   login(endpoint,params){
-    this._methodsApiRestService.PostMethod(endpoint,params)
+
+
+
+    this._methodsApiRestService.PostXHTML(endpoint,params)
       .subscribe(
         response => {
-          if(typeof response[0] === 'undefined' || response[0] === null){
+        /* this.estado = response[0]['enable'];
+ */          
+        /*   if(typeof response[0] === 'undefined' || response[0] === null){
             swal.fire("Ups!", "Usuario no encontrado", "error");
-          }else{
-            var password=response[0]['us_password'];
-            if(this.password!=null && this.password!=""){
-              var sw=Bcryptjs.compareSync(this.password, password);
-            }else{
+          } */
+          
+/*          if() {
               swal.fire("Ups!", "Contraseña vacia", "error");
-            }
-            if(sw) {
-              localStorage.setItem('name', response[0]['us_name']);
-              localStorage.setItem('email', response[0]['us_email']);
-              localStorage.setItem('cedula', response[0]['us_cedula']);
-              localStorage.setItem('celular', response[0]['us_cellphone']);
+            } */
+            if(response !== null) {
+              localStorage.setItem('name', response['names']);
+              localStorage.setItem('lastNames', response['lastNames']);
+              localStorage.setItem('email', response['email']);
+              localStorage.setItem('cedula', response['documentId']);
+              localStorage.setItem('celular', response['cellphone']);
               this.navCtrl.navigateRoot('/inicio');
             }else{
               swal.fire("Ups!", "Contraseña Incorrecta", "error");
             }
-          }
+          },
           
-        },
           error => {
             if (!error.ok) {
               swal.fire("Ups!", error, "error");
@@ -62,10 +73,17 @@ export class LoginPage implements OnInit {
   }
 
   sendLogin(){
+    var salt = Bcryptjs.genSaltSync(10);
+
+    var cedulaUser = this.cedula.toString()+ ":" + this.password.toString();
+    var passscrypt = btoa(cedulaUser);
+    console.log(cedulaUser);
+    console.log(passscrypt);
     let datos={
-      "cedula":this.cedula,
+      "documentId": this.cedula,
+      "password": passscrypt,     
     }
-    this.login('/users/FindUser',datos);
+    this.login('/found-user',datos);
   }
 
 }
