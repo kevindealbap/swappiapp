@@ -17,7 +17,7 @@ export class InicioPage implements OnInit {
   email:string;
   cedula : string;
   celular:string;
-
+id : any;
   cuentas:any[]=[];
 
   constructor(private menu: MenuController,
@@ -26,6 +26,7 @@ export class InicioPage implements OnInit {
     }
 
   ngOnInit() {
+    this.id=localStorage.getItem('idUser');
     this.name=localStorage.getItem('name');
     this.lastNames=localStorage.getItem('lastNames');
     this.email=localStorage.getItem('email');

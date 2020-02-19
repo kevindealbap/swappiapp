@@ -48,6 +48,7 @@ export class RegistrarPage implements OnInit {
           localStorage.setItem('email', this.email);
           localStorage.setItem('cedula', this.cedula.toString());
           localStorage.setItem('celular', this.celular.toString());
+          localStorage.setItem('idUser', response['id']);
           this.navCtrl.navigateRoot('/inicio');
         }else{
           

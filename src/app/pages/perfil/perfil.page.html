@@ -69,7 +69,7 @@
         </div>
     </div> -->
     <div class="input-group mb-3 content">
-        <input type="text"  class="form-control material" placeholder="Dirección">
+        <input type="text"  [(ngModel)]="direccion" class="form-control material" placeholder="Dirección">
         <div class="input-group-prepend">
           <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
               <i class="fa fa-address-book" aria-hidden="true"></i>
@@ -83,16 +83,16 @@
 
     <div class="input-group mb-3 content">
     
-        <input type="date"  class="form-control material">
+        <input type="date"  class="form-control material" [(ngModel)]="fecha">
         <div class="input-group-prepend">
           <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
               <i class="fa fa-calendar" aria-hidden="true"></i>
           </div>
         </div>
-        
+
     </div>
     <div class="input-group mb-3 content">
-        <ion-select placeholder="Estado civil" class="form-control material">
+        <ion-select placeholder="Estado civil" class="form-control material" >
             <ion-select-option value="s">Soltero/a</ion-select-option>
             <ion-select-option value="c">Casado/a</ion-select-option>
             <ion-select-option value="u">Union Libre</ion-select-option>
@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <button class="btn-save">GUARDAR</button>
+    <button class="btn-save" (click)="registrar()">GUARDAR</button>
   </div>
     
   </ion-content>

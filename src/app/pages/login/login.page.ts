@@ -54,6 +54,7 @@ estado : any;
             } */
             if(response !== null) {
               localStorage.setItem('name', response['names']);
+              localStorage.setItem('idUser', response['id']);
               localStorage.setItem('lastNames', response['lastNames']);
               localStorage.setItem('email', response['email']);
               localStorage.setItem('cedula', response['documentId']);
