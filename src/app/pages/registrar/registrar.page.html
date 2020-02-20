@@ -20,7 +20,7 @@
             </div>
           </div>
 
-          <div class="input-group mb-3 content">
+          <div class="input-grup mb-3 content">
             <input type="number" [(ngModel)]="cedula" class="form-control material" placeholder="Cédula">
             <div class="input-group-prepend">
               <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
@@ -58,7 +58,7 @@
                 </div>
         </div>
         <div class="input-group mb-3 content">
-          <ion-checkbox color="success"></ion-checkbox><label style="margin-left: 2%;margin-top: 3px;">Acepto los <u routerLink="/terminos" routerDirection="forward">Términos y condiciones</u></label>
+          <ion-checkbox color="success"></ion-checkbox required><label style="margin-left: 2%;margin-top: 3px;">Acepto los <u routerLink="/terminos" routerDirection="forward" aria-required="true">Términos y condiciones</u></label>
       </div>
         <button id="btn-Sesion" (click)="sendRegistro()">CONTINUAR</button>
     </div>

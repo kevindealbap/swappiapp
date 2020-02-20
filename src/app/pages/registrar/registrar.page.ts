@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as Bcryptjs from "bcryptjs";
 import { MethodApiServiceService } from '../../services/method-api-service.service';
 import { NavController } from '@ionic/angular';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-registrar',
   templateUrl: './registrar.page.html',
@@ -53,13 +54,17 @@ export class RegistrarPage implements OnInit {
         }else{
           
         }
-      },/* 
+      },
         error => {
-          //console.log(error);
+          Swal.fire(
+            'Evento de Aplicacion',
+            'Error al crear Perfil',
+            'error'
+          )
           if (!error.ok) {
             
           }
-        } */
+        }
     );
   }
 
