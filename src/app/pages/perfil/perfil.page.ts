@@ -26,7 +26,7 @@ documentId: any;
 
   ngOnInit() {
     
-    // this.name=localStorage.getItem('name') + " " + localStorage.getItem('lastNames');
+this.name =localStorage.getItem('name') + " " + localStorage.getItem('lastNames');
 /*    this.correo=localStorage.getItem('email');
 
     this.celular=localStorage.getItem('celular');
