@@ -33,7 +33,7 @@ export class ServiceAliadoPage implements OnInit {
       "user": {
         "email": localStorage.getItem('email').toString()
       },
-      "numberOfPoints": 564
+      "numberOfPoints": Math.floor((Math.random() * 10) + 100)
     };
 
     this.service('/partner-account', datos);
