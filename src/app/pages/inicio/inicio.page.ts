@@ -17,7 +17,7 @@ export class InicioPage implements OnInit {
   email:string;
   cedula : string;
   celular:string;
-
+  totalDinero:number = 0;
   cuentas:any[]=[];
 
   constructor(private menu: MenuController,
@@ -50,17 +50,30 @@ export class InicioPage implements OnInit {
   }
 
   extraer(){
-    this.service('/cuentas/cuentasList/'+this.cedula);
+    //this.service('/cuentas/cuentasList/'+this.cedula);
+    this.service('/partner-account-list?cedula=' + this.cedula);
   }
 
   service(endpoint){
     this._methodsApiRestService.GetMethod(endpoint)
       .subscribe(
         response => {
-          if(typeof response[0] === 'undefined' || response[0] === null){
+          if(typeof response === 'undefined' || response === null) {
             //swal.fire("Ups!", "Usuario no encontrado", "error");
-          }else{
-            for (let x in response) {
+          } else {
+            var plata;
+            for (let c in response) {
+              plata = response[c].numberOfPoints * parseInt(response[c].partner.purchaseValue);
+              let data = {
+                id: response[c].id,
+                partnerName: response[c].partner.name,
+                points: response[c].numberOfPoints,
+                dinero: plata
+              };
+              this.totalDinero = this.totalDinero + plata;
+              this.cuentas.push(data);
+            }
+            /*for (let x in response) {
               var plata;
               this._methodsApiRestService.GetMethod('/aliados/valuePunto/'+response[x].aliado_id)
               .subscribe(
@@ -79,7 +92,7 @@ export class InicioPage implements OnInit {
                     this.cuentas.push(datos);
                 }
               );
-            }
+            }*/
           }
         },
           /* error => {
