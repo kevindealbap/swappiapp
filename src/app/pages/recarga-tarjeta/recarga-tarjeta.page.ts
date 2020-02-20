@@ -59,7 +59,7 @@ export class RecargaTarjetaPage implements OnInit {
                 this.activeBtn = 0;
                 this.navCtrl.navigateRoot('/tarjeta-swappi');
               }
-              this.saldo = data.amount;
+              //this.saldo = data.amount;
               this.activeBtn = 1;
 
             }, error => {
