@@ -31,7 +31,7 @@ export class TarjetaSwappiPage implements OnInit {
     let datos={
       "usuario":cedula
     }
-    this._methodsApiRestService.PostMethod('/tarjetas/findcard',datos)
+    this._methodsApiRestService.GetMethod('/user/findcard', datos)
     .subscribe(
       data=>{
           if(typeof data[0] === 'undefined' || data[0] === null){
