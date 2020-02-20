@@ -20,25 +20,28 @@
             </div>
           </div>
 
-          <div class="input-grup mb-3 content">
-            <input type="number" [(ngModel)]="cedula" class="form-control material" placeholder="Cédula">
+          
+          <div class="input-group mb-3 content">
+            <input type="text" [(ngModel)]="cedula" class="form-control material" placeholder="Cedula">
             <div class="input-group-prepend">
               <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-                    <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                  <i class="fa fa-user-address-book" aria-hidden="true"></i>
               </div>
             </div>
-        </div>
-
+          </div>
+          
           <div class="input-group mb-3 content">
-              <input type="number" [(ngModel)]="celular" class="form-control material" placeholder="Celular">
-              <div class="input-group-prepend">
-                <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-                    <i class="fa fa-phone" aria-hidden="true"></i>
-                </div>
+            <input type="text" [(ngModel)]="celular" class="form-control material" placeholder="Celular">
+            <div class="input-group-prepend">
+              <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
+                  <i class="fa fa-user-phone" aria-hidden="true"></i>
               </div>
             </div>
-    
-   
+          </div>
+
+          
+
+
     
         <div class="input-group mb-3 content">
             <input type="email" [(ngModel)]="email" class="form-control material" placeholder="Correo eletrónico">
@@ -58,7 +61,8 @@
                 </div>
         </div>
         <div class="input-group mb-3 content">
-          <ion-checkbox color="success"></ion-checkbox required><label style="margin-left: 2%;margin-top: 3px;">Acepto los <u routerLink="/terminos" routerDirection="forward" aria-required="true">Términos y condiciones</u></label>
+          <input type="checkbox" required>
+          <label style="margin-left: 2%;margin-top: 3px;">Acepto los <u routerLink="/terminos" routerDirection="forward" aria-required="true">Términos y condiciones</u></label>
       </div>
         <button id="btn-Sesion" (click)="sendRegistro()">CONTINUAR</button>
     </div>
