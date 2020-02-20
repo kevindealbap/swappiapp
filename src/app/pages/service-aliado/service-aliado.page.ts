@@ -50,7 +50,9 @@ export class ServiceAliadoPage implements OnInit {
           }
         },
           error => {
-            if (!error.ok) {
+            if (!error.ok && error.status === 400) {
+              swal.fire("Ups!", "Ya existe una cuenta vinculada", "error");
+            } else {
               swal.fire("Ups!", "Error en Petición", "error");
             }
           }
