@@ -29,13 +29,21 @@
   </div>
   <div style="margin: 16px;text-align: center;">
     <div class="input-group mb-3 content">
-        <input type="text" [(ngModel)]="name" class="form-control material" placeholder="Nombre completo">
+        <input type="text" [(ngModel)]="name" class="form-control material" placeholder="Nombres">
         <div class="input-group-prepend">
           <div class="input-group-text icon-style" style="background-color: transparent;">
               <i class="fa fa-user" aria-hidden="true"></i>
           </div>
         </div>
     </div>
+    <div class="input-group mb-3 content">
+      <input type="text" [(ngModel)]="lastname" class="form-control material" placeholder="Apellidos">
+      <div class="input-group-prepend">
+        <div class="input-group-text icon-style" style="background-color: transparent;">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+      </div>
+  </div>
     <div class="input-group mb-3 content">
         <input type="number" [(ngModel)]="cedula" class="form-control material" placeholder="Cedula" disabled>
         <div class="input-group-prepend" style=" background-color: transparent;">

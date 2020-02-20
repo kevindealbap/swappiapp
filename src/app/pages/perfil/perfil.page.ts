@@ -26,7 +26,8 @@ documentId: any;
 
   ngOnInit() {
     
-this.name =localStorage.getItem('name') + " " + localStorage.getItem('lastNames');
+this.name =localStorage.getItem('name');
+this.lastname = localStorage.getItem('lastNames');
 /*    this.correo=localStorage.getItem('email');
 
     this.celular=localStorage.getItem('celular');
@@ -44,32 +45,33 @@ this.name =localStorage.getItem('name') + " " + localStorage.getItem('lastNames'
       this.cedula = response['user']['documentId'];
       this.correo = response['user']['email'];
       this.celular = response['user']['cellPhone'];
-      this.name = response['user']['names'] +" " + response['user']['lastNames'];
+      this.name = response['user']['names'];
+      this.lastname = response['user']['lastNames'];
 
- 
+      }, error=> {
+        this.cedula = localStorage.getItem('cedula');
+        this.correo = localStorage.getItem('email');
+        this.celular = localStorage.getItem('celular');
+        this.name = localStorage.getItem('name');
+        this.lastname = localStorage.getItem('lastName');
       });
 
 }
 registrar(){
 
   let datos={
-    
-    "user":{
-"id":this.idUser,      
-"names":this.name,
-"lastName":this.lastname,
-"email":this.correo,
-"cellPhone":this.celular
 
-    },
-
-    
       "address": this.direccion,
-      "email":this.correo,
-      "birthDate":this.fecha
-      
-  
-    }
+      "email": this.correo,
+      "birthDate": this.fecha,
+      "user": {
+          "id": this.idUser,
+          "names": this.name,
+          "lastNames": this.lastname,
+          "email": this.correo,
+          "cellPhone": this.celular
+      }
+  };
 
 
 
