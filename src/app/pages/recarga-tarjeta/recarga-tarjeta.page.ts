@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MethodApiServiceService } from '../../services/method-api-service.service';
 import swal from 'sweetalert2';
+import { error } from 'protractor';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recarga-tarjeta',
@@ -12,47 +14,59 @@ export class RecargaTarjetaPage implements OnInit {
   cedula=null;
   dinero:number=0;
   selec:number;
+  activeBtn:number = 0;
+  saldo:number = 0;
+  total:number = 0;
 
-  constructor(private _methodsApiRestService: MethodApiServiceService) { }
+  constructor(private _methodsApiRestService: MethodApiServiceService,
+    public navCtrl: NavController) { }
 
   ngOnInit() {
     this.cedula=localStorage.getItem('cedula');
-    this.service('/cuentas/cuentasList/'+this.cedula);
+    this.service('/partner-account-list?cedula='+ this.cedula);
   }
   service(endpoint){
+
     this._methodsApiRestService.GetMethod(endpoint)
       .subscribe(
         response => {
-          if(typeof response[0] === 'undefined' || response[0] === null){
+          //TODO reemplazar por el ID del usuario en sesión.
+          var id = 9;
+          if(typeof response === 'undefined' || response === null){
             //swal.fire("Ups!", "Usuario no encontrado", "error");
           }else{
             for (let x in response) {
               var plata;
-              var al_name;
-              var img;
-              this._methodsApiRestService.GetMethod('/aliados/valuePunto/'+response[x].aliado_id)
-              .subscribe(
-                data=>{
-                  console.log(data);
-                    plata=parseInt(response[x].ca_cantPuntos) * parseInt(data[0].al_valueCompre);
-                    al_name=data[0]['al_name'];
-                    img=data[0]['al_image'];
-                    let datos={
-                      id:response[x].id,
-                      cedula:response[x].us_cedula,
-                      nameAliado:al_name,
-                      aliado:response[x].aliado_id,
-                      status:response[x].ca_status,
-                      cantidad:response[x].ca_cantPuntos,
-                      imagen:img,
-                      dinero:plata
-                    }
-                    this.dinero+=plata;
-                    this.cuentas.push(datos);
-                    console.log(this.cuentas);
-                }
-              );
+              plata = (response[x].numberOfPoints) * parseInt(response[x].partner.purchaseValue);
+              let datos={
+                id:response[x].id,
+                cedula:response[x].user.documentId,
+                nameAliado: response[x].partner.name,
+                aliado:response[x].partner.id,
+                status:response[x].status,
+                cantidad:response[x].numberOfPoints,
+                imagen: 'puntossaludables.png',
+                dinero: plata
+              }
+              this.dinero = parseInt(this.dinero + plata);
+              this.cuentas.push(datos);
             }
+            this._methodsApiRestService.GetMethod('/user/' + id + '/card')
+            .subscribe(data => {
+
+              if (data === null || data === undefined ) {
+                swal.fire("Ups!", "El usuario no tiene una tarjeta.", "error");
+                this.activeBtn = 0;
+                this.navCtrl.navigateRoot('/tarjeta-swappi');
+              }
+              this.saldo = data.amount;
+              this.activeBtn = 1;
+
+            }, error => {
+              if (!error.ok) {
+                swal.fire("Ups!", "Ocurrió un error obteniendo información de la tarjeta.", "error");
+              }
+            });
           }
         },
           error => {
@@ -61,6 +75,14 @@ export class RecargaTarjetaPage implements OnInit {
             }
           }
       );
+  }
+
+  getPoints(event, aliadoId) {
+
+    let numberOfPoints: number = parseInt(event.target.value, 10);
+    let index: number = this.cuentas.findIndex(c => c.aliados === aliadoId);
+    let purchaseValue: number = parseFloat(this.cuentas[index].dinero);
+    this.total = this.total + numberOfPoints * purchaseValue;
   }
 
   recargar(){
