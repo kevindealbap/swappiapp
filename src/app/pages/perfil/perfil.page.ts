@@ -19,15 +19,18 @@ estadocivil : any;
 direccion : any;
 idUser: any;
 respuesta : any;
+user : User;
+documentId: any;
   constructor(private _methodsApiRestService: MethodApiServiceService,
     public navCtrl: NavController) { }
 
   ngOnInit() {
-   /*  
-    this.name=localStorage.getItem('name') + " " + localStorage.getItem('lastName');
-    this.correo=localStorage.getItem('email');
-    this.cedula=localStorage.getItem('cedula');
-    this.celular=localStorage.getItem('celular'); */
+    
+    this.name=localStorage.getItem('name') + " " + localStorage.getItem('lastNames');
+/*    this.correo=localStorage.getItem('email');
+
+    this.celular=localStorage.getItem('celular');
+    */ 
     this.idUser=localStorage.getItem('idUser');
     this._methodsApiRestService.GetMethod('/user/'+this.idUser+"/profile").subscribe(
       response => {
@@ -36,14 +39,14 @@ respuesta : any;
         
       console.log("DATOS DE USUARIO" +data);
 
-      this.direccion = response.address;
-      this.fecha = response.birthDate;
-      this.cedula = response.user.documentId;
-      this.correo = response.user.email;
-      this.celular = response.user.cellPhone;
-      this.name = response.user.names +" " + response.user.lastNames;
+      this.direccion = response['address'];
+      this.fecha = response['birthDate'];
+      this.cedula = response['user']['documentId'];
+      this.correo = response['user']['email'];
+      this.celular = response['user']['cellPhone'];
+      this.name = response['user']['names'] +" " + response['user']['lastNames'];
 
-
+ 
       });
 
 }

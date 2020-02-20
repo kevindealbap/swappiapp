@@ -1,4 +1,3 @@
-import { AnyTxtRecord } from 'dns';
 
 export interface User{
 id : any;
@@ -8,5 +7,7 @@ cellPhone : any;
 names: any;
 lastNames: any;
 password : any;
-
+address : any;
+birthDate : Date;
 }
+
