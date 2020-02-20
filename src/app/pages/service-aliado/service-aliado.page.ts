@@ -20,12 +20,23 @@ export class ServiceAliadoPage implements OnInit {
   }
 
   vincular(){
-    let datos={
+    /*let datos={
       "cedula":this.cedula,
       "aliado_id":1,
       "ca_cantPuntos":564,
     }
-    this.service('/cuentas/create',datos);
+    this.service('/cuentas/create',datos);*/
+    let datos = {
+      "partner": {
+        "id": 1
+      },
+      "user": {
+        "email": localStorage.getItem('email').toString()
+      },
+      "numberOfPoints": 564
+    };
+
+    this.service('/partner-account', datos);
   }
 
   service(endpoint,params){

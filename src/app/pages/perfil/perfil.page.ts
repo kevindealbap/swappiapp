@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MethodApiServiceService } from 'src/app/services/method-api-service.service';
 import { NavController } from '@ionic/angular';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-perfil',
@@ -30,11 +31,17 @@ respuesta : any;
     this.idUser=localStorage.getItem('idUser');
     this._methodsApiRestService.GetMethod('/user/'+this.idUser+"/profile").subscribe(
       response => {
-      this.respuesta=response;
-      this.correo = this.respuesta.user.email;
-      this.cedula = this.respuesta.cedula;
-      this.name = this.respuesta.name;
-      this.celular = this.respuesta.cellPhone;
+
+        const data = JSON.stringify(response);
+        
+      console.log("DATOS DE USUARIO" +data);
+
+      this.direccion = response.address;
+      this.fecha = response.birthDate;
+      this.cedula = response.user.documentId;
+      this.correo = response.user.email;
+      this.celular = response.user.cellPhone;
+      this.name = response.user.names +" " + response.user.lastNames;
 
 
       });
