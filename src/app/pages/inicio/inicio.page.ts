@@ -19,6 +19,7 @@ export class InicioPage implements OnInit {
   celular:string;
   totalDinero:number = 0;
   cuentas:any[]=[];
+  id:any;
 
   constructor(private menu: MenuController,
     public navCtrl: NavController,
@@ -26,6 +27,7 @@ export class InicioPage implements OnInit {
     }
 
   ngOnInit() {
+    this.id=localStorage.getItem('idUser');
     this.name=localStorage.getItem('name');
     this.lastNames=localStorage.getItem('lastNames');
     this.email=localStorage.getItem('email');

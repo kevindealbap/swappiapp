@@ -11,38 +11,114 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./tarjeta-swappi.page.scss'],
 })
 export class TarjetaSwappiPage implements OnInit {
-
+id: any;
+ntarjeta:number;
+fech:string;
+ccv:number;
+swicht:number;
+data : any;
+cedula:any;
+name : any;
   constructor(private _methodsApiRestService: MethodApiServiceService,
     public navCtrl: NavController) { }
 
   ngOnInit() {
+    this.id=localStorage.getItem('idUser');
+    this.cedula=localStorage.getItem('cedula');
+    this.name=localStorage.getItem('name') + " " + localStorage.getItem('lastNames');
     this.cardIfExist();
+    
+/*   
+    var inputQuantity = [];
+    $(function() {
+      $(".quantity").each(function(i) {
+        inputQuantity[i]=this.defaultValue;
+         $(this).data("idx",i); // save this field's index to access later
+      });
+      $(".quantity").on("keyup", function (e) {
+        var $field = $(this),
+            val=this.value,
+            $thisIndex=parseInt($field.data("idx"),10); // retrieve the index
+//        window.console && console.log($field.is(":invalid"));
+          //  $field.is(":invalid") is for Safari, it must be the last to not error in IE8
+        if (this.validity && this.validity.badInput || isNaN(val) || $field.is(":invalid") ) {
+            this.value = inputQuantity[$thisIndex];
+            return;
+        } 
+        if (val.length > Number($field.attr("maxlength"))) {
+          val=val.slice(0, 5);
+          $field.val(val);
+        }
+        inputQuantity[$thisIndex]=val;
+      });      
+    }); */
+
+  
+  
+  
+  
+  
+  
   }
+
+  
 
   cardImage = '../../../assets/imgs/credit-card.png';
 
-  ntarjeta:number;
-  fech:string;
-  ccv:number;
-  swicht:number;
+
+
+
+  guardar(){
+
+    let datos=
+    {
+      "user":
+      {"documentId":this.cedula
+    },
+
+"number": this.ntarjeta,
+"expireDate":this.fech,
+"pin":this.ccv,
+"amount":0,
+"state": this.swicht
+
+  }
+   
+
+  this._methodsApiRestService.PostMethod('/card',datos).subscribe (r =>{
+r = this.data;
+console.log(this.data);
+  });
+
+
+  this._methodsApiRestService.PutMethod('/card'+this.id+'/activate',datos).subscribe (r =>{
+    r =this.data;
+  })
+
+
+  }
 
   cardIfExist(){
     var cedula=localStorage.getItem('cedula');
     let datos={
       "usuario":cedula
     }
-    this._methodsApiRestService.GetMethod('/user/findcard', datos)
+    this._methodsApiRestService.GetMethod('/user/'+this.id+'/card')
     .subscribe(
-      data=>{
-          if(typeof data[0] === 'undefined' || data[0] === null){
+      
+      response=>{
+        /*   if(typeof data[0] === 'undefined' || data[0] === null){
             this.swicht=0;
           }else{
-            this.swicht=1;
-            this.ntarjeta=data[0].tj_numero;
-            this.ccv=this.decryptData(data[0].tj_pin);
-            this.fech=this.decryptData(data[0].tj_fecvec);
-        }
-      }
+            this.swicht=1; */
+
+            
+            this.ntarjeta = response['number'];
+            this.ccv = response['pin'];
+            this.fech = response['expireDate'];
+
+
+            }
     );
   }
 

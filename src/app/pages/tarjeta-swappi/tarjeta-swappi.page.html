@@ -16,7 +16,7 @@
   <div>
     <ion-grid fixed>
       <ion-row>
-        <!-- <ion-col size="12">
+         <ion-col size="12">
             <div class="input-group mb-3">
                 <input type="text" [(ngModel)]="name" class="form-control material" placeholder="Nombre">
                 <div class="input-group-prepend">
@@ -25,10 +25,10 @@
                   </div>
                 </div>
             </div>
-        </ion-col> -->
+        </ion-col>
         <ion-col size="12">
             <div class="input-group mb-3">
-                <input type="number" [(ngModel)]="ntarjeta" value="{{ntarjeta}}" class="form-control material" placeholder="N° Tarjeta">
+                <input type="text" [(ngModel)]="ntarjeta" value="{{ntarjeta}}" class="form-control material" placeholder="N° Tarjeta" maxlength="18">
                 <div class="input-group-prepend">
                   <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                       <i class="fa fa-credit-card" aria-hidden="true"></i>
@@ -48,7 +48,7 @@
         </ion-col>
         <ion-col size="6">
             <div class="input-group mb-3">
-                <input type="number" [(ngModel)]="ccv" value="{{ccv}}" pattern="[0-9]{3,3}" maxlength="3" minlength="3" class="form-control material" placeholder="CCV">
+                <input  type="text" pattern="\d*" [(ngModel)]="ccv" value="{{ccv}}" pattern="[0-9]{3,3}" maxlength="3" minlength="3" class="form-control material" placeholder="CCV">
                 <div class="input-group-prepend">
                   <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                       <i class="fa fa-lock" aria-hidden="true"></i>
@@ -58,6 +58,8 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    <button id="btn-Sesion" (click)="guardar()">ACTIVAR TARJETA</button>
+
     <div *ngIf="swicht > 0">
       <button id="btn-Sesion" (click)="desactivar()">DESACTIVAR TARJETA</button>
     </div>

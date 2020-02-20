@@ -25,9 +25,23 @@ export class MethodApiServiceService {
    return this.http.post(domain+endpoint,JSON.stringify(params),{headers})
    
           .map(res => res );
+          
+        }
 
-  }
-
+        public PutMethod(endpoint,params,domain=this.domain){
+          let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin':  '*',
+            'Access-Control-Allow-Methods':'GET, POST'
+          });
+          //console.log(domain+endpoint);
+          
+         return this.http.put(domain+endpoint,JSON.stringify(params),{headers})
+         
+                .map(res => res );
+                
+              }
 
 
   public PostXHTML(endpoint, params,domain=this.domain){
