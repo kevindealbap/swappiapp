@@ -25,7 +25,7 @@ name : any;
   ngOnInit() {
     this.id=localStorage.getItem('idUser');
     this.cedula=localStorage.getItem('cedula');
-    this.name=localStorage.getItem('name') + " " + localStorage.getItem('lastNames');
+    this.name=localStorage.getItem('name') + " " + localStorage.getItem('lastName');
     this.cardIfExist();
     
 /*   

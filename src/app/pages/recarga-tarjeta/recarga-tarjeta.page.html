@@ -18,7 +18,7 @@
         <ion-col size="3"><img src="../../../assets/imgs/{{item.imagen}}" style="width: 70%;"></ion-col>
         <ion-col size="6" style="text-align: left;">
           <ion-label><b>{{item.nameAliado}}</b></ion-label> 
-          <ion-input [(ngModel)]="selec" (change)="getPoints($event, item.aliado)" type="number" placeholder="Cantidad" style="border-bottom: 1px solid #0093E9;width: 70%;"></ion-input></ion-col>
+          <ion-input [(ngModel)]="selec" (input)="getPoints($event, item.aliado)" type="number" placeholder="Cantidad" style="border-bottom: 1px solid #0093E9;width: 70%;"></ion-input></ion-col>
         <ion-col size="3" style="color: #0093E9;">
           <br><b>{{item.cantidad}} Pts</b>
           <br><b>$ {{item.dinero | number}}</b>
@@ -59,6 +59,6 @@
     </ion-grid>
    </ion-tab-bar>
   <ion-tab-bar slot="bottom">
-    <button id="confirmar" [disabled]="activeBtn == 1" (click)="recargar()">CONFIRMAR</button>
+    <button id="confirmar" (click)="recargar()">CONFIRMAR</button>
   </ion-tab-bar>
 </ion-tabs>

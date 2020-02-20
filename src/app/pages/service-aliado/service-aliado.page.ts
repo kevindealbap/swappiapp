@@ -31,7 +31,7 @@ export class ServiceAliadoPage implements OnInit {
         "id": 1
       },
       "user": {
-        "email": localStorage.getItem('email').toString()
+        "documentId": localStorage.getItem('cedula').toString()
       },
       "numberOfPoints": Math.floor((Math.random() * 10) + 100)
     };
