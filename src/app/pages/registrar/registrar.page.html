@@ -25,7 +25,7 @@
             <input type="text" [(ngModel)]="cedula" class="form-control material" placeholder="Cedula">
             <div class="input-group-prepend">
               <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-                  <i class="fa fa-user-address-book" aria-hidden="true"></i>
+                  <i class="fa fa-address-book" aria-hidden="true"></i>
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@
             <input type="text" [(ngModel)]="celular" class="form-control material" placeholder="Celular">
             <div class="input-group-prepend">
               <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
-                  <i class="fa fa-user-phone" aria-hidden="true"></i>
+                  <i class="fa fa-phone" aria-hidden="true"></i>
               </div>
             </div>
           </div>
@@ -61,9 +61,11 @@
                 </div>
         </div>
         <div class="input-group mb-3 content">
-          <input type="checkbox" required>
-          <label style="margin-left: 2%;margin-top: 3px;">Acepto los <u routerLink="/terminos" routerDirection="forward" aria-required="true">Términos y condiciones</u></label>
+          <ion-checkbox color="primary" [(ngModel)]="termsAgree"></ion-checkbox>
+            <label style="margin-left: 2%;margin-top: 3px;">Acepto los <u routerLink="/terminos" routerDirection="forward" aria-required="true">Términos y condiciones</u></label> 
+             
       </div>
-        <button id="btn-Sesion" (click)="sendRegistro()">CONTINUAR</button>
+      
+        <button id="btn-Sesion" (click)="sendRegistro($event)">CONTINUAR</button>
     </div>
 </ion-content>

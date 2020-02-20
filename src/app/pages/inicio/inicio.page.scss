@@ -21,7 +21,8 @@
 .vincular{
     width: 95%;
     height: 50px;
-    background: transparent linear-gradient(270deg, #0ABF04 0%, #09A603 100%) 0% 0% no-repeat padding-box;
+    background: transparent linear-gradient(270deg, rgb(117, 255, 75) 0%, #69B850
+ 100%) 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 16px #0093E929;
     border-radius: 50px;
     opacity: 1;
@@ -33,7 +34,8 @@
     width: 116px;
     height: 50px;
     margin-top: 10%;
-    background: #09A603 0% 0% no-repeat padding-box;
+    background: #69B850
+ 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 10px #40404029;
     border-radius: 50px 0px 0px 50px;
     opacity: 1;
@@ -53,7 +55,9 @@
 }
 .headMenu{
     text-align: center;
-    --background: transparent linear-gradient(245deg, #09A603 0%, #09A603 100%) 0% 0% no-repeat padding-box;
+    --background: transparent linear-gradient(245deg, #69B850
+ 0%, #69B850
+ 100%) 0% 0% no-repeat padding-box;
     opacity: 1;
 }
 .tabs-border{

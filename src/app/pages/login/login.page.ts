@@ -39,6 +39,8 @@ estado : any;
   login(endpoint,params){
 
 
+    
+
 
     this._methodsApiRestService.PostXHTML(endpoint,params)
       .subscribe(
@@ -67,14 +69,18 @@ estado : any;
           
           error => {
             if (!error.ok) {
-              swal.fire("Ups!", error, "error");
+              swal.fire("Favor digitar datos correctamente", error, "warning");
             }
           }
       );
+      
   }
 
   sendLogin(){
     var salt = Bcryptjs.genSaltSync(10);
+    if(this.cedula == undefined || this.password == undefined) {
+      swal.fire("Atencion", "Favor digitar correctamente el usuario y/o contraseña", "warning");
+    } else{
 
     var cedulaUser = this.cedula.toString()+ ":" + this.password.toString();
     var passscrypt = btoa(cedulaUser);
@@ -86,5 +92,5 @@ estado : any;
     }
     this.login('/found-user',datos);
   }
-
+  }
 }

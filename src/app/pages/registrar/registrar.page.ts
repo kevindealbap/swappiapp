@@ -17,8 +17,9 @@ export class RegistrarPage implements OnInit {
   email:string;
   password:string;
   lastname:string;
-
+  terminos : any;
   verifyStatus=null;
+  termsAgree : any;
   //fin variables
 
   constructor(private _methodsApiRestService: MethodApiServiceService,
@@ -27,45 +28,67 @@ export class RegistrarPage implements OnInit {
   ngOnInit() {
   }
 
-  sendRegistro(){
+  sendRegistro($event){
     var salt = Bcryptjs.genSaltSync(10);
     var hash = Bcryptjs.hashSync(this.password, salt);
+   
 
-    
-    let datos={
-      "names":this.name,
-      "lastNames":this.lastname,
-      "cellPhone": this.celular.toString(),
-      "documentId":this.cedula.toString(),
-      "email":this.email,
-      "password":hash
-    }
-    this._methodsApiRestService.PostMethod('/user-registration',datos)
-    .subscribe(
-      response => {
-        if(response) {
-          localStorage.setItem('name', this.name);
-          localStorage.setItem('lastName', this.lastname);
-          localStorage.setItem('email', this.email);
-          localStorage.setItem('cedula', this.cedula.toString());
-          localStorage.setItem('celular', this.celular.toString());
-          localStorage.setItem('idUser', response['id']);
-          this.navCtrl.navigateRoot('/inicio');
-        }else{
-          
-        }
-      },
-        error => {
-          Swal.fire(
-            'Evento de Aplicacion',
-            'Error al crear Perfil',
-            'error'
-          )
-          if (!error.ok) {
+
+
+if(this.termsAgree == null || this.termsAgree == undefined){
+  Swal.fire("Atencion", "Para continuar debe aceptar los terminos",'warning')
+}
+var check =this.termsAgree.toString();
+console.log(check);
+    if(this.termsAgree == true){
+      let datos={
+        "names":this.name,
+        "lastNames":this.lastname,
+        "cellPhone": this.celular.toString(),
+        "documentId":this.cedula.toString(),
+        "email":this.email,
+        "password":hash
+      }
+      this._methodsApiRestService.PostMethod('/user-registration',datos)
+      .subscribe(
+        response => {
+          if(response) {
+            localStorage.setItem('name', this.name);
+            localStorage.setItem('lastName', this.lastname);
+            localStorage.setItem('email', this.email);
+            localStorage.setItem('cedula', this.cedula.toString());
+            localStorage.setItem('celular', this.celular.toString());
+            localStorage.setItem('idUser', response['id']);
+            this.navCtrl.navigateRoot('/inicio');
+          }else{
             
           }
-        }
-    );
+        },
+          error => {
+            Swal.fire(
+              'Evento de Aplicacion',
+              'Error al crear Perfil',
+              'error'
+            )
+            if (!error.ok) {
+              
+            }
+          }
+      );
+    }else{
+      Swal.fire("Atencion", "Para continuar debe aceptar los terminos",'warning')
+      
+    }
+
+
+
+
+
+
+  
+    
+ 
+   
   }
 
 

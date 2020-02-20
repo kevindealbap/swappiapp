@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MethodApiServiceService } from 'src/app/services/method-api-service.service';
 import { NavController } from '@ionic/angular';
 import { User } from '../models/user';
+import { File } from '@ionic-native/file/ngx';
 
 @Component({
   selector: 'app-perfil',
@@ -22,10 +23,10 @@ respuesta : any;
 user : User;
 documentId: any;
   constructor(private _methodsApiRestService: MethodApiServiceService,
-    public navCtrl: NavController) { }
+    public navCtrl: NavController, private file: File) { }
 
   ngOnInit() {
-    
+
 this.name =localStorage.getItem('name') + " " + localStorage.getItem('lastNames');
 /*    this.correo=localStorage.getItem('email');
 
@@ -50,6 +51,26 @@ this.name =localStorage.getItem('name') + " " + localStorage.getItem('lastNames'
       });
 
 }
+
+
+uploadFile(){
+
+    let reader = new FileReader();
+    if(event.target.files && event.target.files.length > 0) {
+      let file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.form.get('avatar').setValue({
+          filename: file.name,
+          filetype: file.type,
+          value: reader.result
+        })
+      };
+    }
+  
+
+}
+
 registrar(){
 
   let datos={

@@ -38,11 +38,11 @@ p{
 #btn-Sesion{
 width: 100%;
 height: 50px;
-background: transparent linear-gradient(270deg, #0ABF04 0%, #09A603 100%) 0% 0% no-repeat padding-box;
+background: transparent linear-gradient(270deg,  rgb(117, 255, 75) 0%, #69B850 100%) 0% 0% no-repeat padding-box;
 box-shadow: 0px 3px 16px #0093E929;
 border-radius: 50px;
 opacity: 1;
-color: #F5F5F5;
+color: rgb(73, 73, 73);
 font-family: 'Roboto', sans-serif;
 font-weight: bold;
 font-size: 16px;
@@ -50,13 +50,13 @@ outline:none;
 }
 
 #btn-register{
-    color: #0ABB04;
+    color: #69B850;
     font-weight: bold;
     background-color: transparent;
     width: 100%;
     height: 50px;
    //box-shadow: 0px 3px 16px #0093E929;
-    border: 1px solid #0ABB04;
+    border: 1px solid #69B850;
     border-radius: 50px;
     opacity: 1;
     font-family: 'Roboto', sans-serif;
