@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 import * as Bcryptjs from "bcryptjs";
 import { NavController } from '@ionic/angular';
 import { MethodApiServiceService } from '../../services/method-api-service.service';
@@ -11,6 +11,7 @@ import { NgModel } from '@angular/forms';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
 
   cedula:number;
   password:any;
