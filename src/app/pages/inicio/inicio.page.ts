@@ -22,6 +22,7 @@ export class InicioPage implements OnInit {
   cuentas:any[]=[];
   id:any;
 
+
   constructor(private menu: MenuController,
     public navCtrl: NavController,
     private _methodsApiRestService: MethodApiServiceService, private auth : AuthenticationService ) {
@@ -64,9 +65,66 @@ export class InicioPage implements OnInit {
   extraer(){
     //this.service('/cuentas/cuentasList/'+this.cedula);
     this.service('/partner-account-list?cedula=' + this.cedula);
+    
+    this._methodsApiRestService.GetMethod('/user/'+this.id+'/card',).subscribe (r =>{
+if(r != null){
+
+  this.totalDinero = r['amount'];
+ }else{
+   this.totalDinero = 0;
+ }
+
+
+    });
   }
 
   service(endpoint){
+    this._methodsApiRestService.GetMethod(endpoint)
+      .subscribe(
+        response => {
+          if(typeof response === 'undefined' || response === null) {
+            //swal.fire("Ups!", "Usuario no encontrado", "error");
+          } else {
+            var plata;
+            for (let c in response) {
+              plata = response[c].numberOfPoints * parseInt(response[c].partner.purchaseValue);
+              let data = {
+                id: response[c].id,
+                partnerName: response[c].partner.name,
+                points: response[c].numberOfPoints,
+                dinero: plata
+              };
+              // this.totalDinero = this.totalDinero + plata;
+              this.cuentas.push(data);
+            }
+            /*for (let x in response) {
+              var plata;
+              this._methodsApiRestService.GetMethod('/aliados/valuePunto/'+response[x].aliado_id)
+              .subscribe(
+                data=>{
+                    plata=parseInt(response[x].ca_cantPuntos) * parseInt(data[0].al_valueCompre);
+                    let datos={
+                      id:response[x].id,
+                      name:data[0].al_name,
+                      imagen:data[0].al_image,
+                      cedula:response[x].us_cedula,
+                      aliado:response[x].aliado_id,
+                      status:response[x].ca_status,
+                      cantidad:response[x].ca_cantPuntos,
+                      dinero:plata
+                    }
+                    this.cuentas.push(datos);
+                }
+              );
+            }*/
+          }
+        },
+          /* error => {
+            
+          } */
+      );
+  }
+  service2(endpoint){
     this._methodsApiRestService.GetMethod(endpoint)
       .subscribe(
         response => {
@@ -112,5 +170,8 @@ export class InicioPage implements OnInit {
           } */
       );
   }
+
+
+
 
 }

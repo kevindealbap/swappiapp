@@ -56,7 +56,7 @@ mensaje : any;
           }
         },
           error => {
-            if (error.status === 400) {
+            if (error.status === 406) {
               swal.fire("Ups!", "Ya existe una cuenta vinculada", "warning");
               this.navCtrl.navigateRoot('/inicio');
 
@@ -69,7 +69,6 @@ mensaje : any;
 
             
              else {
-              swal.fire("Evento de Aplicacion", this.mensaje, "error");
 
             }
           }
