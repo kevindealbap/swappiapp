@@ -4,7 +4,7 @@
             <ion-icon style="zoom: 2.0;" (click)="openFirst()" name="menu"></ion-icon>
         </ion-buttons>
       <ion-title>
-          <img class="img-logo" style="margin-right: 12%;" src="../../../assets/imgs/swappi.svg" width="86">
+          <img class="img-logo" style="margin-right: 12%;" src="../../../assets/imgs/swappi.svg" width="115" height="50">
       </ion-title>
     </ion-toolbar>
   </ion-header>
@@ -17,12 +17,12 @@
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-item routerLink="/perfil" routerDirection="forward"><i padding class="fa fa-user-circle-o" aria-hidden="true"></i>Mi perfil</ion-item>
-          <ion-item routerLink="/tarjeta-swappi" routerDirection="forward"><i padding class="fa fa-credit-card" aria-hidden="true"></i>Tarjeta Swappi</ion-item>
+          <ion-item routerLink="/perfil"> <i padding class="fa fa-user-circle-o" aria-hidden="true"></i>Mi perfil</ion-item>
+          <ion-item routerLink="/tarjeta-swappi"><i padding class="fa fa-credit-card" aria-hidden="true"></i>Tarjeta Swappi</ion-item>
           <ion-item><i padding class="fa fa-cog" aria-hidden="true"></i>Historial de movimientos</ion-item>
           <ion-item><i padding class="fa fa-paper-plane-o" aria-hidden="true"></i>Notificaciones</ion-item>
           <ion-item><i padding class="fa fa-cog" aria-hidden="true"></i>Ajustes</ion-item>
-          <ion-item><i padding class="fa fa-book" aria-hidden="true"></i>Términos y condiciones</ion-item>
+          <ion-item routerLink="/terminos"><i padding class="fa fa-book" aria-hidden="true"></i>Términos y condiciones</ion-item>
           <ion-item><i padding class="fa fa-info-circle" aria-hidden="true"></i>Ayuda</ion-item>
           <ion-item (click)="logout()"><i padding class="fa fa-sign-out" aria-hidden="true"></i>
             Cerrar sesión</ion-item>
@@ -59,7 +59,7 @@
             <ion-col size="8">
                 <h5 padding style="z-index:3;position:absolute; background-color: white;width: 95%;background-color: transparent;">Cuentas vinculadas</h5>
             </ion-col>
-            <ion-col size="4"><button class="btn-sw"><img src="../../../assets/imgs/swappi-inicio.png"></button></ion-col>
+            <ion-col size="4"><button class="btn-sw"><img src="../../../assets/imgs/swappi-inicio.png" width="115"></button></ion-col>
           </ion-row>
         </ion-grid>
         <div style="text-align: center;margin-top: 10%;" *ngIf="cuentas.length == 0">

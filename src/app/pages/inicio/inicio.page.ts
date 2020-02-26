@@ -3,6 +3,7 @@ import { MenuController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { MethodApiServiceService } from '../../services/method-api-service.service';
 import swal from 'sweetalert2';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-inicio',
@@ -23,7 +24,7 @@ export class InicioPage implements OnInit {
 
   constructor(private menu: MenuController,
     public navCtrl: NavController,
-    private _methodsApiRestService: MethodApiServiceService) {
+    private _methodsApiRestService: MethodApiServiceService, private auth : AuthenticationService ) {
     }
 
   ngOnInit() {
@@ -44,10 +45,19 @@ export class InicioPage implements OnInit {
 
 
   logout(){
-    localStorage.setItem('name', null);
-    localStorage.setItem('email', null);
-    localStorage.setItem('cedula', null);
-    localStorage.setItem('celular', null);
+   
+    localStorage.removeItem('name');
+    localStorage.removeItem('email');
+    localStorage.removeItem('cedula');
+    localStorage.removeItem('celular');
+    localStorage.removeItem('idUser');
+    localStorage.removeItem('lastNames');
+
+  this.auth.logOut();
+
+
+
+
     this.navCtrl.navigateRoot('/login');
   }
 

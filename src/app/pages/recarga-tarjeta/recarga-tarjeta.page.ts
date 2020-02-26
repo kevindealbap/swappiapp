@@ -66,7 +66,8 @@ idcard: any;
 
             }, error => {
               if (!error.ok) {
-                swal.fire("Ups!", "Ocurrió un error obteniendo información de la tarjeta.", "error");
+                swal.fire("Ups!", "Ocurrió un error obteniendo información de la tarjeta.", "warning");
+                this.navCtrl.navigateRoot('/tarjeta-swappi')
               }
             });
           }

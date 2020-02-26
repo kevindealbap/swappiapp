@@ -15,7 +15,7 @@ export class ServiceAliadoPage implements OnInit {
   constructor(private _methodsApiRestService: MethodApiServiceService,
     public navCtrl: NavController,
     public routes: Router) { }
-
+mensaje : any;
 
 
   ngOnInit() {
@@ -48,15 +48,29 @@ export class ServiceAliadoPage implements OnInit {
         response => {
           if(response) {
             swal.fire("Evento de Aplicacion",' Vinculacion del aliado exitosa ' , "success")
+            this.navCtrl.navigateRoot('/inicio');
+
           }else{
-            swal.fire("Ups!", "Error en Petición", "error");
+           this.mensaje = response['message'];
+            swal.fire("Evento de Aplicacion", this.mensaje, "error");
           }
         },
           error => {
-            if (!error.ok && error.status === 400) {
-              swal.fire("Ups!", "Ya existe una cuenta vinculada", "error");
-            } else {
-              swal.fire("Ups!", "Error en Petición", "error");
+            if (error.status === 400) {
+              swal.fire("Ups!", "Ya existe una cuenta vinculada", "warning");
+              this.navCtrl.navigateRoot('/inicio');
+
+            }
+            if (!error.ok && error.status === 422) {
+              swal.fire("Evento de Aplicacion!", error.error.message, "error");
+              this.navCtrl.navigateRoot('/inicio');
+
+            }
+
+            
+             else {
+              swal.fire("Evento de Aplicacion", this.mensaje, "error");
+
             }
           }
       );

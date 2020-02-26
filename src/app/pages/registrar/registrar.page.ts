@@ -71,13 +71,17 @@ console.log(check);
       .subscribe(
         response => {
           if(response) {
-            localStorage.setItem('name', this.name);
+            Swal.fire("Evento de Aplicacion", "Registro exitoso ",'success')
+
+           /*  localStorage.setItem('name', this.name);
             localStorage.setItem('lastNames', this.lastname);
             localStorage.setItem('email', this.email);
             localStorage.setItem('cedula', this.cedula.toString());
             localStorage.setItem('celular', this.celular.toString());
-            localStorage.setItem('idUser', response['id']);
-            this.navCtrl.navigateRoot('/inicio');
+            localStorage.setItem('idUser', response['id']); */
+
+            this.navCtrl.navigateRoot('/login');
+            
           }
         },
           

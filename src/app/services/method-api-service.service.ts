@@ -10,13 +10,14 @@ import { RegistrarPage } from '../pages/registrar/registrar.page';
 
 export class MethodApiServiceService {
   //domain="http://44.228.37.182:8080/api/v1"; //Produccion
-  domain="http://192.168.2.153:8083/api";  //Desarrollo
+  domain="http://192.168.2.153:8084/api";  //Desarrollo
   constructor(private http:HttpClient) { }
 
   public PostMethod(endpoint,params,domain=this.domain){
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      'Authorization': 'Bearer '+sessionStorage.getItem('token'),
       'Access-Control-Allow-Origin':  '*',
       'Access-Control-Allow-Methods':'GET, POST'
     });
@@ -32,7 +33,8 @@ export class MethodApiServiceService {
           let headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Access-Control-Allow-Origin':  '*',
+            'Authorization': 'Bearer '+sessionStorage.getItem('token'),
+           'Access-Control-Allow-Origin':  '*',
             'Access-Control-Allow-Methods':'GET, POST'
           });
           //console.log(domain+endpoint);
@@ -47,7 +49,7 @@ export class MethodApiServiceService {
   public PostXHTML(endpoint, params,domain=this.domain){
  let headers = new HttpHeaders({
   'Content-Type': 'application/json',
-    // 'Authorization': 'Basic '+params.password,
+ 'Authorization': 'Bearer '+sessionStorage.getItem('token'),
     'Access-Control-Allow-Origin':  '*',
     'Access-Control-Allow-Methods':'GET, POST'
 
@@ -60,9 +62,10 @@ export class MethodApiServiceService {
 
   }
 
-  public GetMethod(endpoint,domain=this.domain){
+  public GetMethod(endpoint, domain=this.domain){
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+sessionStorage.getItem('token'),
       'Accept': 'application/json',
       'Access-Control-Allow-Origin':  '*',
       'Access-Control-Allow-Methods':'GET, POST'

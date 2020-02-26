@@ -19,7 +19,7 @@
       <ion-row>
          <ion-col size="12">
             <div class="input-group mb-3">
-                <input type="text" [(ngModel)]="name" class="form-control material" placeholder="Nombre">
+                <input type="text" [(ngModel)]="name" class="form-control material" placeholder="Nombre" disabled>
                 <div class="input-group-prepend">
                   <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                         <i class="fa fa-user" aria-hidden="true"></i>
@@ -29,7 +29,7 @@
         </ion-col>
         <ion-col size="12">
             <div class="input-group mb-3">
-                <input type="text" [(ngModel)]="ntarjeta" value="{{ntarjeta}}" class="form-control material" placeholder="N° Tarjeta" maxlength="18">
+                <input type="text" [(ngModel)]="ntarjeta" value="{{ntarjeta}}" class="form-control material" placeholder="N° Tarjeta" maxlength="16" [disabled]="estadoTarjeta == 1 || estadoTarjeta == 2">
                 <div class="input-group-prepend">
                   <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                       <i class="fa fa-credit-card" aria-hidden="true"></i>
@@ -39,7 +39,7 @@
         </ion-col>
         <ion-col size="6">
             <div class="input-group mb-3">
-                <input type="text" id="fech" [(ngModel)]="fech" value="{{fech}}" (keypress)="test($event)" mask-placeholder="_" class="form-control material" placeholder="MM/YY">
+                <input type="text" id="fech" [(ngModel)]="fech" value="{{fech}}" (keypress)="test($event)" mask-placeholder="_" class="form-control material" placeholder="MM/YY" [disabled]="estadoTarjeta == 1 || estadoTarjeta == 2">
                 <div class="input-group-prepend">
                   <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                       <i class="fa fa-calendar-o" aria-hidden="true"></i>
@@ -49,7 +49,7 @@
         </ion-col>
         <ion-col size="6">
             <div class="input-group mb-3">
-                <input  type="text" pattern="\d*" [(ngModel)]="ccv" value="{{ccv}}" pattern="[0-9]{3,3}" maxlength="3" minlength="3" class="form-control material" placeholder="CCV">
+                <input  type="text" pattern="\d*" [(ngModel)]="ccv" value="{{ccv}}" pattern="[0-9]{3,3}" maxlength="3" minlength="3" class="form-control material" placeholder="CCV" [disabled]="estadoTarjeta == 1 || estadoTarjeta == 2">
                 <div class="input-group-prepend">
                   <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                       <i class="fa fa-lock" aria-hidden="true"></i>

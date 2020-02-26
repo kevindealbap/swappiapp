@@ -202,6 +202,8 @@ if(this.estadoTarjeta == false){
       this._methodsApiRestService.PostMethod('/card/'+this.idtarjeta+'/activate',datos2).subscribe (r =>{
         r =this.data;
         swal.fire("Exitos!", "Tarjeta Activada", "success");
+        this.navCtrl.navigateRoot('/inicio');
+
 
         this.estadoTarjeta = 1;
 

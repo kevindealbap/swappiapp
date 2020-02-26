@@ -3,7 +3,7 @@
         <h1 class="type-text">Regístrate</h1>
         <p class="type-text">Ingresa todos los datos requeridos</p>
         <div class="input-group mb-3 content">
-            <input type="text" [(ngModel)]="name" class="form-control material" placeholder="Nombres" required> 
+            <input type="text" [(ngModel)]="name" class="form-control material" placeholder="Nombres" required maxlength="16"> 
             <div class="input-group-prepend">
               <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                   <i class="fa fa-user" aria-hidden="true"></i>
@@ -12,7 +12,7 @@
           </div>
         
           <div class="input-group mb-3 content">
-            <input type="text" [(ngModel)]="lastname" class="form-control material" placeholder="Apellidos" >
+            <input type="text" [(ngModel)]="lastname" class="form-control material" placeholder="Apellidos" maxlength="16">
             <div class="input-group-prepend">
               <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                   <i class="fa fa-user-circle-o" aria-hidden="true"></i>
@@ -22,7 +22,7 @@
 
           
           <div class="input-group mb-3 content">
-            <input type="text" [(ngModel)]="cedula" class="form-control material" placeholder="Cedula" required>
+            <input type="text" [(ngModel)]="cedula" class="form-control material" placeholder="Cedula" required maxlength="11">
             <div class="input-group-prepend">
               <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                   <i class="fa fa-address-book" aria-hidden="true"></i>
@@ -31,7 +31,7 @@
           </div>
           
           <div class="input-group mb-3 content">
-            <input type="text" [(ngModel)]="celular" class="form-control material" placeholder="Celular" required>
+            <input type="text" [(ngModel)]="celular" class="form-control material" placeholder="Celular" required maxlength="10"> 
             <div class="input-group-prepend">
               <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;">
                   <i class="fa fa-phone" aria-hidden="true"></i>
@@ -53,7 +53,7 @@
           </div>
     
         <div class="input-group mb-3 content">
-                <input type="password" [(ngModel)]="password" style="background: #F5F5F5 0% 0% no-repeat padding-box;" class="form-control material" placeholder="Contraseña">
+                <input type="password" [(ngModel)]="password" style="background: #F5F5F5 0% 0% no-repeat padding-box;" class="form-control material" placeholder="Contraseña" minlength="6" maxlength="14">
                 <div class="input-group-prepend">
                   <div class="input-group-text icon-style" style="border-radius: 0px 8px 8px 0px;" requr>
                         <i class="fa fa-key" aria-hidden="true"></i>
