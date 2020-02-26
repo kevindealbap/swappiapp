@@ -12,8 +12,8 @@
   <ion-card style="margin: 0;background: white;color: gray;font-weight: normal;">
     <ion-grid fixed>
       <ion-row>
-        <ion-col size="12">Transacción #000</ion-col>
-        <ion-col size="12">Transferencia de puntos cuenta Nª 586121584d</ion-col>
+        <ion-col size="12">Transacción # {{ntransaccion}}</ion-col>
+        <ion-col size="12">Transferencia de puntos cuenta Nª {{ncuenta}}</ion-col>
       </ion-row>
     </ion-grid>
   </ion-card>
@@ -25,8 +25,8 @@
   <ion-card style="margin: 0;background: white;color: gray;font-weight: normal;">
     <ion-grid fixed>
       <ion-row>
-        <ion-col size="12">Transacción #000</ion-col>
-        <ion-col size="12">Transferencia de puntos cuenta Nª 586121584d</ion-col>
+        <ion-col size="12" *ngFor="let item of items">Transacción #</ion-col>
+        <ion-col size="12" *ngFor="">Transferencia de puntos cuenta Nª 586121584d</ion-col>
       </ion-row>
     </ion-grid>
   </ion-card>
@@ -38,8 +38,8 @@
   <ion-card style="margin: 0;background: white;color: gray;font-weight: normal;">
     <ion-grid fixed>
       <ion-row>
-        <ion-col size="12">Transacción #000</ion-col>
-        <ion-col size="12">Transferencia de puntos cuenta Nª 586121584d</ion-col>
+        <ion-col size="12" *ngFor="">Transacción #000</ion-col>
+        <ion-col size="12" *ngFor="">Transferencia de puntos cuenta Nª 586121584d</ion-col>
       </ion-row>
     </ion-grid>
   </ion-card>

@@ -118,8 +118,11 @@ idcard: any;
           if(response['id']  != null){
 
           swal.fire("Exito!", "Tarjeta recargada con éxito", "success");
-          this.navCtrl.navigateRoot('/inicio');
+
           
+          this.navCtrl.navigateRoot('/inicio');
+
+
           }else{
             error => {
               if (!error.ok) {
