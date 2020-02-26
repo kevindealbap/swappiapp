@@ -4,6 +4,7 @@ import swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';
 import { MethodApiServiceService } from '../../services/method-api-service.service';
 import { NavController } from '@ionic/angular';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tarjeta-swappi',
@@ -11,6 +12,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./tarjeta-swappi.page.scss'],
 })
 export class TarjetaSwappiPage implements OnInit {
+
 id: any;
 ntarjeta:number;
 fech:string;
@@ -19,6 +21,9 @@ swicht:number;
 data : any;
 cedula:any;
 name : any;
+idtarjeta : any;
+estadoTarjeta: any;
+
   constructor(private _methodsApiRestService: MethodApiServiceService,
     public navCtrl: NavController) { }
 
@@ -69,6 +74,21 @@ name : any;
 
 
   guardar(){
+    
+
+this.cardIfExist();
+var d = new Date();
+    var n = d.getFullYear();
+    var actual=n.toString().substring(2,4);
+    var fechaV=$("#fech").val();
+    var cadena=fechaV;
+    var one=cadena.substring(0,2);
+    var two=cadena.substring(3,5);
+    if(parseInt(one)>12){
+      swal.fire("Ups!", "Error campo Fecha vencimiento", "error");
+    }else if(parseInt(two)<=parseInt(actual)){
+      swal.fire("Ups!", "Tarjeta Vencida", "error");
+    }else{
 
     let datos=
     {
@@ -83,20 +103,22 @@ name : any;
 "state": this.swicht
 
   }
-   
-
+ 
   this._methodsApiRestService.PostMethod('/card',datos).subscribe (r =>{
 r = this.data;
 console.log(this.data);
+Swal.fire("Evento De Aplicacion","Tarjeta creada exitosamente",'success')
+
+
+
+
+this.cardIfExist();
   });
 
 
-  this._methodsApiRestService.PutMethod('/card'+this.id+'/activate',datos).subscribe (r =>{
-    r =this.data;
-  })
-
-
+    }
   }
+
 
   cardIfExist(){
     var cedula=localStorage.getItem('cedula');
@@ -116,7 +138,15 @@ console.log(this.data);
             this.ntarjeta = response['number'];
             this.ccv = response['pin'];
             this.fech = response['expireDate'];
+            this.idtarjeta = response['id'];
+            this.estadoTarjeta = response['active'];
 
+if(this.estadoTarjeta == true){
+  this.estadoTarjeta = 1;
+}
+if(this.estadoTarjeta == false){
+  this.estadoTarjeta = 2;
+}
 
             }
     );
@@ -153,30 +183,38 @@ console.log(this.data);
       var fechenc=this.encryptData(this.fech);
       var ccvenc=this.encryptData(this.ccv);
       var user=localStorage.getItem('cedula');
-      let datos={
-        "fecha":fechenc,
-        "ccv":ccvenc,
-        "ntarjeta":this.ntarjeta,
-        "usuario":user
-      }
+    
+
+      let datos2=
+      {
+        "user":
+        {"documentId":this.cedula
+      },
+  
+  "number": this.ntarjeta,
+  "expireDate":fechenc,
+  "pin":ccvenc,
+  "amount":0,
+  "state": this.swicht
+  
+    }
       //console.log(datos);
-      this._methodsApiRestService.PostMethod('/tarjetas/create',datos)
-      .subscribe(
-        response => {
-          //console.log(response);
-          if(response){
-            swal.fire("Exitos!", "Tarjeta Activada", "success");
-            this.navCtrl.navigateRoot('/inicio');
-          }else{
-            swal.fire("Ups!", "Tarjeta no activada", "error");
+      this._methodsApiRestService.PostMethod('/card/'+this.idtarjeta+'/activate',datos2).subscribe (r =>{
+        r =this.data;
+        swal.fire("Exitos!", "Tarjeta Activada", "success");
+
+        this.estadoTarjeta = 1;
+
+
+      },
+        error => {
+          if (!error.ok) {
+            swal.fire("Ups!", "Error en Petición", "error");
           }
-        },
-          error => {
-            if (!error.ok) {
-              swal.fire("Ups!", "Error en Petición", "error");
-            }
-          }
-      );
+                                                             
+      });
+    
+      
     }
   }
 
@@ -202,12 +240,23 @@ console.log(this.data);
     }
   }
 
+
+
   desactivar(){
     var cedula=localStorage.getItem('cedula');
     let datos={
-      "usuario":cedula
+      "user":
+      {"documentId":this.cedula
+    },
+
+"number": this.ntarjeta,
+"expireDate":this.fech,
+"pin":this.ccv,
+"amount":0,
+"state": this.swicht
+
     }
-    this._methodsApiRestService.PostMethod('/tarjetas/findcard',datos)
+    this._methodsApiRestService.PostMethod('/card/'+this.idtarjeta+'/deactivate',datos)
           .subscribe(
             update=>{
               if(update){

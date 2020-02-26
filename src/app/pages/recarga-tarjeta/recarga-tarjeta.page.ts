@@ -1,8 +1,11 @@
+
+
 import { Component, OnInit } from '@angular/core';
 import { MethodApiServiceService } from '../../services/method-api-service.service';
 import swal from 'sweetalert2';
 import { error } from 'protractor';
 import { NavController } from '@ionic/angular';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-recarga-tarjeta',
@@ -17,7 +20,7 @@ export class RecargaTarjetaPage implements OnInit {
   activeBtn:number = 0;
   saldo:number = 0;
   total:number = 0;
-
+idcard: any;
   constructor(private _methodsApiRestService: MethodApiServiceService,
     public navCtrl: NavController) { }
 
@@ -30,8 +33,8 @@ export class RecargaTarjetaPage implements OnInit {
     this._methodsApiRestService.GetMethod(endpoint)
       .subscribe(
         response => {
-          //TODO reemplazar por el ID del usuario en sesión.
-          var id = 9;
+
+          var id = localStorage.getItem('idUser');
           if(typeof response === 'undefined' || response === null){
             //swal.fire("Ups!", "Usuario no encontrado", "error");
           }else{
@@ -46,9 +49,9 @@ export class RecargaTarjetaPage implements OnInit {
                 status:response[x].status,
                 cantidad:response[x].numberOfPoints,
                 imagen: 'puntossaludables.png',
-                dinero: plata
+                dinero: plata,
+                valorCompra: response[x].partner.purchaseValue
               }
-              this.dinero = parseInt(this.dinero + plata);
               this.cuentas.push(datos);
             }
             this._methodsApiRestService.GetMethod('/user/' + id + '/card')
@@ -56,11 +59,10 @@ export class RecargaTarjetaPage implements OnInit {
 
               if (data === null || data === undefined ) {
                 swal.fire("Ups!", "El usuario no tiene una tarjeta.", "error");
-                this.activeBtn = 0;
                 this.navCtrl.navigateRoot('/tarjeta-swappi');
               }
-              this.saldo = data.amount;
-              this.activeBtn = 1;
+              this.saldo = data['amount'];
+              this.idcard =data['id'];
 
             }, error => {
               if (!error.ok) {
@@ -79,33 +81,54 @@ export class RecargaTarjetaPage implements OnInit {
 
   getPoints(event, aliadoId) {
 
-    let numberOfPoints: number = parseInt(event.target.value, 10);
-    let index: number = this.cuentas.findIndex(c => c.aliados === aliadoId);
-    let purchaseValue: number = parseFloat(this.cuentas[index].dinero);
-    this.total = this.total + numberOfPoints * purchaseValue;
+    let index: number = this.cuentas.findIndex(c => c.aliado === aliadoId);
+    var cuenta = this.cuentas[index];
+    
+    if (event.target.value != undefined && event.target.value !== "") {
+      let numberOfPoints: number = parseInt(event.target.value, 10);
+      let purchaseValue: number = parseFloat(this.cuentas[index].valorCompra);
+      this.total = numberOfPoints * purchaseValue;
+      this.dinero = this.total + this.saldo;
+    } else {
+      this.total = 0;
+      this.dinero = 0;
+    }
   }
 
   recargar(){
     if(this.selec>this.dinero){
-      console.log("te pasaste");
+      Swal.fire("Evento de Aplicaicon", 'La recarga de puntos sobre pasa el limite','warning');
+
     }else{
       console.log(this.selec);
       let datos={
-        "usuario":this.cedula,
-        "monto":this.selec,
+        "card":{
+          "id": this.idcard
+        },
+        "user": {
+          "documentId": this.cedula
+        },
+        "quantity": this.dinero
       }
-      this._methodsApiRestService.PostMethod('/tarjetas/descargar',datos)
+      this._methodsApiRestService.PostMethod('/recharge', datos)
       .subscribe(
         response => {
           console.log(response);
+          if(response['id']  != null){
+
+          swal.fire("Exito!", "Tarjeta recargada con éxito", "success");
+          this.navCtrl.navigateRoot('/inicio');
           
-          
-        },
-          error => {
-            if (!error.ok) {
-              swal.fire("Ups!", error, "error");
+          }else{
+            error => {
+              if (!error.ok) {
+                swal.fire("Ups!", error, "error");
+              }
             }
           }
+        },
+         
+        
       );
     }
   }

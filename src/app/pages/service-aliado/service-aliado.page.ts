@@ -11,12 +11,15 @@ import { Router } from '@angular/router';
 })
 export class ServiceAliadoPage implements OnInit {
 
-  cedula:number;
+  cedula:any;
   constructor(private _methodsApiRestService: MethodApiServiceService,
     public navCtrl: NavController,
     public routes: Router) { }
 
+
+
   ngOnInit() {
+    this.cedula = localStorage.getItem('cedula').toString();
   }
 
   vincular(){
@@ -31,7 +34,7 @@ export class ServiceAliadoPage implements OnInit {
         "id": 1
       },
       "user": {
-        "email": localStorage.getItem('email').toString()
+        "documentId": localStorage.getItem('cedula').toString()
       },
       "numberOfPoints": Math.floor((Math.random() * 10) + 100)
     };
@@ -44,7 +47,7 @@ export class ServiceAliadoPage implements OnInit {
       .subscribe(
         response => {
           if(response) {
-            this.routes.navigate(['/inicio']);
+            swal.fire("Evento de Aplicacion",' Vinculacion del aliado exitosa ' , "success")
           }else{
             swal.fire("Ups!", "Error en Petición", "error");
           }

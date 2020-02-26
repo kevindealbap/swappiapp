@@ -10,8 +10,9 @@
 <ion-content padding>
   
   <div>
-    <img [src]="cardImage" />
+ <img [src]="cardImage" /> 
   </div>
+
   <p class="text">Ingresa todos los datos requeridos</p>
   <div>
     <ion-grid fixed>
@@ -58,14 +59,18 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <button id="btn-Sesion" (click)="guardar()">ACTIVAR TARJETA</button>
-
-    <div *ngIf="swicht > 0">
-      <button id="btn-Sesion" (click)="desactivar()">DESACTIVAR TARJETA</button>
+    <div>
+      <div *ngIf="estadoTarjeta != 1  && estadoTarjeta != 2">
+    <button id="btn-Sesion" (click)="guardar()">GUARDAR TARJETA</button>
+  </div>
     </div>
-    <div *ngIf="swicht == 0">
+    <div *ngIf="estadoTarjeta != 1 && estadoTarjeta != undefined">
       <button id="btn-Sesion" (click)="verificar()">ACTIVAR TARJETA</button>
     </div>
-   
+    <div *ngIf="estadoTarjeta == 1">
+      <button id="btn-Sesion" (click)="desactivar()">DESACTIVAR TARJETA</button>
+    </div>
+
+
   </div>
 </ion-content>

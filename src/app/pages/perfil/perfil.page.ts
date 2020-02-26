@@ -3,6 +3,7 @@ import { MethodApiServiceService } from 'src/app/services/method-api-service.ser
 import { NavController } from '@ionic/angular';
 import { User } from '../models/user';
 import { File } from '@ionic-native/file/ngx';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-perfil',
@@ -26,8 +27,9 @@ documentId: any;
     public navCtrl: NavController, private file: File) { }
 
   ngOnInit() {
-
-this.name =localStorage.getItem('name') + " " + localStorage.getItem('lastNames');
+    
+this.name =localStorage.getItem('name');
+this.lastname = localStorage.getItem('lastNames');
 /*    this.correo=localStorage.getItem('email');
 
     this.celular=localStorage.getItem('celular');
@@ -45,9 +47,15 @@ this.name =localStorage.getItem('name') + " " + localStorage.getItem('lastNames'
       this.cedula = response['user']['documentId'];
       this.correo = response['user']['email'];
       this.celular = response['user']['cellPhone'];
-      this.name = response['user']['names'] +" " + response['user']['lastNames'];
+      this.name = response['user']['names'];
+      this.lastname = response['user']['lastNames'];
 
- 
+      }, error=> {
+        this.cedula = localStorage.getItem('cedula');
+        this.correo = localStorage.getItem('email');
+        this.celular = localStorage.getItem('celular');
+        this.name = localStorage.getItem('name');
+        this.lastname = localStorage.getItem('lastNames');
       });
 
 }
@@ -74,23 +82,18 @@ uploadFile(){
 registrar(){
 
   let datos={
-    
-    "user":{
-"id":this.idUser,      
-"names":this.name,
-"lastName":this.lastname,
-"email":this.correo,
-"cellPhone":this.celular
 
-    },
-
-    
       "address": this.direccion,
-      "email":this.correo,
-      "birthDate":this.fecha
-      
-  
-    }
+      "email": this.correo,
+      "birthDate": this.fecha,
+      "user": {
+          "id": this.idUser,
+          "names": this.name,
+          "lastNames": this.lastname,
+          "email": this.correo,
+          "cellPhone": this.celular
+      }
+  };
 
 
 
@@ -98,7 +101,13 @@ this._methodsApiRestService.PostMethod('/profile',datos).subscribe (
    r =>{
      var resultado = r;
 console.log(resultado);
+if(r['id'] != null){
+Swal.fire("Evento de Aplicacion", "Perfil creado con exito", 'success');
+this.navCtrl.navigateRoot('/inicio');
+}else{
+  Swal.fire("Evento de Aplicacion", "Error al guardar el perfil", 'error');
 
+}
 });
 
 }

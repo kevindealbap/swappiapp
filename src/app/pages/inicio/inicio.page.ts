@@ -98,9 +98,7 @@ export class InicioPage implements OnInit {
           }
         },
           /* error => {
-            if (!error.ok) {
-              swal.fire("Ups!", "Error en Petición", "error");
-            }
+            
           } */
       );
   }

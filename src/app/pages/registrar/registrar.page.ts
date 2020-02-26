@@ -29,10 +29,25 @@ export class RegistrarPage implements OnInit {
   }
 
   sendRegistro($event){
+    if(this.cedula == undefined || this.name == undefined || this.password == undefined || this.celular  == undefined
+  
+    ){
+      console.log("error");
+      Swal.fire("Atencion","Verifique que digitó bien los datos requeridos",'warning')
+
+    }
     var salt = Bcryptjs.genSaltSync(10);
     var hash = Bcryptjs.hashSync(this.password, salt);
-   
 
+     error=> {
+        
+      }
+    
+ /*  if(this.name == null || this.celular == null || this.password == null  || this.celular == null){
+
+    Swal.fire("Atencion", "Para continuar debe aceptar los terminos",'warning')
+  }
+ */
 
 
 if(this.termsAgree == null || this.termsAgree == undefined){
@@ -40,6 +55,9 @@ if(this.termsAgree == null || this.termsAgree == undefined){
 }
 var check =this.termsAgree.toString();
 console.log(check);
+
+
+
     if(this.termsAgree == true){
       let datos={
         "names":this.name,
@@ -54,26 +72,15 @@ console.log(check);
         response => {
           if(response) {
             localStorage.setItem('name', this.name);
-            localStorage.setItem('lastName', this.lastname);
+            localStorage.setItem('lastNames', this.lastname);
             localStorage.setItem('email', this.email);
             localStorage.setItem('cedula', this.cedula.toString());
             localStorage.setItem('celular', this.celular.toString());
             localStorage.setItem('idUser', response['id']);
             this.navCtrl.navigateRoot('/inicio');
-          }else{
-            
           }
         },
-          error => {
-            Swal.fire(
-              'Evento de Aplicacion',
-              'Error al crear Perfil',
-              'error'
-            )
-            if (!error.ok) {
-              
-            }
-          }
+          
       );
     }else{
       Swal.fire("Atencion", "Para continuar debe aceptar los terminos",'warning')
