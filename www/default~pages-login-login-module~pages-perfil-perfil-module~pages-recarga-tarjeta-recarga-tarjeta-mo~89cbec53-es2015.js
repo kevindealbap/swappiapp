@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53"],{
 
 /***/ "./node_modules/rxjs-compat/_esm2015/add/operator/map.js":
 /*!***************************************************************!*\
@@ -3107,12 +3107,13 @@ let MethodApiServiceService = class MethodApiServiceService {
     constructor(http) {
         this.http = http;
         //domain="http://44.228.37.182:8080/api/v1"; //Produccion
-        this.domain = "http://192.168.2.153:8083/api"; //Desarrollo
+        this.domain = "http://192.168.2.153:8084/api"; //Desarrollo
     }
     PostMethod(endpoint, params, domain = this.domain) {
         let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
         });
@@ -3124,6 +3125,7 @@ let MethodApiServiceService = class MethodApiServiceService {
         let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
         });
@@ -3134,7 +3136,7 @@ let MethodApiServiceService = class MethodApiServiceService {
     PostXHTML(endpoint, params, domain = this.domain) {
         let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
-            // 'Authorization': 'Basic '+params.password,
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
         });
@@ -3144,6 +3146,7 @@ let MethodApiServiceService = class MethodApiServiceService {
     GetMethod(endpoint, domain = this.domain) {
         let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Accept': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
@@ -3167,4 +3170,4 @@ MethodApiServiceService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /***/ })
 
 }]);
-//# sourceMappingURL=default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e-es2015.js.map
+//# sourceMappingURL=default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53-es2015.js.map

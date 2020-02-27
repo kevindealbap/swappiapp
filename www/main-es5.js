@@ -787,7 +787,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       loadChildren: function loadChildren() {
         return Promise.all(
         /*! import() | pages-login-login-module */
-        [__webpack_require__.e("default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e"), __webpack_require__.e("default~pages-login-login-module~pages-registrar-registrar-module"), __webpack_require__.e("pages-login-login-module")]).then(__webpack_require__.bind(null,
+        [__webpack_require__.e("default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53"), __webpack_require__.e("default~pages-login-login-module~pages-registrar-registrar-module"), __webpack_require__.e("common"), __webpack_require__.e("pages-login-login-module")]).then(__webpack_require__.bind(null,
         /*! ./pages/login/login.module */
         "./src/app/pages/login/login.module.ts")).then(function (m) {
           return m.LoginPageModule;
@@ -798,7 +798,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       loadChildren: function loadChildren() {
         return Promise.all(
         /*! import() | pages-registrar-registrar-module */
-        [__webpack_require__.e("default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e"), __webpack_require__.e("default~pages-login-login-module~pages-registrar-registrar-module"), __webpack_require__.e("pages-registrar-registrar-module")]).then(__webpack_require__.bind(null,
+        [__webpack_require__.e("default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53"), __webpack_require__.e("default~pages-login-login-module~pages-registrar-registrar-module"), __webpack_require__.e("pages-registrar-registrar-module")]).then(__webpack_require__.bind(null,
         /*! ./pages/registrar/registrar.module */
         "./src/app/pages/registrar/registrar.module.ts")).then(function (m) {
           return m.RegistrarPageModule;
@@ -807,9 +807,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       path: 'inicio',
       loadChildren: function loadChildren() {
-        return __webpack_require__.e(
+        return Promise.all(
         /*! import() | pages-inicio-inicio-module */
-        "pages-inicio-inicio-module").then(__webpack_require__.bind(null,
+        [__webpack_require__.e("common"), __webpack_require__.e("pages-inicio-inicio-module")]).then(__webpack_require__.bind(null,
         /*! ./pages/inicio/inicio.module */
         "./src/app/pages/inicio/inicio.module.ts")).then(function (m) {
           return m.InicioPageModule;
@@ -818,9 +818,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       path: 'perfil',
       loadChildren: function loadChildren() {
-        return __webpack_require__.e(
+        return Promise.all(
         /*! import() | pages-perfil-perfil-module */
-        "pages-perfil-perfil-module").then(__webpack_require__.bind(null,
+        [__webpack_require__.e("default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53"), __webpack_require__.e("pages-perfil-perfil-module")]).then(__webpack_require__.bind(null,
         /*! ./pages/perfil/perfil.module */
         "./src/app/pages/perfil/perfil.module.ts")).then(function (m) {
           return m.PerfilPageModule;
@@ -831,7 +831,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       loadChildren: function loadChildren() {
         return Promise.all(
         /*! import() | pages-seleccion-aliado-seleccion-aliado-module */
-        [__webpack_require__.e("default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e"), __webpack_require__.e("pages-seleccion-aliado-seleccion-aliado-module")]).then(__webpack_require__.bind(null,
+        [__webpack_require__.e("default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53"), __webpack_require__.e("pages-seleccion-aliado-seleccion-aliado-module")]).then(__webpack_require__.bind(null,
         /*! ./pages/seleccion-aliado/seleccion-aliado.module */
         "./src/app/pages/seleccion-aliado/seleccion-aliado.module.ts")).then(function (m) {
           return m.SeleccionAliadoPageModule;
@@ -842,7 +842,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       loadChildren: function loadChildren() {
         return Promise.all(
         /*! import() | pages-service-aliado-service-aliado-module */
-        [__webpack_require__.e("default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e"), __webpack_require__.e("pages-service-aliado-service-aliado-module")]).then(__webpack_require__.bind(null,
+        [__webpack_require__.e("default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53"), __webpack_require__.e("pages-service-aliado-service-aliado-module")]).then(__webpack_require__.bind(null,
         /*! ./pages/service-aliado/service-aliado.module */
         "./src/app/pages/service-aliado/service-aliado.module.ts")).then(function (m) {
           return m.ServiceAliadoPageModule;
@@ -853,7 +853,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       loadChildren: function loadChildren() {
         return Promise.all(
         /*! import() | pages-tarjeta-swappi-tarjeta-swappi-module */
-        [__webpack_require__.e("default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e"), __webpack_require__.e("pages-tarjeta-swappi-tarjeta-swappi-module")]).then(__webpack_require__.bind(null,
+        [__webpack_require__.e("default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53"), __webpack_require__.e("pages-tarjeta-swappi-tarjeta-swappi-module")]).then(__webpack_require__.bind(null,
         /*! ./pages/tarjeta-swappi/tarjeta-swappi.module */
         "./src/app/pages/tarjeta-swappi/tarjeta-swappi.module.ts")).then(function (m) {
           return m.TarjetaSwappiPageModule;
@@ -864,7 +864,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       loadChildren: function loadChildren() {
         return Promise.all(
         /*! import() | pages-recarga-tarjeta-recarga-tarjeta-module */
-        [__webpack_require__.e("default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e"), __webpack_require__.e("pages-recarga-tarjeta-recarga-tarjeta-module")]).then(__webpack_require__.bind(null,
+        [__webpack_require__.e("default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53"), __webpack_require__.e("pages-recarga-tarjeta-recarga-tarjeta-module")]).then(__webpack_require__.bind(null,
         /*! ./pages/recarga-tarjeta/recarga-tarjeta.module */
         "./src/app/pages/recarga-tarjeta/recarga-tarjeta.module.ts")).then(function (m) {
           return m.RecargaTarjetaPageModule;
@@ -1243,7 +1243,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! C:\Users\user\Desktop\IONIC\swappi-app\src\main.ts */
+    /*! c:\Users\user\Desktop\IONIC\swappi-app\src\main.ts */
     "./src/main.ts");
     /***/
   }

@@ -679,6 +679,80 @@ const findCheckedOption = (el, tagName) => {
 
 
 
+/***/ }),
+
+/***/ "./src/app/services/authentication.service.ts":
+/*!****************************************************!*\
+  !*** ./src/app/services/authentication.service.ts ***!
+  \****************************************************/
+/*! exports provided: User, JwtRequest, JwtResponse, AuthenticationService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JwtRequest", function() { return JwtRequest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JwtResponse", function() { return JwtResponse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthenticationService", function() { return AuthenticationService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
+
+
+class User {
+    constructor(status) {
+        this.status = status;
+    }
+}
+class JwtRequest {
+    constructor(username, password) {
+        this.username = username;
+        this.password = password;
+    }
+}
+class JwtResponse {
+    constructor(token) {
+        this.token = token;
+    }
+}
+let AuthenticationService = class AuthenticationService {
+    constructor(httpClient) {
+        this.httpClient = httpClient;
+    }
+    authenticate(username, password) {
+        //const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
+        return this.httpClient.post('http://192.168.2.153:8084/api/sign-in', { username, password })
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(tokenData => {
+            sessionStorage.setItem('username', username);
+            sessionStorage.setItem('token', tokenData.token);
+            return tokenData;
+        }));
+    }
+    isUserLoggedIn() {
+        let user = sessionStorage.getItem('username');
+        console.log(!(user === null));
+        return !(user === null);
+    }
+    logOut() {
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('token');
+    }
+};
+AuthenticationService.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }
+];
+AuthenticationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+        providedIn: 'root'
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+], AuthenticationService);
+
+
+
 /***/ })
 
 }]);

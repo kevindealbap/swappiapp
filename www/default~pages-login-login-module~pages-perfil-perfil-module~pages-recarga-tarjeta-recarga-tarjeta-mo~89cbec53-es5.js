@@ -4,7 +4,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass2(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e"], {
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53"], {
   /***/
   "./node_modules/rxjs-compat/_esm2015/add/operator/map.js":
   /*!***************************************************************!*\
@@ -3248,7 +3248,7 @@ function _createClass2(Constructor, protoProps, staticProps) { if (protoProps) _
 
         this.http = http; //domain="http://44.228.37.182:8080/api/v1"; //Produccion
 
-        this.domain = "http://192.168.2.153:8083/api"; //Desarrollo
+        this.domain = "http://192.168.2.153:8084/api"; //Desarrollo
       }
 
       _createClass2(MethodApiServiceService, [{
@@ -3258,6 +3258,7 @@ function _createClass2(Constructor, protoProps, staticProps) { if (protoProps) _
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
           }); //console.log(domain+endpoint);
@@ -3275,6 +3276,7 @@ function _createClass2(Constructor, protoProps, staticProps) { if (protoProps) _
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
           }); //console.log(domain+endpoint);
@@ -3291,7 +3293,7 @@ function _createClass2(Constructor, protoProps, staticProps) { if (protoProps) _
           var domain = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.domain;
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
-            // 'Authorization': 'Basic '+params.password,
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
           });
@@ -3307,6 +3309,7 @@ function _createClass2(Constructor, protoProps, staticProps) { if (protoProps) _
           var domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.domain;
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Accept': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
@@ -3334,4 +3337,4 @@ function _createClass2(Constructor, protoProps, staticProps) { if (protoProps) _
     /***/
   }
 }]);
-//# sourceMappingURL=default~pages-login-login-module~pages-recarga-tarjeta-recarga-tarjeta-module~pages-registrar-regist~3d2e727e-es5.js.map
+//# sourceMappingURL=default~pages-login-login-module~pages-perfil-perfil-module~pages-recarga-tarjeta-recarga-tarjeta-mo~89cbec53-es5.js.map

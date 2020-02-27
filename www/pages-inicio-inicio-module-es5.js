@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header>\r\n    <ion-toolbar class=\"header\">\r\n        <ion-buttons slot=\"start\">\r\n            <ion-icon style=\"zoom: 2.0;\" (click)=\"openFirst()\" name=\"menu\"></ion-icon>\r\n        </ion-buttons>\r\n      <ion-title>\r\n          <img class=\"img-logo\" style=\"margin-right: 12%;\" src=\"../../../assets/imgs/swappi.svg\" width=\"86\">\r\n      </ion-title>\r\n    </ion-toolbar>\r\n  </ion-header>\r\n  \r\n  <ion-menu side=\"start\" menuId=\"first\" type=\"overlay\">\r\n      <ion-header>\r\n        <ion-toolbar class=\"headMenu\">\r\n          <img src=\"../../../assets/imgs/swappi-inicio.png\">\r\n        </ion-toolbar>\r\n      </ion-header>\r\n      <ion-content>\r\n        <ion-list>\r\n          <ion-item routerLink=\"/perfil\" routerDirection=\"forward\"><i padding class=\"fa fa-user-circle-o\" aria-hidden=\"true\"></i>Mi perfil</ion-item>\r\n          <ion-item routerLink=\"/tarjeta-swappi\" routerDirection=\"forward\"><i padding class=\"fa fa-credit-card\" aria-hidden=\"true\"></i>Tarjeta Swappi</ion-item>\r\n          <ion-item><i padding class=\"fa fa-cog\" aria-hidden=\"true\"></i>Historial de movimientos</ion-item>\r\n          <ion-item><i padding class=\"fa fa-paper-plane-o\" aria-hidden=\"true\"></i>Notificaciones</ion-item>\r\n          <ion-item><i padding class=\"fa fa-cog\" aria-hidden=\"true\"></i>Ajustes</ion-item>\r\n          <ion-item><i padding class=\"fa fa-book\" aria-hidden=\"true\"></i>Términos y condiciones</ion-item>\r\n          <ion-item><i padding class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>Ayuda</ion-item>\r\n          <ion-item (click)=\"logout()\"><i padding class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>\r\n            Cerrar sesión</ion-item>\r\n        </ion-list>\r\n      </ion-content>\r\n    </ion-menu>\r\n    \r\n    \r\n    <ion-router-outlet main></ion-router-outlet>\r\n\r\n    <ion-content class=\"no-scroll\">\r\n      <ion-card  style=\"z-index:2;margin:0;padding: 0;position:absolute; background-color: white;margin-top: 2%;height: 21%;width: 95%;margin-left: auto;\r\n      margin-right: auto;\r\n      left: 0;\r\n      right: 0;\">\r\n          <ion-grid fixed>\r\n              <ion-row>\r\n                <ion-col size=\"12\">Bienvenido, <b>{{name}}</b> </ion-col>\r\n                <ion-col size=\"7\">\r\n                  <img src=\"https://icon-library.net/images/avatar-icon-png/avatar-icon-png-10.jpg\" class=\"btn btn-primary btn-circle btn-xl\">\r\n                  </ion-col>\r\n                <ion-col size=\"5\">\r\n                  <h4><b>Dinero</b></h4>\r\n                  <label style=\"color: #0093E9;font-weight: bold;\">$ {{totalDinero}}</label>\r\n                </ion-col>\r\n              </ion-row>\r\n            </ion-grid>\r\n        </ion-card>\r\n        <img src=\"../../../assets/imgs/sound-wave2.png\" style=\"opacity: 1;width: 100%;z-index:0;position:absolute;height: 28%;\">\r\n        <img src=\"../../../assets/imgs/sound-wave.png\" style=\"opacity: 1;width: 100%;z-index:1;position:absolute;height: 22%;\">\r\n\r\n        <ion-grid fixed style=\"margin-top: 45%;\">\r\n          <ion-row>\r\n            <ion-col size=\"8\">\r\n                <h5 padding style=\"z-index:3;position:absolute; background-color: white;width: 95%;background-color: transparent;\">Cuentas vinculadas</h5>\r\n            </ion-col>\r\n            <ion-col size=\"4\"><button class=\"btn-sw\"><img src=\"../../../assets/imgs/swappi-inicio.png\"></button></ion-col>\r\n          </ion-row>\r\n        </ion-grid>\r\n        <div style=\"text-align: center;margin-top: 10%;\" *ngIf=\"cuentas.length == 0\">\r\n          <img src=\"../../../assets/imgs/sad-sleepy-emoticon-face-square.png\"><br>\r\n          <p style=\"margin-top: 5%;color: #555555;\">No tienes cuentas vinculadas</p>\r\n        </div>\r\n        <div style=\"text-align: center;margin-top: 10%;\" *ngIf=\"cuentas.length > 0\">\r\n            <div *ngFor=\"let item of cuentas\">\r\n              <ion-card>\r\n                <ion-grid fixed>\r\n                  <ion-row>\r\n                    <ion-col size=\"3\"><img src=\"../../../assets/imgs/puntossaludables.png\" style=\"width: 70%;\"></ion-col>\r\n                    <ion-col size=\"6\" style=\"text-align: left;\"><b>{{item.partnerName}}</b><br>{{item.points | number}} Pts.</ion-col>\r\n                    <ion-col size=\"3\" style=\"color: #0093E9;\"><br><b>$ {{item.dinero | number}}</b></ion-col>\r\n                  </ion-row>\r\n                </ion-grid>\r\n              </ion-card>\r\n            </div>\r\n        </div>\r\n        <ion-fab routerLink=\"/seleccion-aliado\" routerDirection=\"forward\" vertical=\"bottom\" horizontal=\"end\" slot=\"fixed\" style=\"margin-bottom: 15%;\">\r\n          <ion-fab-button color=\"success\">\r\n            <ion-icon name=\"add\"></ion-icon>\r\n          </ion-fab-button>\r\n      </ion-fab>\r\n      \r\n    </ion-content>\r\n    <ion-tabs>\r\n        <ion-tab-bar slot=\"bottom\" class=\"tabs-border\">\r\n          <ion-tab-button>\r\n            <ion-icon name=\"cash\"></ion-icon>\r\n            <ion-label>Comprar</ion-label>\r\n          </ion-tab-button>\r\n      \r\n          <ion-tab-button routerLink=\"/recarga-tarjeta\" routerDirection=\"forward\">\r\n            <ion-icon name=\"card\"></ion-icon>\r\n            <ion-label>Recargar</ion-label>\r\n          </ion-tab-button>\r\n      \r\n          <ion-tab-button>\r\n            <ion-icon name=\"contacts\"></ion-icon>\r\n            <ion-label>Transferir</ion-label>\r\n          </ion-tab-button>\r\n      \r\n          <ion-tab-button>\r\n            <ion-icon name=\"git-compare\"></ion-icon>\r\n            <ion-label>Canjear</ion-label>\r\n          </ion-tab-button>\r\n        </ion-tab-bar>\r\n      </ion-tabs>";
+    __webpack_exports__["default"] = "<ion-header>\r\n    <ion-toolbar class=\"header\">\r\n        <ion-buttons slot=\"start\">\r\n            <ion-icon style=\"zoom: 2.0;\" (click)=\"openFirst()\" name=\"menu\"></ion-icon>\r\n        </ion-buttons>\r\n      <ion-title>\r\n          <img class=\"img-logo\" style=\"margin-right: 12%;\" src=\"../../../assets/imgs/swappi.svg\" width=\"115\" height=\"50\">\r\n      </ion-title>\r\n    </ion-toolbar>\r\n  </ion-header>\r\n  \r\n  <ion-menu side=\"start\" menuId=\"first\" type=\"overlay\">\r\n      <ion-header>\r\n        <ion-toolbar class=\"headMenu\">\r\n          <img src=\"../../../assets/imgs/swappi-inicio.png\">\r\n        </ion-toolbar>\r\n      </ion-header>\r\n      <ion-content>\r\n        <ion-list>\r\n          <ion-item routerLink=\"/perfil\"> <i padding class=\"fa fa-user-circle-o\" aria-hidden=\"true\"></i>Mi perfil</ion-item>\r\n          <ion-item routerLink=\"/tarjeta-swappi\"><i padding class=\"fa fa-credit-card\" aria-hidden=\"true\"></i>Tarjeta Swappi</ion-item>\r\n          <ion-item  routerLink=\"/movimientos\"><i padding class=\"fa fa-cog\" aria-hidden=\"true\"></i>Historial de movimientos</ion-item>\r\n          <ion-item><i padding class=\"fa fa-paper-plane-o\" aria-hidden=\"true\"></i>Notificaciones</ion-item>\r\n          <ion-item><i padding class=\"fa fa-cog\" aria-hidden=\"true\"></i>Ajustes</ion-item>\r\n          <ion-item routerLink=\"/terminos\"><i padding class=\"fa fa-book\" aria-hidden=\"true\"></i>Términos y condiciones</ion-item>\r\n          <ion-item><i padding class=\"fa fa-info-circle\" aria-hidden=\"true\"></i>Ayuda</ion-item>\r\n          <ion-item (click)=\"logout()\"><i padding class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>\r\n            Cerrar sesión</ion-item>\r\n        </ion-list>\r\n      </ion-content>\r\n    </ion-menu>\r\n    \r\n    \r\n    <ion-router-outlet main></ion-router-outlet>\r\n\r\n    <ion-content class=\"no-scroll\">\r\n      <ion-card  style=\"z-index:2;margin:0;padding: 0;position:absolute; background-color: white;margin-top: 2%;height: 21%;width: 95%;margin-left: auto;\r\n      margin-right: auto;\r\n      left: 0;\r\n      right: 0;\">\r\n          <ion-grid fixed>\r\n              <ion-row>\r\n                <ion-col size=\"12\">Bienvenido, <b>{{name}}</b> </ion-col>\r\n                <ion-col size=\"7\">\r\n                  <img src=\"https://icon-library.net/images/avatar-icon-png/avatar-icon-png-10.jpg\" class=\"btn btn-primary btn-circle btn-xl\">\r\n                  </ion-col>\r\n                <ion-col size=\"5\">\r\n                  <h6><b>Dinero en mi Tarjeta Swappi</b></h6>\r\n                  <label style=\"color: #0093E9;font-weight: bold;\">$ {{totalDinero}}</label>\r\n                </ion-col>\r\n              </ion-row>\r\n            </ion-grid>\r\n        </ion-card>\r\n        <img src=\"../../../assets/imgs/sound-wave2.png\" style=\"opacity: 1;width: 100%;z-index:0;position:absolute;height: 28%;\">\r\n        <img src=\"../../../assets/imgs/sound-wave.png\" style=\"opacity: 1;width: 100%;z-index:1;position:absolute;height: 22%;\">\r\n\r\n        <ion-grid fixed style=\"margin-top: 45%;\">\r\n          <ion-row>\r\n            <ion-col size=\"8\">\r\n                <h5 padding style=\"z-index:3;position:absolute; background-color: white;width: 95%;background-color: transparent;\">Cuentas vinculadas</h5>\r\n            </ion-col>\r\n            <ion-col size=\"4\"><button class=\"btn-sw\"><img src=\"../../../assets/imgs/swappi-inicio.png\" width=\"115\"></button></ion-col>\r\n          </ion-row>\r\n        </ion-grid>\r\n        <div style=\"text-align: center;margin-top: 10%;\" *ngIf=\"cuentas.length == 0\">\r\n          <img src=\"../../../assets/imgs/sad-sleepy-emoticon-face-square.png\"><br>\r\n          <p style=\"margin-top: 5%;color: #555555;\">No tienes cuentas vinculadas</p>\r\n        </div>\r\n        <div style=\"text-align: center;margin-top: 10%;\" *ngIf=\"cuentas.length > 0\">\r\n            <div *ngFor=\"let item of cuentas\">\r\n              <ion-card>\r\n                <ion-grid fixed>\r\n                  <ion-row>\r\n                    <ion-col size=\"3\"><img src=\"../../../assets/imgs/puntossaludables.png\" style=\"width: 70%;\"></ion-col>\r\n                    <ion-col size=\"6\" style=\"text-align: left;\"><b>{{item.partnerName}}</b><br>{{item.points | number}} Pts.</ion-col>\r\n                    <ion-col size=\"3\" style=\"color: #0093E9;\"><br><b>$ {{item.dinero | number}}</b></ion-col>\r\n                  </ion-row>\r\n                </ion-grid>\r\n              </ion-card>\r\n            </div>\r\n        </div>\r\n        <ion-fab routerLink=\"/seleccion-aliado\" routerDirection=\"forward\" vertical=\"bottom\" horizontal=\"end\" slot=\"fixed\" style=\"margin-bottom: 15%;\">\r\n          <ion-fab-button color=\"success\">\r\n            <ion-icon name=\"add\"></ion-icon>\r\n          </ion-fab-button>\r\n      </ion-fab>\r\n      \r\n    </ion-content>\r\n    <ion-tabs>\r\n        <ion-tab-bar slot=\"bottom\" class=\"tabs-border\">\r\n          <ion-tab-button>\r\n            <ion-icon name=\"cash\"></ion-icon>\r\n            <ion-label>Comprar</ion-label>\r\n          </ion-tab-button>\r\n      \r\n          <ion-tab-button routerLink=\"/recarga-tarjeta\" routerDirection=\"forward\">\r\n            <ion-icon name=\"card\"></ion-icon>\r\n            <ion-label>Recargar</ion-label>\r\n          </ion-tab-button>\r\n      \r\n          <ion-tab-button>\r\n            <ion-icon name=\"contacts\"></ion-icon>\r\n            <ion-label>Transferir</ion-label>\r\n          </ion-tab-button>\r\n      \r\n          <ion-tab-button>\r\n            <ion-icon name=\"git-compare\"></ion-icon>\r\n            <ion-label>Canjear</ion-label>\r\n          </ion-tab-button>\r\n        </ion-tab-bar>\r\n      </ion-tabs>";
     /***/
   },
 
@@ -239,7 +239,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".my-custom-menu {\n  --width: 500px;\n}\n\n.header {\n  text-align: center;\n}\n\n.btn-circle.btn-xl {\n  width: 80px;\n  height: 80px;\n  padding: 0 0;\n  border-radius: 35px;\n  font-size: 24px;\n  line-height: 1.33;\n  background: transparent;\n}\n\n.no-scroll .scroll-content {\n  overflow: hidden;\n}\n\n.vincular {\n  width: 95%;\n  height: 50px;\n  background: #69b850 no-repeat padding-box;\n  box-shadow: 0px 3px 16px #0093E929;\n  border-radius: 50px;\n  opacity: 1;\n  color: white;\n  outline: none;\n}\n\n.btn-sw {\n  width: 116px;\n  height: 50px;\n  margin-top: 10%;\n  background: #69B850 0% 0% no-repeat padding-box;\n  box-shadow: 0px 3px 10px #40404029;\n  border-radius: 50px 0px 0px 50px;\n  opacity: 1;\n  float: right;\n}\n\n.btn-circle {\n  border: none;\n  width: 14px;\n  height: 14px;\n  padding: 6px 0px;\n  border-radius: 15px;\n  text-align: center;\n  font-size: 12px;\n  line-height: 1.42857;\n  background: transparent -webkit-gradient(linear, left top, left bottom, from(#481B75), to(#0093E9)) 0% 0% no-repeat padding-box;\n  background: transparent linear-gradient(180deg, #481B75 0%, #0093E9 100%) 0% 0% no-repeat padding-box;\n}\n\n.headMenu {\n  text-align: center;\n  --background: transparent linear-gradient(245deg, #69B850\n  0%, #69B850\n  100%) 0% 0% no-repeat padding-box;\n  opacity: 1;\n}\n\n.tabs-border {\n  border-radius: 20px 20px 0px 0px;\n  opacity: 1;\n  background: #FFFFFF 0% 0% no-repeat padding-box;\n  box-shadow: 0px 0px 16px #00000029;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvaW5pY2lvL0M6XFxVc2Vyc1xcdXNlclxcRGVza3RvcFxcSU9OSUNcXHN3YXBwaS1hcHAvc3JjXFxhcHBcXHBhZ2VzXFxpbmljaW9cXGluaWNpby5wYWdlLnNjc3MiLCJzcmMvYXBwL3BhZ2VzL2luaWNpby9pbmljaW8ucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksY0FBQTtBQ0NKOztBRENBO0VBQ0ksa0JBQUE7QUNFSjs7QURBQTtFQUNJLFdBQUE7RUFDQSxZQUFBO0VBQ0EsWUFBQTtFQUNBLG1CQUFBO0VBQ0EsZUFBQTtFQUNBLGlCQUFBO0VBQ0EsdUJBQUE7QUNHSjs7QURBQTtFQUNJLGdCQUFBO0FDR0o7O0FEQUE7RUFDSSxVQUFBO0VBQ0EsWUFBQTtFQUNBLHlDQUFBO0VBQ0Esa0NBQUE7RUFDQSxtQkFBQTtFQUNBLFVBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtBQ0dKOztBREFBO0VBQ0ksWUFBQTtFQUNBLFlBQUE7RUFDQSxlQUFBO0VBQ0EsK0NBQUE7RUFFQSxrQ0FBQTtFQUNBLGdDQUFBO0VBQ0EsVUFBQTtFQUNBLFlBQUE7QUNFSjs7QURDQTtFQUNJLFlBQUE7RUFDQSxXQUFBO0VBQ0EsWUFBQTtFQUNBLGdCQUFBO0VBQ0EsbUJBQUE7RUFDQSxrQkFBQTtFQUNBLGVBQUE7RUFDQSxvQkFBQTtFQUNBLCtIQUFBO0VBQUEscUdBQUE7QUNFSjs7QURBQTtFQUNJLGtCQUFBO0VBQ0E7O21DQUFBO0VBR0EsVUFBQTtBQ0dKOztBRERBO0VBQ0ksZ0NBQUE7RUFDQSxVQUFBO0VBQ0EsK0NBQUE7RUFDSixrQ0FBQTtBQ0lBIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvaW5pY2lvL2luaWNpby5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubXktY3VzdG9tLW1lbnUge1xyXG4gICAgLS13aWR0aDogNTAwcHg7XHJcbn1cclxuLmhlYWRlcntcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxufVxyXG4uYnRuLWNpcmNsZS5idG4teGwge1xyXG4gICAgd2lkdGg6IDgwcHg7XHJcbiAgICBoZWlnaHQ6IDgwcHg7XHJcbiAgICBwYWRkaW5nOiAwIDA7XHJcbiAgICBib3JkZXItcmFkaXVzOiAzNXB4O1xyXG4gICAgZm9udC1zaXplOiAyNHB4O1xyXG4gICAgbGluZS1oZWlnaHQ6IDEuMzM7XHJcbiAgICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudCA7XHJcbn1cclxuXHJcbi5uby1zY3JvbGwgLnNjcm9sbC1jb250ZW50e1xyXG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcclxufVxyXG5cclxuLnZpbmN1bGFye1xyXG4gICAgd2lkdGg6IDk1JTtcclxuICAgIGhlaWdodDogNTBweDtcclxuICAgIGJhY2tncm91bmQ6ICAjNjliODUwIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcclxuICAgIGJveC1zaGFkb3c6IDBweCAzcHggMTZweCAjMDA5M0U5Mjk7XHJcbiAgICBib3JkZXItcmFkaXVzOiA1MHB4O1xyXG4gICAgb3BhY2l0eTogMTtcclxuICAgIGNvbG9yOiB3aGl0ZTtcclxuICAgIG91dGxpbmU6bm9uZTtcclxufVxyXG5cclxuLmJ0bi1zd3tcclxuICAgIHdpZHRoOiAxMTZweDtcclxuICAgIGhlaWdodDogNTBweDtcclxuICAgIG1hcmdpbi10b3A6IDEwJTtcclxuICAgIGJhY2tncm91bmQ6ICM2OUI4NTBcclxuIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcclxuICAgIGJveC1zaGFkb3c6IDBweCAzcHggMTBweCAjNDA0MDQwMjk7XHJcbiAgICBib3JkZXItcmFkaXVzOiA1MHB4IDBweCAwcHggNTBweDtcclxuICAgIG9wYWNpdHk6IDE7XHJcbiAgICBmbG9hdDogcmlnaHQ7XHJcbn1cclxuXHJcbi5idG4tY2lyY2xlIHtcclxuICAgIGJvcmRlcjpub25lO1xyXG4gICAgd2lkdGg6IDE0cHg7XHJcbiAgICBoZWlnaHQ6MTRweDtcclxuICAgIHBhZGRpbmc6IDZweCAwcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAxNXB4O1xyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgZm9udC1zaXplOiAxMnB4O1xyXG4gICAgbGluZS1oZWlnaHQ6IDEuNDI4NTc7XHJcbiAgICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudCBsaW5lYXItZ3JhZGllbnQoMTgwZGVnLCAjNDgxQjc1IDAlLCAjMDA5M0U5IDEwMCUpIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcclxufVxyXG4uaGVhZE1lbnV7XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICAtLWJhY2tncm91bmQ6IHRyYW5zcGFyZW50IGxpbmVhci1ncmFkaWVudCgyNDVkZWcsICM2OUI4NTBcclxuIDAlLCAjNjlCODUwXHJcbiAxMDAlKSAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XHJcbiAgICBvcGFjaXR5OiAxO1xyXG59XHJcbi50YWJzLWJvcmRlcntcclxuICAgIGJvcmRlci1yYWRpdXM6IDIwcHggMjBweCAwcHggMHB4O1xyXG4gICAgb3BhY2l0eTogMTtcclxuICAgIGJhY2tncm91bmQ6ICNGRkZGRkYgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xyXG5ib3gtc2hhZG93OiAwcHggMHB4IDE2cHggIzAwMDAwMDI5O1xyXG59XHJcbiIsIi5teS1jdXN0b20tbWVudSB7XG4gIC0td2lkdGg6IDUwMHB4O1xufVxuXG4uaGVhZGVyIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uYnRuLWNpcmNsZS5idG4teGwge1xuICB3aWR0aDogODBweDtcbiAgaGVpZ2h0OiA4MHB4O1xuICBwYWRkaW5nOiAwIDA7XG4gIGJvcmRlci1yYWRpdXM6IDM1cHg7XG4gIGZvbnQtc2l6ZTogMjRweDtcbiAgbGluZS1oZWlnaHQ6IDEuMzM7XG4gIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50O1xufVxuXG4ubm8tc2Nyb2xsIC5zY3JvbGwtY29udGVudCB7XG4gIG92ZXJmbG93OiBoaWRkZW47XG59XG5cbi52aW5jdWxhciB7XG4gIHdpZHRoOiA5NSU7XG4gIGhlaWdodDogNTBweDtcbiAgYmFja2dyb3VuZDogIzY5Yjg1MCBuby1yZXBlYXQgcGFkZGluZy1ib3g7XG4gIGJveC1zaGFkb3c6IDBweCAzcHggMTZweCAjMDA5M0U5Mjk7XG4gIGJvcmRlci1yYWRpdXM6IDUwcHg7XG4gIG9wYWNpdHk6IDE7XG4gIGNvbG9yOiB3aGl0ZTtcbiAgb3V0bGluZTogbm9uZTtcbn1cblxuLmJ0bi1zdyB7XG4gIHdpZHRoOiAxMTZweDtcbiAgaGVpZ2h0OiA1MHB4O1xuICBtYXJnaW4tdG9wOiAxMCU7XG4gIGJhY2tncm91bmQ6ICM2OUI4NTAgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xuICBib3gtc2hhZG93OiAwcHggM3B4IDEwcHggIzQwNDA0MDI5O1xuICBib3JkZXItcmFkaXVzOiA1MHB4IDBweCAwcHggNTBweDtcbiAgb3BhY2l0eTogMTtcbiAgZmxvYXQ6IHJpZ2h0O1xufVxuXG4uYnRuLWNpcmNsZSB7XG4gIGJvcmRlcjogbm9uZTtcbiAgd2lkdGg6IDE0cHg7XG4gIGhlaWdodDogMTRweDtcbiAgcGFkZGluZzogNnB4IDBweDtcbiAgYm9yZGVyLXJhZGl1czogMTVweDtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuICBmb250LXNpemU6IDEycHg7XG4gIGxpbmUtaGVpZ2h0OiAxLjQyODU3O1xuICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudCBsaW5lYXItZ3JhZGllbnQoMTgwZGVnLCAjNDgxQjc1IDAlLCAjMDA5M0U5IDEwMCUpIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcbn1cblxuLmhlYWRNZW51IHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAtLWJhY2tncm91bmQ6IHRyYW5zcGFyZW50IGxpbmVhci1ncmFkaWVudCgyNDVkZWcsICM2OUI4NTBcbiAgMCUsICM2OUI4NTBcbiAgMTAwJSkgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xuICBvcGFjaXR5OiAxO1xufVxuXG4udGFicy1ib3JkZXIge1xuICBib3JkZXItcmFkaXVzOiAyMHB4IDIwcHggMHB4IDBweDtcbiAgb3BhY2l0eTogMTtcbiAgYmFja2dyb3VuZDogI0ZGRkZGRiAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XG4gIGJveC1zaGFkb3c6IDBweCAwcHggMTZweCAjMDAwMDAwMjk7XG59Il19 */";
+    __webpack_exports__["default"] = ".my-custom-menu {\n  --width: 500px;\n}\n\n.header {\n  text-align: center;\n}\n\n.btn-circle.btn-xl {\n  width: 80px;\n  height: 80px;\n  padding: 0 0;\n  border-radius: 35px;\n  font-size: 24px;\n  line-height: 1.33;\n  background: transparent;\n}\n\n.no-scroll .scroll-content {\n  overflow: hidden;\n}\n\n.vincular {\n  width: 95%;\n  height: 50px;\n  background: #69b850 no-repeat padding-box;\n  box-shadow: 0px 3px 16px #0093E929;\n  border-radius: 50px;\n  opacity: 1;\n  color: white;\n  outline: none;\n}\n\n.btn-sw {\n  width: 116px;\n  height: 50px;\n  margin-top: 10%;\n  background: #69B850 0% 0% no-repeat padding-box;\n  box-shadow: 0px 3px 10px #40404029;\n  border-radius: 50px 0px 0px 50px;\n  opacity: 1;\n  float: right;\n}\n\n.btn-circle {\n  border: none;\n  width: 14px;\n  height: 14px;\n  padding: 6px 0px;\n  border-radius: 15px;\n  text-align: center;\n  font-size: 12px;\n  line-height: 1.42857;\n  background: transparent -webkit-gradient(linear, left top, left bottom, from(#481B75), to(#0093E9)) 0% 0% no-repeat padding-box;\n  background: transparent linear-gradient(180deg, #481B75 0%, #0093E9 100%) 0% 0% no-repeat padding-box;\n}\n\n.headMenu {\n  text-align: center;\n  --background: transparent linear-gradient(245deg, #69B850\n  0%, #69B850\n  100%) 0% 0% no-repeat padding-box;\n  opacity: 1;\n}\n\n.tabs-border {\n  border-radius: 20px 20px 0px 0px;\n  opacity: 1;\n  background: #FFFFFF 0% 0% no-repeat padding-box;\n  box-shadow: 0px 0px 16px #00000029;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvaW5pY2lvL2M6XFxVc2Vyc1xcdXNlclxcRGVza3RvcFxcSU9OSUNcXHN3YXBwaS1hcHAvc3JjXFxhcHBcXHBhZ2VzXFxpbmljaW9cXGluaWNpby5wYWdlLnNjc3MiLCJzcmMvYXBwL3BhZ2VzL2luaWNpby9pbmljaW8ucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksY0FBQTtBQ0NKOztBRENBO0VBQ0ksa0JBQUE7QUNFSjs7QURBQTtFQUNJLFdBQUE7RUFDQSxZQUFBO0VBQ0EsWUFBQTtFQUNBLG1CQUFBO0VBQ0EsZUFBQTtFQUNBLGlCQUFBO0VBQ0EsdUJBQUE7QUNHSjs7QURBQTtFQUNJLGdCQUFBO0FDR0o7O0FEQUE7RUFDSSxVQUFBO0VBQ0EsWUFBQTtFQUNBLHlDQUFBO0VBQ0Esa0NBQUE7RUFDQSxtQkFBQTtFQUNBLFVBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtBQ0dKOztBREFBO0VBQ0ksWUFBQTtFQUNBLFlBQUE7RUFDQSxlQUFBO0VBQ0EsK0NBQUE7RUFFQSxrQ0FBQTtFQUNBLGdDQUFBO0VBQ0EsVUFBQTtFQUNBLFlBQUE7QUNFSjs7QURDQTtFQUNJLFlBQUE7RUFDQSxXQUFBO0VBQ0EsWUFBQTtFQUNBLGdCQUFBO0VBQ0EsbUJBQUE7RUFDQSxrQkFBQTtFQUNBLGVBQUE7RUFDQSxvQkFBQTtFQUNBLCtIQUFBO0VBQUEscUdBQUE7QUNFSjs7QURBQTtFQUNJLGtCQUFBO0VBQ0E7O21DQUFBO0VBR0EsVUFBQTtBQ0dKOztBRERBO0VBQ0ksZ0NBQUE7RUFDQSxVQUFBO0VBQ0EsK0NBQUE7RUFDSixrQ0FBQTtBQ0lBIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvaW5pY2lvL2luaWNpby5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubXktY3VzdG9tLW1lbnUge1xyXG4gICAgLS13aWR0aDogNTAwcHg7XHJcbn1cclxuLmhlYWRlcntcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxufVxyXG4uYnRuLWNpcmNsZS5idG4teGwge1xyXG4gICAgd2lkdGg6IDgwcHg7XHJcbiAgICBoZWlnaHQ6IDgwcHg7XHJcbiAgICBwYWRkaW5nOiAwIDA7XHJcbiAgICBib3JkZXItcmFkaXVzOiAzNXB4O1xyXG4gICAgZm9udC1zaXplOiAyNHB4O1xyXG4gICAgbGluZS1oZWlnaHQ6IDEuMzM7XHJcbiAgICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudCA7XHJcbn1cclxuXHJcbi5uby1zY3JvbGwgLnNjcm9sbC1jb250ZW50e1xyXG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcclxufVxyXG5cclxuLnZpbmN1bGFye1xyXG4gICAgd2lkdGg6IDk1JTtcclxuICAgIGhlaWdodDogNTBweDtcclxuICAgIGJhY2tncm91bmQ6ICAjNjliODUwIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcclxuICAgIGJveC1zaGFkb3c6IDBweCAzcHggMTZweCAjMDA5M0U5Mjk7XHJcbiAgICBib3JkZXItcmFkaXVzOiA1MHB4O1xyXG4gICAgb3BhY2l0eTogMTtcclxuICAgIGNvbG9yOiB3aGl0ZTtcclxuICAgIG91dGxpbmU6bm9uZTtcclxufVxyXG5cclxuLmJ0bi1zd3tcclxuICAgIHdpZHRoOiAxMTZweDtcclxuICAgIGhlaWdodDogNTBweDtcclxuICAgIG1hcmdpbi10b3A6IDEwJTtcclxuICAgIGJhY2tncm91bmQ6ICM2OUI4NTBcclxuIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcclxuICAgIGJveC1zaGFkb3c6IDBweCAzcHggMTBweCAjNDA0MDQwMjk7XHJcbiAgICBib3JkZXItcmFkaXVzOiA1MHB4IDBweCAwcHggNTBweDtcclxuICAgIG9wYWNpdHk6IDE7XHJcbiAgICBmbG9hdDogcmlnaHQ7XHJcbn1cclxuXHJcbi5idG4tY2lyY2xlIHtcclxuICAgIGJvcmRlcjpub25lO1xyXG4gICAgd2lkdGg6IDE0cHg7XHJcbiAgICBoZWlnaHQ6MTRweDtcclxuICAgIHBhZGRpbmc6IDZweCAwcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAxNXB4O1xyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgZm9udC1zaXplOiAxMnB4O1xyXG4gICAgbGluZS1oZWlnaHQ6IDEuNDI4NTc7XHJcbiAgICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudCBsaW5lYXItZ3JhZGllbnQoMTgwZGVnLCAjNDgxQjc1IDAlLCAjMDA5M0U5IDEwMCUpIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcclxufVxyXG4uaGVhZE1lbnV7XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICAtLWJhY2tncm91bmQ6IHRyYW5zcGFyZW50IGxpbmVhci1ncmFkaWVudCgyNDVkZWcsICM2OUI4NTBcclxuIDAlLCAjNjlCODUwXHJcbiAxMDAlKSAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XHJcbiAgICBvcGFjaXR5OiAxO1xyXG59XHJcbi50YWJzLWJvcmRlcntcclxuICAgIGJvcmRlci1yYWRpdXM6IDIwcHggMjBweCAwcHggMHB4O1xyXG4gICAgb3BhY2l0eTogMTtcclxuICAgIGJhY2tncm91bmQ6ICNGRkZGRkYgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xyXG5ib3gtc2hhZG93OiAwcHggMHB4IDE2cHggIzAwMDAwMDI5O1xyXG59XHJcbiIsIi5teS1jdXN0b20tbWVudSB7XG4gIC0td2lkdGg6IDUwMHB4O1xufVxuXG4uaGVhZGVyIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uYnRuLWNpcmNsZS5idG4teGwge1xuICB3aWR0aDogODBweDtcbiAgaGVpZ2h0OiA4MHB4O1xuICBwYWRkaW5nOiAwIDA7XG4gIGJvcmRlci1yYWRpdXM6IDM1cHg7XG4gIGZvbnQtc2l6ZTogMjRweDtcbiAgbGluZS1oZWlnaHQ6IDEuMzM7XG4gIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50O1xufVxuXG4ubm8tc2Nyb2xsIC5zY3JvbGwtY29udGVudCB7XG4gIG92ZXJmbG93OiBoaWRkZW47XG59XG5cbi52aW5jdWxhciB7XG4gIHdpZHRoOiA5NSU7XG4gIGhlaWdodDogNTBweDtcbiAgYmFja2dyb3VuZDogIzY5Yjg1MCBuby1yZXBlYXQgcGFkZGluZy1ib3g7XG4gIGJveC1zaGFkb3c6IDBweCAzcHggMTZweCAjMDA5M0U5Mjk7XG4gIGJvcmRlci1yYWRpdXM6IDUwcHg7XG4gIG9wYWNpdHk6IDE7XG4gIGNvbG9yOiB3aGl0ZTtcbiAgb3V0bGluZTogbm9uZTtcbn1cblxuLmJ0bi1zdyB7XG4gIHdpZHRoOiAxMTZweDtcbiAgaGVpZ2h0OiA1MHB4O1xuICBtYXJnaW4tdG9wOiAxMCU7XG4gIGJhY2tncm91bmQ6ICM2OUI4NTAgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xuICBib3gtc2hhZG93OiAwcHggM3B4IDEwcHggIzQwNDA0MDI5O1xuICBib3JkZXItcmFkaXVzOiA1MHB4IDBweCAwcHggNTBweDtcbiAgb3BhY2l0eTogMTtcbiAgZmxvYXQ6IHJpZ2h0O1xufVxuXG4uYnRuLWNpcmNsZSB7XG4gIGJvcmRlcjogbm9uZTtcbiAgd2lkdGg6IDE0cHg7XG4gIGhlaWdodDogMTRweDtcbiAgcGFkZGluZzogNnB4IDBweDtcbiAgYm9yZGVyLXJhZGl1czogMTVweDtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuICBmb250LXNpemU6IDEycHg7XG4gIGxpbmUtaGVpZ2h0OiAxLjQyODU3O1xuICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudCBsaW5lYXItZ3JhZGllbnQoMTgwZGVnLCAjNDgxQjc1IDAlLCAjMDA5M0U5IDEwMCUpIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcbn1cblxuLmhlYWRNZW51IHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAtLWJhY2tncm91bmQ6IHRyYW5zcGFyZW50IGxpbmVhci1ncmFkaWVudCgyNDVkZWcsICM2OUI4NTBcbiAgMCUsICM2OUI4NTBcbiAgMTAwJSkgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xuICBvcGFjaXR5OiAxO1xufVxuXG4udGFicy1ib3JkZXIge1xuICBib3JkZXItcmFkaXVzOiAyMHB4IDIwcHggMHB4IDBweDtcbiAgb3BhY2l0eTogMTtcbiAgYmFja2dyb3VuZDogI0ZGRkZGRiAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XG4gIGJveC1zaGFkb3c6IDBweCAwcHggMTZweCAjMDAwMDAwMjk7XG59Il19 */";
     /***/
   },
 
@@ -286,16 +286,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _services_method_api_service_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! ../../services/method-api-service.service */
     "./src/app/services/method-api-service.service.ts");
+    /* harmony import */
+
+
+    var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! src/app/services/authentication.service */
+    "./src/app/services/authentication.service.ts");
 
     var InicioPage =
     /*#__PURE__*/
     function () {
-      function InicioPage(menu, navCtrl, _methodsApiRestService) {
+      function InicioPage(menu, navCtrl, _methodsApiRestService, auth) {
         _classCallCheck(this, InicioPage);
 
         this.menu = menu;
         this.navCtrl = navCtrl;
         this._methodsApiRestService = _methodsApiRestService;
+        this.auth = auth;
         this.totalDinero = 0;
         this.cuentas = [];
       }
@@ -320,22 +327,80 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "logout",
         value: function logout() {
-          localStorage.setItem('name', null);
-          localStorage.setItem('email', null);
-          localStorage.setItem('cedula', null);
-          localStorage.setItem('celular', null);
+          localStorage.removeItem('name');
+          localStorage.removeItem('email');
+          localStorage.removeItem('cedula');
+          localStorage.removeItem('celular');
+          localStorage.removeItem('idUser');
+          localStorage.removeItem('lastNames');
+          this.auth.logOut();
           this.navCtrl.navigateRoot('/login');
         }
       }, {
         key: "extraer",
         value: function extraer() {
+          var _this = this;
+
           //this.service('/cuentas/cuentasList/'+this.cedula);
           this.service('/partner-account-list?cedula=' + this.cedula);
+
+          this._methodsApiRestService.GetMethod('/user/' + this.id + '/card').subscribe(function (r) {
+            if (r != null) {
+              _this.totalDinero = r['amount'];
+            } else {
+              _this.totalDinero = 0;
+            }
+          });
         }
       }, {
         key: "service",
         value: function service(endpoint) {
-          var _this = this;
+          var _this2 = this;
+
+          this._methodsApiRestService.GetMethod(endpoint).subscribe(function (response) {
+            if (typeof response === 'undefined' || response === null) {//swal.fire("Ups!", "Usuario no encontrado", "error");
+            } else {
+              var plata;
+
+              for (var c in response) {
+                plata = response[c].numberOfPoints * parseInt(response[c].partner.purchaseValue);
+                var data = {
+                  id: response[c].id,
+                  partnerName: response[c].partner.name,
+                  points: response[c].numberOfPoints,
+                  dinero: plata
+                }; // this.totalDinero = this.totalDinero + plata;
+
+                _this2.cuentas.push(data);
+              }
+              /*for (let x in response) {
+                var plata;
+                this._methodsApiRestService.GetMethod('/aliados/valuePunto/'+response[x].aliado_id)
+                .subscribe(
+                  data=>{
+                      plata=parseInt(response[x].ca_cantPuntos) * parseInt(data[0].al_valueCompre);
+                      let datos={
+                        id:response[x].id,
+                        name:data[0].al_name,
+                        imagen:data[0].al_image,
+                        cedula:response[x].us_cedula,
+                        aliado:response[x].aliado_id,
+                        status:response[x].ca_status,
+                        cantidad:response[x].ca_cantPuntos,
+                        dinero:plata
+                      }
+                      this.cuentas.push(datos);
+                  }
+                );
+              }*/
+
+            }
+          });
+        }
+      }, {
+        key: "service2",
+        value: function service2(endpoint) {
+          var _this3 = this;
 
           this._methodsApiRestService.GetMethod(endpoint).subscribe(function (response) {
             if (typeof response === 'undefined' || response === null) {//swal.fire("Ups!", "Usuario no encontrado", "error");
@@ -350,9 +415,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   points: response[c].numberOfPoints,
                   dinero: plata
                 };
-                _this.totalDinero = _this.totalDinero + plata;
+                _this3.totalDinero = _this3.totalDinero + plata;
 
-                _this.cuentas.push(data);
+                _this3.cuentas.push(data);
               }
               /*for (let x in response) {
                 var plata;
@@ -390,6 +455,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         type: _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["NavController"]
       }, {
         type: _services_method_api_service_service__WEBPACK_IMPORTED_MODULE_3__["MethodApiServiceService"]
+      }, {
+        type: src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"]
       }];
     };
 
@@ -401,7 +468,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! ./inicio.page.scss */
       "./src/app/pages/inicio/inicio.page.scss")).default]
-    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_2__["MenuController"], _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["NavController"], _services_method_api_service_service__WEBPACK_IMPORTED_MODULE_3__["MethodApiServiceService"]])], InicioPage);
+    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_2__["MenuController"], _ionic_angular__WEBPACK_IMPORTED_MODULE_2__["NavController"], _services_method_api_service_service__WEBPACK_IMPORTED_MODULE_3__["MethodApiServiceService"], src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"]])], InicioPage);
     /***/
   },
 
@@ -457,7 +524,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.http = http; //domain="http://44.228.37.182:8080/api/v1"; //Produccion
 
-        this.domain = "http://192.168.2.153:8083/api"; //Desarrollo
+        this.domain = "http://192.168.2.153:8084/api"; //Desarrollo
       }
 
       _createClass(MethodApiServiceService, [{
@@ -467,6 +534,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
           }); //console.log(domain+endpoint);
@@ -484,6 +552,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
           }); //console.log(domain+endpoint);
@@ -500,7 +569,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var domain = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.domain;
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
-            // 'Authorization': 'Basic '+params.password,
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'
           });
@@ -516,6 +585,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.domain;
           var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             'Accept': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST'

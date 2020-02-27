@@ -1,3 +1,7 @@
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1214,6 +1218,139 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
     /***/
 
+  },
+
+  /***/
+  "./src/app/services/authentication.service.ts":
+  /*!****************************************************!*\
+    !*** ./src/app/services/authentication.service.ts ***!
+    \****************************************************/
+
+  /*! exports provided: User, JwtRequest, JwtResponse, AuthenticationService */
+
+  /***/
+  function srcAppServicesAuthenticationServiceTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "User", function () {
+      return User;
+    });
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "JwtRequest", function () {
+      return JwtRequest;
+    });
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "JwtResponse", function () {
+      return JwtResponse;
+    });
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "AuthenticationService", function () {
+      return AuthenticationService;
+    });
+    /* harmony import */
+
+
+    var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! tslib */
+    "./node_modules/tslib/tslib.es6.js");
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! @angular/core */
+    "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/common/http */
+    "./node_modules/@angular/common/fesm2015/http.js");
+    /* harmony import */
+
+
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! rxjs/operators */
+    "./node_modules/rxjs/_esm2015/operators/index.js");
+
+    var User = function User(status) {
+      _classCallCheck(this, User);
+
+      this.status = status;
+    };
+
+    var JwtRequest = function JwtRequest(username, password) {
+      _classCallCheck(this, JwtRequest);
+
+      this.username = username;
+      this.password = password;
+    };
+
+    var JwtResponse = function JwtResponse(token) {
+      _classCallCheck(this, JwtResponse);
+
+      this.token = token;
+    };
+
+    var AuthenticationService =
+    /*#__PURE__*/
+    function () {
+      function AuthenticationService(httpClient) {
+        _classCallCheck(this, AuthenticationService);
+
+        this.httpClient = httpClient;
+      }
+
+      _createClass(AuthenticationService, [{
+        key: "authenticate",
+        value: function authenticate(username, password) {
+          //const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
+          return this.httpClient.post('http://192.168.2.153:8084/api/sign-in', {
+            username: username,
+            password: password
+          }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (tokenData) {
+            sessionStorage.setItem('username', username);
+            sessionStorage.setItem('token', tokenData.token);
+            return tokenData;
+          }));
+        }
+      }, {
+        key: "isUserLoggedIn",
+        value: function isUserLoggedIn() {
+          var user = sessionStorage.getItem('username');
+          console.log(!(user === null));
+          return !(user === null);
+        }
+      }, {
+        key: "logOut",
+        value: function logOut() {
+          sessionStorage.removeItem('username');
+          sessionStorage.removeItem('token');
+        }
+      }]);
+
+      return AuthenticationService;
+    }();
+
+    AuthenticationService.ctorParameters = function () {
+      return [{
+        type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]
+      }];
+    };
+
+    AuthenticationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+      providedIn: 'root'
+    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])], AuthenticationService);
+    /***/
   }
 }]);
 //# sourceMappingURL=common-es5.js.map
