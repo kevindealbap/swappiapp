@@ -13,6 +13,7 @@ ncuenta : any;
 nrecarga : any;
 fecha_transaccion : Date;
 items : any;
+datos : any [];
   constructor( private navCtrl : NavController, private _methodApi : MethodApiServiceService) { }
 
   ngOnInit() {
@@ -36,6 +37,7 @@ if(r != null){
     };
     
 console.log(datos);
+
 datos.ntransaccion = this.ntransaccion;
 datos.ntarjeta = this.ncuenta;
 datos.cantidad = this.nrecarga;
