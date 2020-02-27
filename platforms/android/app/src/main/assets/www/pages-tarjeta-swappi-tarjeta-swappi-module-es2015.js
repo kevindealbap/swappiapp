@@ -93,6 +93,8 @@
 	     */
 	    var AES = C_algo.AES = BlockCipher.extend({
 	        _doReset: function () {
+	            var t;
+
 	            // Skip reset of nRounds has been set before and key did not change
 	            if (this._nRounds && this._keyPriorReset === this._key) {
 	                return;
@@ -115,7 +117,7 @@
 	                if (ksRow < keySize) {
 	                    keySchedule[ksRow] = keyWords[ksRow];
 	                } else {
-	                    var t = keySchedule[ksRow - 1];
+	                    t = keySchedule[ksRow - 1];
 
 	                    if (!(ksRow % keySize)) {
 	                        // Rot word
@@ -588,17 +590,19 @@
 	        });
 
 	        function xorBlock(words, offset, blockSize) {
+	            var block;
+
 	            // Shortcut
 	            var iv = this._iv;
 
 	            // Choose mixing block
 	            if (iv) {
-	                var block = iv;
+	                block = iv;
 
 	                // Remove IV for subsequent blocks
 	                this._iv = undefined;
 	            } else {
-	                var block = this._prevBlock;
+	                block = this._prevBlock;
 	            }
 
 	            // XOR blocks
@@ -690,6 +694,8 @@
 	        }),
 
 	        reset: function () {
+	            var modeCreator;
+
 	            // Reset cipher
 	            Cipher.reset.call(this);
 
@@ -700,9 +706,9 @@
 
 	            // Reset block mode
 	            if (this._xformMode == this._ENC_XFORM_MODE) {
-	                var modeCreator = mode.createEncryptor;
+	                modeCreator = mode.createEncryptor;
 	            } else /* if (this._xformMode == this._DEC_XFORM_MODE) */ {
-	                var modeCreator = mode.createDecryptor;
+	                modeCreator = mode.createDecryptor;
 	                // Keep at least one block in the buffer for unpadding
 	                this._minBufferSize = 1;
 	            }
@@ -720,6 +726,8 @@
 	        },
 
 	        _doFinalize: function () {
+	            var finalProcessedBlocks;
+
 	            // Shortcut
 	            var padding = this.cfg.padding;
 
@@ -729,10 +737,10 @@
 	                padding.pad(this._data, this.blockSize);
 
 	                // Process final blocks
-	                var finalProcessedBlocks = this._process(!!'flush');
+	                finalProcessedBlocks = this._process(!!'flush');
 	            } else /* if (this._xformMode == this._DEC_XFORM_MODE) */ {
 	                // Process final blocks
-	                var finalProcessedBlocks = this._process(!!'flush');
+	                finalProcessedBlocks = this._process(!!'flush');
 
 	                // Unpad data
 	                padding.unpad(finalProcessedBlocks);
@@ -824,15 +832,17 @@
 	         *     var openSSLString = CryptoJS.format.OpenSSL.stringify(cipherParams);
 	         */
 	        stringify: function (cipherParams) {
+	            var wordArray;
+
 	            // Shortcuts
 	            var ciphertext = cipherParams.ciphertext;
 	            var salt = cipherParams.salt;
 
 	            // Format
 	            if (salt) {
-	                var wordArray = WordArray.create([0x53616c74, 0x65645f5f]).concat(salt).concat(ciphertext);
+	                wordArray = WordArray.create([0x53616c74, 0x65645f5f]).concat(salt).concat(ciphertext);
 	            } else {
-	                var wordArray = ciphertext;
+	                wordArray = ciphertext;
 	            }
 
 	            return wordArray.toString(Base64);
@@ -852,6 +862,8 @@
 	         *     var cipherParams = CryptoJS.format.OpenSSL.parse(openSSLString);
 	         */
 	        parse: function (openSSLStr) {
+	            var salt;
+
 	            // Parse base64
 	            var ciphertext = Base64.parse(openSSLStr);
 
@@ -861,7 +873,7 @@
 	            // Test for salt
 	            if (ciphertextWords[0] == 0x53616c74 && ciphertextWords[1] == 0x65645f5f) {
 	                // Extract salt
-	                var salt = WordArray.create(ciphertextWords.slice(2, 4));
+	                salt = WordArray.create(ciphertextWords.slice(2, 4));
 
 	                // Remove salt from ciphertext
 	                ciphertextWords.splice(0, 4);
@@ -1137,11 +1149,40 @@
 	 * CryptoJS core components.
 	 */
 	var CryptoJS = CryptoJS || (function (Math, undefined) {
+
 	    /*
-	     * Local polyfil of Object.create
+	     * Cryptographically secure pseudorandom number generator
+	     *
+	     * As Math.random() is cryptographically not safe to use
+	     */
+	    var secureRandom = function () {
+	        // Native crypto module on NodeJS environment
+	        try {
+	            // Crypto from global object
+	            var crypto = global.crypto;
+
+	            // Create a random float number between 0 and 1
+	            return Number('0.' + crypto.randomBytes(3).readUIntBE(0, 3));
+	        } catch (err) {}
+
+	        // Native crypto module in Browser environment
+	        try {
+	            // Support experimental crypto module in IE 11
+	            var crypto = window.crypto || window.msCrypto;
+
+	            // Create a random float number between 0 and 1
+	            return Number('0.' + window.crypto.getRandomValues(new Uint32Array(1))[0]);
+	        } catch (err) {}
+
+	        throw new Error('Native crypto module could not be used to get secure random number.');
+	    };
+
+	    /*
+	     * Local polyfill of Object.create
+
 	     */
 	    var create = Object.create || (function () {
-	        function F() {};
+	        function F() {}
 
 	        return function (obj) {
 	            var subtype;
@@ -1424,26 +1465,8 @@
 	        random: function (nBytes) {
 	            var words = [];
 
-	            var r = (function (m_w) {
-	                var m_w = m_w;
-	                var m_z = 0x3ade68b1;
-	                var mask = 0xffffffff;
-
-	                return function () {
-	                    m_z = (0x9069 * (m_z & 0xFFFF) + (m_z >> 0x10)) & mask;
-	                    m_w = (0x4650 * (m_w & 0xFFFF) + (m_w >> 0x10)) & mask;
-	                    var result = ((m_z << 0x10) + m_w) & mask;
-	                    result /= 0x100000000;
-	                    result += 0.5;
-	                    return result * (Math.random() > .5 ? 1 : -1);
-	                }
-	            });
-
-	            for (var i = 0, rcache; i < nBytes; i += 4) {
-	                var _r = r((rcache || Math.random()) * 0x100000000);
-
-	                rcache = _r() * 0x3ade67b7;
-	                words.push((_r() * 0x100000000) | 0);
+	            for (var i = 0; i < nBytes; i += 4) {
+	                words.push((secureRandom() * 0x100000000) | 0);
 	            }
 
 	            return new WordArray.init(words, nBytes);
@@ -1674,6 +1697,8 @@
 	         *     var processedData = bufferedBlockAlgorithm._process(!!'flush');
 	         */
 	        _process: function (doFlush) {
+	            var processedWords;
+
 	            // Shortcuts
 	            var data = this._data;
 	            var dataWords = data.words;
@@ -1706,7 +1731,7 @@
 	                }
 
 	                // Remove processed words
-	                var processedWords = dataWords.splice(0, nWordsReady);
+	                processedWords = dataWords.splice(0, nWordsReady);
 	                data.sigBytes -= nBytesReady;
 	            }
 
@@ -2004,7 +2029,8 @@
 	          if (i % 4) {
 	              var bits1 = reverseMap[base64Str.charCodeAt(i - 1)] << ((i % 4) * 2);
 	              var bits2 = reverseMap[base64Str.charCodeAt(i)] >>> (6 - (i % 4) * 2);
-	              words[nBytes >>> 2] |= (bits1 | bits2) << (24 - (nBytes % 4) * 8);
+	              var bitsCombined = bits1 | bits2;
+	              words[nBytes >>> 2] |= bitsCombined << (24 - (nBytes % 4) * 8);
 	              nBytes++;
 	          }
 	      }
@@ -2241,6 +2267,8 @@
 	         *     var key = kdf.compute(password, salt);
 	         */
 	        compute: function (password, salt) {
+	            var block;
+
 	            // Shortcut
 	            var cfg = this.cfg;
 
@@ -2260,7 +2288,7 @@
 	                if (block) {
 	                    hasher.update(block);
 	                }
-	                var block = hasher.update(password).finalize(salt);
+	                block = hasher.update(password).finalize(salt);
 	                hasher.reset();
 
 	                // Iterations
@@ -2943,17 +2971,19 @@
 	    });
 
 	    function generateKeystreamAndEncrypt(words, offset, blockSize, cipher) {
+	        var keystream;
+
 	        // Shortcut
 	        var iv = this._iv;
 
 	        // Generate keystream
 	        if (iv) {
-	            var keystream = iv.slice(0);
+	            keystream = iv.slice(0);
 
 	            // Remove IV for subsequent blocks
 	            this._iv = undefined;
 	        } else {
-	            var keystream = this._prevBlock;
+	            keystream = this._prevBlock;
 	        }
 	        cipher.encryptBlock(keystream, 0);
 
@@ -3462,10 +3492,12 @@
 
 	        // Unpad
 	        var i = data.sigBytes - 1;
-	        while (!((dataWords[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff)) {
-	            i--;
+	        for (var i = data.sigBytes - 1; i >= 0; i--) {
+	            if (((dataWords[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff)) {
+	                data.sigBytes = i + 1;
+	                break;
+	            }
 	        }
-	        data.sigBytes = i + 1;
 	    }
 	};
 
@@ -5037,6 +5069,9 @@
 
 	                // Rho Pi
 	                for (var laneIndex = 1; laneIndex < 25; laneIndex++) {
+	                    var tMsw;
+	                    var tLsw;
+
 	                    // Shortcuts
 	                    var lane = state[laneIndex];
 	                    var laneMsw = lane.high;
@@ -5045,11 +5080,11 @@
 
 	                    // Rotate lanes
 	                    if (rhoOffset < 32) {
-	                        var tMsw = (laneMsw << rhoOffset) | (laneLsw >>> (32 - rhoOffset));
-	                        var tLsw = (laneLsw << rhoOffset) | (laneMsw >>> (32 - rhoOffset));
+	                        tMsw = (laneMsw << rhoOffset) | (laneLsw >>> (32 - rhoOffset));
+	                        tLsw = (laneLsw << rhoOffset) | (laneMsw >>> (32 - rhoOffset));
 	                    } else /* if (rhoOffset >= 32) */ {
-	                        var tMsw = (laneLsw << (rhoOffset - 32)) | (laneMsw >>> (64 - rhoOffset));
-	                        var tLsw = (laneMsw << (rhoOffset - 32)) | (laneLsw >>> (64 - rhoOffset));
+	                        tMsw = (laneLsw << (rhoOffset - 32)) | (laneMsw >>> (64 - rhoOffset));
+	                        tLsw = (laneMsw << (rhoOffset - 32)) | (laneLsw >>> (64 - rhoOffset));
 	                    }
 
 	                    // Transpose lanes
@@ -5084,7 +5119,7 @@
 	                var lane = state[0];
 	                var roundConstant = ROUND_CONSTANTS[round];
 	                lane.high ^= roundConstant.high;
-	                lane.low  ^= roundConstant.low;;
+	                lane.low  ^= roundConstant.low;
 	            }
 	        },
 
@@ -5418,13 +5453,16 @@
 
 	            // Rounds
 	            for (var i = 0; i < 80; i++) {
+	                var Wil;
+	                var Wih;
+
 	                // Shortcut
 	                var Wi = W[i];
 
 	                // Extend message
 	                if (i < 16) {
-	                    var Wih = Wi.high = M[offset + i * 2]     | 0;
-	                    var Wil = Wi.low  = M[offset + i * 2 + 1] | 0;
+	                    Wih = Wi.high = M[offset + i * 2]     | 0;
+	                    Wil = Wi.low  = M[offset + i * 2 + 1] | 0;
 	                } else {
 	                    // Gamma0
 	                    var gamma0x  = W[i - 15];
@@ -5449,12 +5487,12 @@
 	                    var Wi16h = Wi16.high;
 	                    var Wi16l = Wi16.low;
 
-	                    var Wil = gamma0l + Wi7l;
-	                    var Wih = gamma0h + Wi7h + ((Wil >>> 0) < (gamma0l >>> 0) ? 1 : 0);
-	                    var Wil = Wil + gamma1l;
-	                    var Wih = Wih + gamma1h + ((Wil >>> 0) < (gamma1l >>> 0) ? 1 : 0);
-	                    var Wil = Wil + Wi16l;
-	                    var Wih = Wih + Wi16h + ((Wil >>> 0) < (Wi16l >>> 0) ? 1 : 0);
+	                    Wil = gamma0l + Wi7l;
+	                    Wih = gamma0h + Wi7h + ((Wil >>> 0) < (gamma0l >>> 0) ? 1 : 0);
+	                    Wil = Wil + gamma1l;
+	                    Wih = Wih + gamma1h + ((Wil >>> 0) < (gamma1l >>> 0) ? 1 : 0);
+	                    Wil = Wil + Wi16l;
+	                    Wih = Wih + Wi16h + ((Wil >>> 0) < (Wi16l >>> 0) ? 1 : 0);
 
 	                    Wi.high = Wih;
 	                    Wi.low  = Wil;
@@ -6329,11 +6367,20 @@
 	            // Shortcuts
 	            var key = this._key;
 	            var keyWords = key.words;
+	            // Make sure the key length is valid (64, 128 or >= 192 bit)
+	            if (keyWords.length !== 2 && keyWords.length !== 4 && keyWords.length < 6) {
+	                throw new Error('Invalid key length - 3DES requires the key length to be 64, 128, 192 or >192.');
+	            }
+
+	            // Extend the key according to the keying options defined in 3DES standard
+	            var key1 = keyWords.slice(0, 2);
+	            var key2 = keyWords.length < 4 ? keyWords.slice(0, 2) : keyWords.slice(2, 4);
+	            var key3 = keyWords.length < 6 ? keyWords.slice(0, 2) : keyWords.slice(4, 6);
 
 	            // Create DES instances
-	            this._des1 = DES.createEncryptor(WordArray.create(keyWords.slice(0, 2)));
-	            this._des2 = DES.createEncryptor(WordArray.create(keyWords.slice(2, 4)));
-	            this._des3 = DES.createEncryptor(WordArray.create(keyWords.slice(4, 6)));
+	            this._des1 = DES.createEncryptor(WordArray.create(key1));
+	            this._des2 = DES.createEncryptor(WordArray.create(key2));
+	            this._des3 = DES.createEncryptor(WordArray.create(key3));
 	        },
 
 	        encryptBlock: function (M, offset) {
@@ -17290,6 +17337,308 @@ return jQuery;
 
 /***/ }),
 
+/***/ "./node_modules/ngx-card/card.js":
+/*!***************************************!*\
+  !*** ./node_modules/ngx-card/card.js ***!
+  \***************************************/
+/*! exports provided: NgxCard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgxCard", function() { return NgxCard; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _inputs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./inputs */ "./node_modules/ngx-card/inputs.js");
+
+
+var defaultPlaceholders = {
+    number: '•••• •••• •••• ••••',
+    name: 'Full Name',
+    expiry: '••/••',
+    cvc: '•••',
+};
+var defaultMessages = {
+    validDate: 'valid\nthru',
+    monthYear: 'month/year',
+};
+var NgxCard = (function () {
+    function NgxCard(element) {
+        this.element = element;
+        this.formatting = true; // optional - default true
+        // if true, will log helpful messages for setting up Card
+        this.debug = false; // optional - default false
+    }
+    Object.defineProperty(NgxCard.prototype, "messages", {
+        get: function () {
+            return this._messages;
+        },
+        set: function (_messages) {
+            this._messages = Object.assign({}, defaultMessages, _messages);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NgxCard.prototype, "placeholders", {
+        get: function () {
+            return this._placeholders;
+        },
+        set: function (_placeholders) {
+            this._placeholders = Object.assign({}, defaultPlaceholders, _placeholders);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    NgxCard.prototype.ngAfterViewInit = function () {
+        new Card({
+            form: this.element.nativeElement,
+            container: this.container,
+            width: this.width,
+            formSelectors: {
+                numberInput: this.findSelectors(this.numbers),
+                expiryInput: this.findSelectors(this.expiries),
+                cvcInput: this.findSelectors(this.cvcs),
+                nameInput: this.findSelectors(this.names),
+            },
+            formatting: this.formatting,
+            messages: this.messages,
+            placeholders: this.placeholders,
+            masks: this.masks,
+            debug: this.debug,
+        });
+    };
+    NgxCard.prototype.findSelectors = function (list) {
+        return list.map(function (template) { return template.elementRef.nativeElement.tagName.toLowerCase() + '[name="' + template.name + '"]'; })
+            .join(', ');
+    };
+    return NgxCard;
+}());
+
+NgxCard.decorators = [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"], args: [{
+                selector: '[card]',
+            },] },
+];
+/** @nocollapse */
+NgxCard.ctorParameters = function () { return [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+]; };
+NgxCard.propDecorators = {
+    'container': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    'width': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"], args: ['card-width',] },],
+    'messages': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    'placeholders': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    'masks': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    'formatting': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    'debug': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] },],
+    'numbers': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ContentChildren"], args: [_inputs__WEBPACK_IMPORTED_MODULE_1__["NgxCardNumberTemplate"], { descendants: true },] },],
+    'names': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ContentChildren"], args: [_inputs__WEBPACK_IMPORTED_MODULE_1__["NgxCardNameTemplate"], { descendants: true },] },],
+    'expiries': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ContentChildren"], args: [_inputs__WEBPACK_IMPORTED_MODULE_1__["NgxCardExpiryTemplate"], { descendants: true },] },],
+    'cvcs': [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ContentChildren"], args: [_inputs__WEBPACK_IMPORTED_MODULE_1__["NgxCardCvcTemplate"], { descendants: true },] },],
+};
+;
+//# sourceMappingURL=card.js.map
+
+/***/ }),
+
+/***/ "./node_modules/ngx-card/inputs.js":
+/*!*****************************************!*\
+  !*** ./node_modules/ngx-card/inputs.js ***!
+  \*****************************************/
+/*! exports provided: NgxCardNumberTemplate, NgxCardNameTemplate, NgxCardExpiryTemplate, NgxCardCvcTemplate */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgxCardNumberTemplate", function() { return NgxCardNumberTemplate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgxCardNameTemplate", function() { return NgxCardNameTemplate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgxCardExpiryTemplate", function() { return NgxCardExpiryTemplate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgxCardCvcTemplate", function() { return NgxCardCvcTemplate; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./node_modules/ngx-card/util.js");
+
+
+var NgxCardNumberTemplate = (function () {
+    function NgxCardNumberTemplate(elementRef, name) {
+        this.elementRef = elementRef;
+        this.name = name;
+    }
+    NgxCardNumberTemplate.prototype.ngOnInit = function () {
+        this.name = this.name || Object(_util__WEBPACK_IMPORTED_MODULE_1__["uniqueId"])('number');
+    };
+    return NgxCardNumberTemplate;
+}());
+
+NgxCardNumberTemplate.decorators = [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"], args: [{
+                selector: '[card-number]',
+                host: {
+                    '[name]': 'name',
+                },
+            },] },
+];
+/** @nocollapse */
+NgxCardNumberTemplate.ctorParameters = function () { return [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Attribute"], args: ['name',] },] },
+]; };
+var NgxCardNameTemplate = (function () {
+    function NgxCardNameTemplate(elementRef, name) {
+        this.elementRef = elementRef;
+        this.name = name;
+    }
+    NgxCardNameTemplate.prototype.ngOnInit = function () {
+        this.name = this.name || Object(_util__WEBPACK_IMPORTED_MODULE_1__["uniqueId"])('name');
+    };
+    return NgxCardNameTemplate;
+}());
+
+NgxCardNameTemplate.decorators = [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"], args: [{
+                selector: '[card-name]',
+                host: {
+                    '[name]': 'name',
+                },
+            },] },
+];
+/** @nocollapse */
+NgxCardNameTemplate.ctorParameters = function () { return [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Attribute"], args: ['name',] },] },
+]; };
+var NgxCardExpiryTemplate = (function () {
+    function NgxCardExpiryTemplate(elementRef, name) {
+        this.elementRef = elementRef;
+        this.name = name;
+    }
+    NgxCardExpiryTemplate.prototype.ngOnInit = function () {
+        this.name = this.name || Object(_util__WEBPACK_IMPORTED_MODULE_1__["uniqueId"])('expiry');
+    };
+    return NgxCardExpiryTemplate;
+}());
+
+NgxCardExpiryTemplate.decorators = [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"], args: [{
+                selector: '[card-expiry]',
+                host: {
+                    '[name]': 'name',
+                },
+            },] },
+];
+/** @nocollapse */
+NgxCardExpiryTemplate.ctorParameters = function () { return [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Attribute"], args: ['name',] },] },
+]; };
+var NgxCardCvcTemplate = (function () {
+    function NgxCardCvcTemplate(elementRef, name) {
+        this.elementRef = elementRef;
+        this.name = name;
+    }
+    NgxCardCvcTemplate.prototype.ngOnInit = function () {
+        this.name = this.name || Object(_util__WEBPACK_IMPORTED_MODULE_1__["uniqueId"])('cvc');
+    };
+    return NgxCardCvcTemplate;
+}());
+
+NgxCardCvcTemplate.decorators = [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"], args: [{
+                selector: '[card-cvc]',
+                host: {
+                    '[name]': 'name',
+                },
+            },] },
+];
+/** @nocollapse */
+NgxCardCvcTemplate.ctorParameters = function () { return [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], },
+    { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Attribute"], args: ['name',] },] },
+]; };
+//# sourceMappingURL=inputs.js.map
+
+/***/ }),
+
+/***/ "./node_modules/ngx-card/module.js":
+/*!*****************************************!*\
+  !*** ./node_modules/ngx-card/module.js ***!
+  \*****************************************/
+/*! exports provided: CardModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CardModule", function() { return CardModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _inputs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./inputs */ "./node_modules/ngx-card/inputs.js");
+/* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./card */ "./node_modules/ngx-card/card.js");
+
+
+
+var CARD_DIRECTIVES = [
+    _card__WEBPACK_IMPORTED_MODULE_2__["NgxCard"],
+    _inputs__WEBPACK_IMPORTED_MODULE_1__["NgxCardNumberTemplate"],
+    _inputs__WEBPACK_IMPORTED_MODULE_1__["NgxCardNameTemplate"],
+    _inputs__WEBPACK_IMPORTED_MODULE_1__["NgxCardExpiryTemplate"],
+    _inputs__WEBPACK_IMPORTED_MODULE_1__["NgxCardCvcTemplate"],
+];
+var CardModule = (function () {
+    function CardModule() {
+    }
+    return CardModule;
+}());
+
+CardModule.decorators = [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"], args: [{
+                declarations: [CARD_DIRECTIVES],
+                exports: [CARD_DIRECTIVES],
+            },] },
+];
+/** @nocollapse */
+CardModule.ctorParameters = function () { return []; };
+//# sourceMappingURL=module.js.map
+
+/***/ }),
+
+/***/ "./node_modules/ngx-card/ngx-card.js":
+/*!*******************************************!*\
+  !*** ./node_modules/ngx-card/ngx-card.js ***!
+  \*******************************************/
+/*! exports provided: CardModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./module */ "./node_modules/ngx-card/module.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CardModule", function() { return _module__WEBPACK_IMPORTED_MODULE_0__["CardModule"]; });
+
+
+//# sourceMappingURL=ngx-card.js.map
+
+/***/ }),
+
+/***/ "./node_modules/ngx-card/util.js":
+/*!***************************************!*\
+  !*** ./node_modules/ngx-card/util.js ***!
+  \***************************************/
+/*! exports provided: uniqueId */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "uniqueId", function() { return uniqueId; });
+// Generate a unique id (unique within the entire client session).
+// Useful for temporary DOM ids.
+// Generate a unique id (unique within the entire client session).
+var uniqueId = (function () {
+    var idCounter = 0;
+    return function (prefix) {
+        if (prefix === void 0) { prefix = 'uid'; }
+        return "card_" + prefix + "_" + ++idCounter;
+    };
+}());
+//# sourceMappingURL=util.js.map
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/pages/tarjeta-swappi/tarjeta-swappi.page.html":
 /*!*****************************************************************************************************!*\
   !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/pages/tarjeta-swappi/tarjeta-swappi.page.html ***!
@@ -17299,7 +17648,7 @@ return jQuery;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar class=\"header\">\n      <ion-buttons slot=\"start\">\n          <ion-back-button text=\"Atrás\" icon=\"arrow-back\"></ion-back-button>\n      </ion-buttons>\n    <ion-title>Tarjeta Swappi</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div>\n    <img [src]=\"cardImage\" />\n  </div>\n  <p class=\"text\">Ingresa todos los datos requeridos</p>\n  <div>\n    <ion-grid fixed>\n      <ion-row>\n        <!-- <ion-col size=\"12\">\n            <div class=\"input-group mb-3\">\n                <input type=\"text\" [(ngModel)]=\"name\" class=\"form-control material\" placeholder=\"Nombre\">\n                <div class=\"input-group-prepend\">\n                  <div class=\"input-group-text icon-style\" style=\"border-radius: 0px 8px 8px 0px;\">\n                        <i class=\"fa fa-user\" aria-hidden=\"true\"></i>\n                  </div>\n                </div>\n            </div>\n        </ion-col> -->\n        <ion-col size=\"12\">\n            <div class=\"input-group mb-3\">\n                <input type=\"number\" [(ngModel)]=\"ntarjeta\" value=\"{{ntarjeta}}\" class=\"form-control material\" placeholder=\"N° Tarjeta\">\n                <div class=\"input-group-prepend\">\n                  <div class=\"input-group-text icon-style\" style=\"border-radius: 0px 8px 8px 0px;\">\n                      <i class=\"fa fa-credit-card\" aria-hidden=\"true\"></i>\n                  </div>\n                </div>\n            </div>\n        </ion-col>\n        <ion-col size=\"6\">\n            <div class=\"input-group mb-3\">\n                <input type=\"text\" id=\"fech\" [(ngModel)]=\"fech\" value=\"{{fech}}\" (keypress)=\"test($event)\" mask-placeholder=\"_\" class=\"form-control material\" placeholder=\"MM/YY\">\n                <div class=\"input-group-prepend\">\n                  <div class=\"input-group-text icon-style\" style=\"border-radius: 0px 8px 8px 0px;\">\n                      <i class=\"fa fa-calendar-o\" aria-hidden=\"true\"></i>\n                  </div>\n                </div>\n            </div>\n        </ion-col>\n        <ion-col size=\"6\">\n            <div class=\"input-group mb-3\">\n                <input type=\"number\" [(ngModel)]=\"ccv\" value=\"{{ccv}}\" pattern=\"[0-9]{3,3}\" maxlength=\"3\" minlength=\"3\" class=\"form-control material\" placeholder=\"CCV\">\n                <div class=\"input-group-prepend\">\n                  <div class=\"input-group-text icon-style\" style=\"border-radius: 0px 8px 8px 0px;\">\n                      <i class=\"fa fa-lock\" aria-hidden=\"true\"></i>\n                  </div>\n                </div>\n            </div>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n    <div *ngIf=\"swicht > 0\">\n      <button id=\"btn-Sesion\" (click)=\"desactivar()\">DESACTIVAR TARJETA</button>\n    </div>\n    <div *ngIf=\"swicht == 0\">\n      <button id=\"btn-Sesion\" (click)=\"verificar()\">ACTIVAR TARJETA</button>\n    </div>\n   \n  </div>\n</ion-content>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar class=\"header\">\n      <ion-buttons slot=\"start\">\n          <ion-back-button text=\"Atrás\" icon=\"arrow-back\"></ion-back-button>\n      </ion-buttons>\n    <ion-title>Tarjeta Swappi</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div>\n <img [src]=\"cardImage\" /> \n  </div>\n\n  <p class=\"text\">Ingresa todos los datos requeridos</p>\n  <div>\n    <ion-grid fixed>\n      <ion-row>\n         <ion-col size=\"12\">\n            <div class=\"input-group mb-3\">\n                <input type=\"text\" [(ngModel)]=\"name\" class=\"form-control material\" placeholder=\"Nombre\" disabled>\n                <div class=\"input-group-prepend\">\n                  <div class=\"input-group-text icon-style\" style=\"border-radius: 0px 8px 8px 0px;\">\n                        <i class=\"fa fa-user\" aria-hidden=\"true\"></i>\n                  </div>\n                </div>\n            </div>\n        </ion-col>\n        <ion-col size=\"12\">\n            <div class=\"input-group mb-3\">\n                <input type=\"text\" [(ngModel)]=\"ntarjeta\" value=\"{{ntarjeta}}\" class=\"form-control material\" placeholder=\"N° Tarjeta\" maxlength=\"16\" [disabled]=\"estadoTarjeta == 1 || estadoTarjeta == 2\">\n                <div class=\"input-group-prepend\">\n                  <div class=\"input-group-text icon-style\" style=\"border-radius: 0px 8px 8px 0px;\">\n                      <i class=\"fa fa-credit-card\" aria-hidden=\"true\"></i>\n                  </div>\n                </div>\n            </div>\n        </ion-col>\n        <ion-col size=\"6\">\n            <div class=\"input-group mb-3\">\n                <input type=\"text\" id=\"fech\" [(ngModel)]=\"fech\" value=\"{{fech}}\" (keypress)=\"test($event)\" mask-placeholder=\"_\" class=\"form-control material\" placeholder=\"MM/YY\" [disabled]=\"estadoTarjeta == 1 || estadoTarjeta == 2\">\n                <div class=\"input-group-prepend\">\n                  <div class=\"input-group-text icon-style\" style=\"border-radius: 0px 8px 8px 0px;\">\n                      <i class=\"fa fa-calendar-o\" aria-hidden=\"true\"></i>\n                  </div>\n                </div>\n            </div>\n        </ion-col>\n        <ion-col size=\"6\">\n            <div class=\"input-group mb-3\">\n                <input  type=\"text\" pattern=\"\\d*\" [(ngModel)]=\"ccv\" value=\"{{ccv}}\" pattern=\"[0-9]{3,3}\" maxlength=\"3\" minlength=\"3\" class=\"form-control material\" placeholder=\"CCV\" [disabled]=\"estadoTarjeta == 1 || estadoTarjeta == 2\">\n                <div class=\"input-group-prepend\">\n                  <div class=\"input-group-text icon-style\" style=\"border-radius: 0px 8px 8px 0px;\">\n                      <i class=\"fa fa-lock\" aria-hidden=\"true\"></i>\n                  </div>\n                </div>\n            </div>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n    <div>\n      <div *ngIf=\"estadoTarjeta != 1  && estadoTarjeta != 2\">\n    <button id=\"btn-Sesion\" (click)=\"guardar()\">GUARDAR TARJETA</button>\n  </div>\n    </div>\n    <div *ngIf=\"estadoTarjeta != 1 && estadoTarjeta != undefined\">\n      <button id=\"btn-Sesion\" (click)=\"verificar()\">ACTIVAR TARJETA</button>\n    </div>\n    <div *ngIf=\"estadoTarjeta == 1\">\n      <button id=\"btn-Sesion\" (click)=\"desactivar()\">DESACTIVAR TARJETA</button>\n    </div>\n\n\n  </div>\n</ion-content>\n");
 
 /***/ }),
 
@@ -17355,8 +17704,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
-/* harmony import */ var _tarjeta_swappi_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./tarjeta-swappi-routing.module */ "./src/app/pages/tarjeta-swappi/tarjeta-swappi-routing.module.ts");
-/* harmony import */ var _tarjeta_swappi_page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tarjeta-swappi.page */ "./src/app/pages/tarjeta-swappi/tarjeta-swappi.page.ts");
+/* harmony import */ var ngx_card_ngx_card__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-card/ngx-card */ "./node_modules/ngx-card/ngx-card.js");
+/* harmony import */ var _tarjeta_swappi_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tarjeta-swappi-routing.module */ "./src/app/pages/tarjeta-swappi/tarjeta-swappi-routing.module.ts");
+/* harmony import */ var _tarjeta_swappi_page__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./tarjeta-swappi.page */ "./src/app/pages/tarjeta-swappi/tarjeta-swappi.page.ts");
+
 
 
 
@@ -17372,9 +17723,10 @@ TarjetaSwappiPageModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
             _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["IonicModule"],
-            _tarjeta_swappi_routing_module__WEBPACK_IMPORTED_MODULE_5__["TarjetaSwappiPageRoutingModule"]
+            ngx_card_ngx_card__WEBPACK_IMPORTED_MODULE_5__["CardModule"],
+            _tarjeta_swappi_routing_module__WEBPACK_IMPORTED_MODULE_6__["TarjetaSwappiPageRoutingModule"]
         ],
-        declarations: [_tarjeta_swappi_page__WEBPACK_IMPORTED_MODULE_6__["TarjetaSwappiPage"]]
+        declarations: [_tarjeta_swappi_page__WEBPACK_IMPORTED_MODULE_7__["TarjetaSwappiPage"]]
     })
 ], TarjetaSwappiPageModule);
 
@@ -17391,7 +17743,7 @@ TarjetaSwappiPageModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("@import url(\"https://fonts.googleapis.com/css?family=Roboto&display=swap\");\n.header {\n  text-align: center;\n  font-weight: bold;\n  font-family: \"Roboto\", sans-serif;\n}\n.text {\n  text-align: center;\n  margin-top: 5%;\n  font-family: \"Roboto\", sans-serif;\n  color: #777777;\n}\n.material {\n  width: 10%;\n  background: #F5F5F5 0% 0% no-repeat padding-box;\n  border-radius: 8px;\n  opacity: 1;\n  border-style: none;\n  color: #000;\n  font-weight: bold;\n  font-family: \"Roboto\", sans-serif;\n}\n.icon-style {\n  border-style: none;\n  background: #F5F5F5 0% 0% no-repeat padding-box;\n  color: #000;\n}\n#btn-Sesion {\n  margin-top: 5%;\n  width: 100%;\n  height: 50px;\n  background: transparent linear-gradient(270deg, #0ABF04 0%, #09A603 100%) 0% 0% no-repeat padding-box;\n  box-shadow: 0px 3px 16px #0093E929;\n  border-radius: 50px;\n  opacity: 1;\n  color: #F5F5F5;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: bold;\n  font-size: 16px;\n  outline: none;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvdGFyamV0YS1zd2FwcGkvQzpcXFVzZXJzXFxrZXZ5bi5ERVNLVE9QLUZINU5UNTdcXERvY3VtZW50c1xcQmFja3VwIE1vdmlsXFxTd2FwcGkvc3JjXFxhcHBcXHBhZ2VzXFx0YXJqZXRhLXN3YXBwaVxcdGFyamV0YS1zd2FwcGkucGFnZS5zY3NzIiwic3JjL2FwcC9wYWdlcy90YXJqZXRhLXN3YXBwaS90YXJqZXRhLXN3YXBwaS5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQVEsMEVBQUE7QUFDUjtFQUNJLGtCQUFBO0VBQ0EsaUJBQUE7RUFDQSxpQ0FBQTtBQ0NKO0FEQ0E7RUFDSSxrQkFBQTtFQUNBLGNBQUE7RUFDQSxpQ0FBQTtFQUNBLGNBQUE7QUNFSjtBREFBO0VBQ0ksVUFBQTtFQUNBLCtDQUFBO0VBQ0Esa0JBQUE7RUFDQSxVQUFBO0VBQ0Esa0JBQUE7RUFDQSxXQUFBO0VBQ0EsaUJBQUE7RUFDQSxpQ0FBQTtBQ0dKO0FEREE7RUFDSSxrQkFBQTtFQUNBLCtDQUFBO0VBQ0EsV0FBQTtBQ0lKO0FERkE7RUFDSSxjQUFBO0VBQ0EsV0FBQTtFQUNBLFlBQUE7RUFDQSxxR0FBQTtFQUNBLGtDQUFBO0VBQ0EsbUJBQUE7RUFDQSxVQUFBO0VBQ0EsY0FBQTtFQUNBLGlDQUFBO0VBQ0EsaUJBQUE7RUFDQSxlQUFBO0VBQ0EsYUFBQTtBQ0tKIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvdGFyamV0YS1zd2FwcGkvdGFyamV0YS1zd2FwcGkucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiQGltcG9ydCB1cmwoJ2h0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20vY3NzP2ZhbWlseT1Sb2JvdG8mZGlzcGxheT1zd2FwJyk7XHJcbi5oZWFkZXJ7XHJcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGZvbnQtZmFtaWx5OiAnUm9ib3RvJywgc2Fucy1zZXJpZjtcclxufVxyXG4udGV4dHtcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIG1hcmdpbi10b3A6IDUlO1xyXG4gICAgZm9udC1mYW1pbHk6ICdSb2JvdG8nLCBzYW5zLXNlcmlmO1xyXG4gICAgY29sb3I6ICM3Nzc3Nzc7XHJcbn1cclxuLm1hdGVyaWFse1xyXG4gICAgd2lkdGg6IDEwJTtcclxuICAgIGJhY2tncm91bmQ6ICNGNUY1RjUgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xyXG4gICAgYm9yZGVyLXJhZGl1czogOHB4O1xyXG4gICAgb3BhY2l0eTogMTtcclxuICAgIGJvcmRlci1zdHlsZTogbm9uZTtcclxuICAgIGNvbG9yOiAjMDAwO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbiAgICBmb250LWZhbWlseTogJ1JvYm90bycsIHNhbnMtc2VyaWY7XHJcbn1cclxuLmljb24tc3R5bGV7XHJcbiAgICBib3JkZXItc3R5bGU6IG5vbmU7XHJcbiAgICBiYWNrZ3JvdW5kOiAjRjVGNUY1IDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcclxuICAgIGNvbG9yOiAjMDAwO1xyXG59XHJcbiNidG4tU2VzaW9ue1xyXG4gICAgbWFyZ2luLXRvcDogNSU7XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIGhlaWdodDogNTBweDtcclxuICAgIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50IGxpbmVhci1ncmFkaWVudCgyNzBkZWcsICMwQUJGMDQgMCUsICMwOUE2MDMgMTAwJSkgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xyXG4gICAgYm94LXNoYWRvdzogMHB4IDNweCAxNnB4ICMwMDkzRTkyOTtcclxuICAgIGJvcmRlci1yYWRpdXM6IDUwcHg7XHJcbiAgICBvcGFjaXR5OiAxO1xyXG4gICAgY29sb3I6ICNGNUY1RjU7XHJcbiAgICBmb250LWZhbWlseTogJ1JvYm90bycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgIG91dGxpbmU6bm9uZTtcclxuICAgIH0iLCJAaW1wb3J0IHVybChcImh0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20vY3NzP2ZhbWlseT1Sb2JvdG8mZGlzcGxheT1zd2FwXCIpO1xuLmhlYWRlciB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gIGZvbnQtZmFtaWx5OiBcIlJvYm90b1wiLCBzYW5zLXNlcmlmO1xufVxuXG4udGV4dCB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgbWFyZ2luLXRvcDogNSU7XG4gIGZvbnQtZmFtaWx5OiBcIlJvYm90b1wiLCBzYW5zLXNlcmlmO1xuICBjb2xvcjogIzc3Nzc3Nztcbn1cblxuLm1hdGVyaWFsIHtcbiAgd2lkdGg6IDEwJTtcbiAgYmFja2dyb3VuZDogI0Y1RjVGNSAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XG4gIGJvcmRlci1yYWRpdXM6IDhweDtcbiAgb3BhY2l0eTogMTtcbiAgYm9yZGVyLXN0eWxlOiBub25lO1xuICBjb2xvcjogIzAwMDtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gIGZvbnQtZmFtaWx5OiBcIlJvYm90b1wiLCBzYW5zLXNlcmlmO1xufVxuXG4uaWNvbi1zdHlsZSB7XG4gIGJvcmRlci1zdHlsZTogbm9uZTtcbiAgYmFja2dyb3VuZDogI0Y1RjVGNSAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XG4gIGNvbG9yOiAjMDAwO1xufVxuXG4jYnRuLVNlc2lvbiB7XG4gIG1hcmdpbi10b3A6IDUlO1xuICB3aWR0aDogMTAwJTtcbiAgaGVpZ2h0OiA1MHB4O1xuICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudCBsaW5lYXItZ3JhZGllbnQoMjcwZGVnLCAjMEFCRjA0IDAlLCAjMDlBNjAzIDEwMCUpIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcbiAgYm94LXNoYWRvdzogMHB4IDNweCAxNnB4ICMwMDkzRTkyOTtcbiAgYm9yZGVyLXJhZGl1czogNTBweDtcbiAgb3BhY2l0eTogMTtcbiAgY29sb3I6ICNGNUY1RjU7XG4gIGZvbnQtZmFtaWx5OiBcIlJvYm90b1wiLCBzYW5zLXNlcmlmO1xuICBmb250LXdlaWdodDogYm9sZDtcbiAgZm9udC1zaXplOiAxNnB4O1xuICBvdXRsaW5lOiBub25lO1xufSJdfQ== */");
+/* harmony default export */ __webpack_exports__["default"] = ("@import url(\"https://fonts.googleapis.com/css?family=Roboto&display=swap\");\n.header {\n  text-align: center;\n  font-weight: bold;\n  font-family: \"Roboto\", sans-serif;\n}\n.text {\n  text-align: center;\n  margin-top: 5%;\n  font-family: \"Roboto\", sans-serif;\n  color: #777777;\n}\n.material {\n  width: 10%;\n  background: #F5F5F5 0% 0% no-repeat padding-box;\n  border-radius: 8px;\n  opacity: 1;\n  border-style: none;\n  color: #000;\n  font-weight: bold;\n  font-family: \"Roboto\", sans-serif;\n}\n.icon-style {\n  border-style: none;\n  background: #F5F5F5 0% 0% no-repeat padding-box;\n  color: #000;\n}\n#btn-Sesion {\n  margin-top: 5%;\n  width: 100%;\n  height: 50px;\n  background: #69B850 no-repeat padding-box;\n  box-shadow: 0px 3px 16px #0093E929;\n  border-radius: 50px;\n  opacity: 1;\n  color: #F5F5F5;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: bold;\n  font-size: 16px;\n  outline: none;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvdGFyamV0YS1zd2FwcGkvYzpcXFVzZXJzXFx1c2VyXFxEZXNrdG9wXFxJT05JQ1xcc3dhcHBpLWFwcC9zcmNcXGFwcFxccGFnZXNcXHRhcmpldGEtc3dhcHBpXFx0YXJqZXRhLXN3YXBwaS5wYWdlLnNjc3MiLCJzcmMvYXBwL3BhZ2VzL3RhcmpldGEtc3dhcHBpL3RhcmpldGEtc3dhcHBpLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBUSwwRUFBQTtBQUNSO0VBQ0ksa0JBQUE7RUFDQSxpQkFBQTtFQUNBLGlDQUFBO0FDQ0o7QURDQTtFQUNJLGtCQUFBO0VBQ0EsY0FBQTtFQUNBLGlDQUFBO0VBQ0EsY0FBQTtBQ0VKO0FEQUE7RUFDSSxVQUFBO0VBQ0EsK0NBQUE7RUFDQSxrQkFBQTtFQUNBLFVBQUE7RUFDQSxrQkFBQTtFQUNBLFdBQUE7RUFDQSxpQkFBQTtFQUNBLGlDQUFBO0FDR0o7QUREQTtFQUNJLGtCQUFBO0VBQ0EsK0NBQUE7RUFDQSxXQUFBO0FDSUo7QURGQTtFQUNJLGNBQUE7RUFDQSxXQUFBO0VBQ0EsWUFBQTtFQUNBLHlDQUFBO0VBQ0Esa0NBQUE7RUFDQSxtQkFBQTtFQUNBLFVBQUE7RUFDQSxjQUFBO0VBQ0EsaUNBQUE7RUFDQSxpQkFBQTtFQUNBLGVBQUE7RUFDQSxhQUFBO0FDS0oiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy90YXJqZXRhLXN3YXBwaS90YXJqZXRhLXN3YXBwaS5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAaW1wb3J0IHVybCgnaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3M/ZmFtaWx5PVJvYm90byZkaXNwbGF5PXN3YXAnKTtcclxuLmhlYWRlcntcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gICAgZm9udC1mYW1pbHk6ICdSb2JvdG8nLCBzYW5zLXNlcmlmO1xyXG59XHJcbi50ZXh0e1xyXG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gICAgbWFyZ2luLXRvcDogNSU7XHJcbiAgICBmb250LWZhbWlseTogJ1JvYm90bycsIHNhbnMtc2VyaWY7XHJcbiAgICBjb2xvcjogIzc3Nzc3NztcclxufVxyXG4ubWF0ZXJpYWx7XHJcbiAgICB3aWR0aDogMTAlO1xyXG4gICAgYmFja2dyb3VuZDogI0Y1RjVGNSAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XHJcbiAgICBib3JkZXItcmFkaXVzOiA4cHg7XHJcbiAgICBvcGFjaXR5OiAxO1xyXG4gICAgYm9yZGVyLXN0eWxlOiBub25lO1xyXG4gICAgY29sb3I6ICMwMDA7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGZvbnQtZmFtaWx5OiAnUm9ib3RvJywgc2Fucy1zZXJpZjtcclxufVxyXG4uaWNvbi1zdHlsZXtcclxuICAgIGJvcmRlci1zdHlsZTogbm9uZTtcclxuICAgIGJhY2tncm91bmQ6ICNGNUY1RjUgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xyXG4gICAgY29sb3I6ICMwMDA7XHJcbn1cclxuI2J0bi1TZXNpb257XHJcbiAgICBtYXJnaW4tdG9wOiA1JTtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgaGVpZ2h0OiA1MHB4O1xyXG4gICAgYmFja2dyb3VuZDogICM2OUI4NTAgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xyXG4gICAgYm94LXNoYWRvdzogMHB4IDNweCAxNnB4ICMwMDkzRTkyOTtcclxuICAgIGJvcmRlci1yYWRpdXM6IDUwcHg7XHJcbiAgICBvcGFjaXR5OiAxO1xyXG4gICAgY29sb3I6ICNGNUY1RjU7XHJcbiAgICBmb250LWZhbWlseTogJ1JvYm90bycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGZvbnQtc2l6ZTogMTZweDtcclxuICAgIG91dGxpbmU6bm9uZTtcclxuICAgIH0iLCJAaW1wb3J0IHVybChcImh0dHBzOi8vZm9udHMuZ29vZ2xlYXBpcy5jb20vY3NzP2ZhbWlseT1Sb2JvdG8mZGlzcGxheT1zd2FwXCIpO1xuLmhlYWRlciB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gIGZvbnQtZmFtaWx5OiBcIlJvYm90b1wiLCBzYW5zLXNlcmlmO1xufVxuXG4udGV4dCB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgbWFyZ2luLXRvcDogNSU7XG4gIGZvbnQtZmFtaWx5OiBcIlJvYm90b1wiLCBzYW5zLXNlcmlmO1xuICBjb2xvcjogIzc3Nzc3Nztcbn1cblxuLm1hdGVyaWFsIHtcbiAgd2lkdGg6IDEwJTtcbiAgYmFja2dyb3VuZDogI0Y1RjVGNSAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XG4gIGJvcmRlci1yYWRpdXM6IDhweDtcbiAgb3BhY2l0eTogMTtcbiAgYm9yZGVyLXN0eWxlOiBub25lO1xuICBjb2xvcjogIzAwMDtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gIGZvbnQtZmFtaWx5OiBcIlJvYm90b1wiLCBzYW5zLXNlcmlmO1xufVxuXG4uaWNvbi1zdHlsZSB7XG4gIGJvcmRlci1zdHlsZTogbm9uZTtcbiAgYmFja2dyb3VuZDogI0Y1RjVGNSAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XG4gIGNvbG9yOiAjMDAwO1xufVxuXG4jYnRuLVNlc2lvbiB7XG4gIG1hcmdpbi10b3A6IDUlO1xuICB3aWR0aDogMTAwJTtcbiAgaGVpZ2h0OiA1MHB4O1xuICBiYWNrZ3JvdW5kOiAjNjlCODUwIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcbiAgYm94LXNoYWRvdzogMHB4IDNweCAxNnB4ICMwMDkzRTkyOTtcbiAgYm9yZGVyLXJhZGl1czogNTBweDtcbiAgb3BhY2l0eTogMTtcbiAgY29sb3I6ICNGNUY1RjU7XG4gIGZvbnQtZmFtaWx5OiBcIlJvYm90b1wiLCBzYW5zLXNlcmlmO1xuICBmb250LXdlaWdodDogYm9sZDtcbiAgZm9udC1zaXplOiAxNnB4O1xuICBvdXRsaW5lOiBub25lO1xufSJdfQ== */");
 
 /***/ }),
 
@@ -17422,6 +17774,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let TarjetaSwappiPage = class TarjetaSwappiPage {
     constructor(_methodsApiRestService, navCtrl) {
         this._methodsApiRestService = _methodsApiRestService;
@@ -17429,23 +17782,89 @@ let TarjetaSwappiPage = class TarjetaSwappiPage {
         this.cardImage = '../../../assets/imgs/credit-card.png';
     }
     ngOnInit() {
+        this.id = localStorage.getItem('idUser');
+        this.cedula = localStorage.getItem('cedula');
+        this.name = localStorage.getItem('name') + " " + localStorage.getItem('lastNames');
         this.cardIfExist();
+        /*
+            var inputQuantity = [];
+            $(function() {
+              $(".quantity").each(function(i) {
+                inputQuantity[i]=this.defaultValue;
+                 $(this).data("idx",i); // save this field's index to access later
+              });
+              $(".quantity").on("keyup", function (e) {
+                var $field = $(this),
+                    val=this.value,
+                    $thisIndex=parseInt($field.data("idx"),10); // retrieve the index
+        //        window.console && console.log($field.is(":invalid"));
+                  //  $field.is(":invalid") is for Safari, it must be the last to not error in IE8
+                if (this.validity && this.validity.badInput || isNaN(val) || $field.is(":invalid") ) {
+                    this.value = inputQuantity[$thisIndex];
+                    return;
+                }
+                if (val.length > Number($field.attr("maxlength"))) {
+                  val=val.slice(0, 5);
+                  $field.val(val);
+                }
+                inputQuantity[$thisIndex]=val;
+              });
+            }); */
+    }
+    guardar() {
+        this.cardIfExist();
+        var d = new Date();
+        var n = d.getFullYear();
+        var actual = n.toString().substring(2, 4);
+        var fechaV = jquery__WEBPACK_IMPORTED_MODULE_2__("#fech").val();
+        var cadena = fechaV;
+        var one = cadena.substring(0, 2);
+        var two = cadena.substring(3, 5);
+        if (parseInt(one) > 12) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Ups!", "Error campo Fecha vencimiento", "error");
+        }
+        else if (parseInt(two) <= parseInt(actual)) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Ups!", "Tarjeta Vencida", "error");
+        }
+        else {
+            let datos = {
+                "user": { "documentId": this.cedula
+                },
+                "number": this.ntarjeta,
+                "expireDate": this.fech,
+                "pin": this.ccv,
+                "amount": 0,
+                "state": this.swicht
+            };
+            this._methodsApiRestService.PostMethod('/card', datos).subscribe(r => {
+                r = this.data;
+                console.log(this.data);
+                sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Evento De Aplicacion", "Tarjeta creada exitosamente", 'success');
+                this.cardIfExist();
+            });
+        }
     }
     cardIfExist() {
         var cedula = localStorage.getItem('cedula');
         let datos = {
             "usuario": cedula
         };
-        this._methodsApiRestService.PostMethod('/tarjetas/findcard', datos)
-            .subscribe(data => {
-            if (typeof data[0] === 'undefined' || data[0] === null) {
-                this.swicht = 0;
+        this._methodsApiRestService.GetMethod('/user/' + this.id + '/card')
+            .subscribe(response => {
+            /*   if(typeof data[0] === 'undefined' || data[0] === null){
+                this.swicht=0;
+              }else{
+                this.swicht=1; */
+            this.ntarjeta = response['number'];
+            this.ccv = response['pin'];
+            this.fech = response['expireDate'];
+            this.idtarjeta = response['id'];
+            this.estadoTarjeta = response['active'];
+            if (this.estadoTarjeta == true) {
+                this.estadoTarjeta = 1;
             }
-            else {
-                this.swicht = 1;
-                this.ntarjeta = data[0].tj_numero;
-                this.ccv = this.decryptData(data[0].tj_pin);
-                this.fech = this.decryptData(data[0].tj_fecvec);
+            if (this.estadoTarjeta == false) {
+                this.estadoTarjeta = 2;
             }
         });
     }
@@ -17482,23 +17901,21 @@ let TarjetaSwappiPage = class TarjetaSwappiPage {
             var fechenc = this.encryptData(this.fech);
             var ccvenc = this.encryptData(this.ccv);
             var user = localStorage.getItem('cedula');
-            let datos = {
-                "fecha": fechenc,
-                "ccv": ccvenc,
-                "ntarjeta": this.ntarjeta,
-                "usuario": user
+            let datos2 = {
+                "user": { "documentId": this.cedula
+                },
+                "number": this.ntarjeta,
+                "expireDate": fechenc,
+                "pin": ccvenc,
+                "amount": 0,
+                "state": this.swicht
             };
             //console.log(datos);
-            this._methodsApiRestService.PostMethod('/tarjetas/create', datos)
-                .subscribe(response => {
-                //console.log(response);
-                if (response) {
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Exitos!", "Tarjeta Activada", "success");
-                    this.navCtrl.navigateRoot('/inicio');
-                }
-                else {
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Ups!", "Tarjeta no activada", "error");
-                }
+            this._methodsApiRestService.PostMethod('/card/' + this.idtarjeta + '/activate', datos2).subscribe(r => {
+                r = this.data;
+                sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Exitos!", "Tarjeta Activada", "success");
+                this.navCtrl.navigateRoot('/inicio');
+                this.estadoTarjeta = 1;
             }, error => {
                 if (!error.ok) {
                     sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Ups!", "Error en Petición", "error");
@@ -17531,9 +17948,15 @@ let TarjetaSwappiPage = class TarjetaSwappiPage {
     desactivar() {
         var cedula = localStorage.getItem('cedula');
         let datos = {
-            "usuario": cedula
+            "user": { "documentId": this.cedula
+            },
+            "number": this.ntarjeta,
+            "expireDate": this.fech,
+            "pin": this.ccv,
+            "amount": 0,
+            "state": this.swicht
         };
-        this._methodsApiRestService.PostMethod('/tarjetas/findcard', datos)
+        this._methodsApiRestService.PostMethod('/card/' + this.idtarjeta + '/deactivate', datos)
             .subscribe(update => {
             if (update) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Ups!", "Tarjeta Desactivada", "success");

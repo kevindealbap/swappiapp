@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar class=\"header\">\n      <ion-buttons slot=\"start\">\n          <ion-back-button text=\"Atrás\" icon=\"arrow-back\"></ion-back-button>\n      </ion-buttons>\n    <ion-title>\n      Recargar Tarjeta\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content class=\"ion-padding\">\n<p><b>Seleccionar aliados</b></p>\n<div *ngFor=\"let item of cuentas\">\n  <ion-card style=\"background: white;\">\n    <ion-grid fixed>\n      <ion-row>\n        <ion-col size=\"3\"><img src=\"../../../assets/imgs/puntossaludables.png\" style=\"width: 70%;\"></ion-col>\n        <ion-col size=\"6\" style=\"text-align: left;\"><ion-label><b>Puntos Saludables</b></ion-label> <ion-input [(ngModel)]=\"selec\" type=\"number\" placeholder=\"Cantidad\" style=\"border-bottom: 1px solid #0093E9;width: 70%;\"></ion-input></ion-col>\n        <ion-col size=\"3\" style=\"color: #0093E9;\"><br><b>$ {{item.dinero | number}}</b></ion-col>\n      </ion-row>\n    </ion-grid>\n  </ion-card>\n</div>\n</ion-content>\n\n<ion-tabs>\n  <ion-tab-bar slot=\"bottom\" id=\"tabs-border\" class=\"ion-padding\">\n    <img src=\"../../../assets/imgs/credit-card.png\" width=\"84px\">\n  </ion-tab-bar>\n  <ion-tab-bar slot=\"bottom\">\n   <ion-grid fixed>\n     <ion-row>\n       <ion-col size=\"6\" class=\"text-bold\">Total en pesos</ion-col>\n       <ion-col size=\"6\" class=\"text-bold azul\">$ 0</ion-col>\n     </ion-row>\n   </ion-grid>\n  </ion-tab-bar>\n  <ion-tab-bar slot=\"bottom\">\n    <ion-grid fixed>\n      <ion-row>\n       <ion-col size=\"6\" class=\"text-bold\">Saldo actual</ion-col>\n       <ion-col size=\"6\" class=\"text-bold\">Saldo nuevo</ion-col>\n     </ion-row>\n    </ion-grid>\n   </ion-tab-bar>\n   <ion-tab-bar slot=\"bottom\">\n    <ion-grid fixed>\n     <ion-row>\n       <ion-col size=\"6\" class=\"text-bold azul\">$ 0</ion-col>\n       <ion-col size=\"6\" class=\"text-bold azul\">$ {{selec}}</ion-col>\n     </ion-row>\n    </ion-grid>\n   </ion-tab-bar>\n  <ion-tab-bar slot=\"bottom\">\n    <button id=\"confirmar\" (click)=\"recargar()\">CONFIRMAR</button>\n  </ion-tab-bar>\n</ion-tabs>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\r\n  <ion-toolbar class=\"header\">\r\n      <ion-buttons slot=\"start\">\r\n          <ion-back-button text=\"Atrás\" icon=\"arrow-back\"></ion-back-button>\r\n      </ion-buttons>\r\n    <ion-title>\r\n      Recargar Tarjeta\r\n    </ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content class=\"ion-padding\">\r\n<div *ngFor=\"let item of cuentas\">\r\n  <ion-card style=\"background: white;\">\r\n    <ion-grid fixed>\r\n      <ion-row>\r\n        <ion-col size=\"3\"><img src=\"../../../assets/imgs/{{item.imagen}}\" style=\"width: 70%;\"></ion-col>\r\n        <ion-col size=\"6\" style=\"text-align: left;\">\r\n          <ion-label><b>{{item.nameAliado}}</b></ion-label> \r\n          <ion-input [(ngModel)]=\"selec\" (input)=\"getPoints($event, item.aliado)\" type=\"number\" placeholder=\"Cantidad\" style=\"border-bottom: 1px solid #0093E9;width: 70%;\" maxlength=\"5\">\r\n          </ion-input>\r\n        </ion-col>\r\n        <ion-col size=\"3\" style=\"color: #0093E9;\">\r\n          <br><b>{{item.cantidad}} Pts</b>\r\n          <br><b>$ {{item.dinero | number}}</b>\r\n\r\n        </ion-col>\r\n      </ion-row>\r\n    </ion-grid>\r\n  </ion-card>\r\n</div>\r\n</ion-content>\r\n\r\n<ion-tabs>\r\n  <ion-tab-bar slot=\"bottom\" id=\"tabs-border\" class=\"ion-padding\">\r\n    <img src=\"../../../assets/imgs/credit-card.png\" width=\"84px\">\r\n  </ion-tab-bar>\r\n  <ion-tab-bar slot=\"bottom\">\r\n   <ion-grid fixed>\r\n     <ion-row>\r\n       <ion-col size=\"6\" class=\"text-bold\">Total en pesos</ion-col>\r\n       <ion-col size=\"6\" class=\"text-bold azul\">$ {{total}}</ion-col>\r\n     </ion-row>\r\n   </ion-grid>\r\n  </ion-tab-bar>\r\n  <ion-tab-bar slot=\"bottom\">\r\n    <ion-grid fixed>\r\n      <ion-row>\r\n       <ion-col size=\"6\" class=\"text-bold\">Saldo actual</ion-col>\r\n       <ion-col size=\"6\" class=\"text-bold\">Saldo nuevo</ion-col>\r\n     </ion-row>\r\n    </ion-grid>\r\n   </ion-tab-bar>\r\n   <ion-tab-bar slot=\"bottom\">\r\n    <ion-grid fixed>\r\n     <ion-row>\r\n       <ion-col size=\"6\" class=\"text-bold azul\">$ {{saldo}}</ion-col>\r\n       <ion-col size=\"6\" class=\"text-bold azul\">$ {{dinero}}</ion-col>\r\n     </ion-row>\r\n    </ion-grid>\r\n   </ion-tab-bar>\r\n  <ion-tab-bar slot=\"bottom\">\r\n    <button id=\"confirmar\" (click)=\"recargar()\">CONFIRMAR</button>\r\n  </ion-tab-bar>\r\n</ion-tabs>\r\n");
 
 /***/ }),
 
@@ -101,7 +101,7 @@ RecargaTarjetaPageModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("ion-content {\n  --background:#0F215929;\n}\n\n#tabs-border {\n  background: #FFFFFF 0% 0% no-repeat padding-box;\n  box-shadow: 0px 0px 24px #0093E91F;\n  border-radius: 36px 36px 0px 0px;\n  opacity: 1;\n}\n\n#confirmar {\n  top: 721px;\n  left: 16px;\n  width: 343px;\n  height: 50px;\n  background: transparent linear-gradient(270deg, #0ABF04 0%, #09A603 100%) 0% 0% no-repeat padding-box;\n  box-shadow: 0px 3px 16px #0093E929;\n  border-radius: 50px;\n  opacity: 1;\n  color: white;\n}\n\n.text-bold {\n  font-weight: bold;\n  color: black;\n}\n\n.azul {\n  color: #0093E9;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvcmVjYXJnYS10YXJqZXRhL0M6XFxVc2Vyc1xca2V2eW4uREVTS1RPUC1GSDVOVDU3XFxEb2N1bWVudHNcXEJhY2t1cCBNb3ZpbFxcU3dhcHBpL3NyY1xcYXBwXFxwYWdlc1xccmVjYXJnYS10YXJqZXRhXFxyZWNhcmdhLXRhcmpldGEucGFnZS5zY3NzIiwic3JjL2FwcC9wYWdlcy9yZWNhcmdhLXRhcmpldGEvcmVjYXJnYS10YXJqZXRhLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHNCQUFBO0FDQ0o7O0FEQ0E7RUFDSSwrQ0FBQTtFQUNBLGtDQUFBO0VBQ0EsZ0NBQUE7RUFDQSxVQUFBO0FDRUo7O0FEQUE7RUFDSSxVQUFBO0VBQ0osVUFBQTtFQUNBLFlBQUE7RUFDQSxZQUFBO0VBQ0EscUdBQUE7RUFDQSxrQ0FBQTtFQUNBLG1CQUFBO0VBQ0EsVUFBQTtFQUNBLFlBQUE7QUNHQTs7QUREQTtFQUNJLGlCQUFBO0VBQ0EsWUFBQTtBQ0lKOztBREZBO0VBQ0ksY0FBQTtBQ0tKIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvcmVjYXJnYS10YXJqZXRhL3JlY2FyZ2EtdGFyamV0YS5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tY29udGVudHtcclxuICAgIC0tYmFja2dyb3VuZDojMEYyMTU5Mjk7XHJcbn1cclxuI3RhYnMtYm9yZGVye1xyXG4gICAgYmFja2dyb3VuZDogI0ZGRkZGRiAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XHJcbiAgICBib3gtc2hhZG93OiAwcHggMHB4IDI0cHggIzAwOTNFOTFGO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMzZweCAzNnB4IDBweCAwcHg7XHJcbiAgICBvcGFjaXR5OiAxO1xyXG59XHJcbiNjb25maXJtYXJ7XHJcbiAgICB0b3A6IDcyMXB4O1xyXG5sZWZ0OiAxNnB4O1xyXG53aWR0aDogMzQzcHg7XHJcbmhlaWdodDogNTBweDtcclxuYmFja2dyb3VuZDp0cmFuc3BhcmVudCBsaW5lYXItZ3JhZGllbnQoMjcwZGVnLCAjMEFCRjA0IDAlLCAjMDlBNjAzIDEwMCUpIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcclxuYm94LXNoYWRvdzogMHB4IDNweCAxNnB4ICMwMDkzRTkyOTtcclxuYm9yZGVyLXJhZGl1czogNTBweDtcclxub3BhY2l0eTogMTtcclxuY29sb3I6IHdoaXRlO1xyXG59XHJcbi50ZXh0LWJvbGR7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGNvbG9yOiBibGFjaztcclxufVxyXG4uYXp1bHtcclxuICAgIGNvbG9yOiAjMDA5M0U5O1xyXG59IiwiaW9uLWNvbnRlbnQge1xuICAtLWJhY2tncm91bmQ6IzBGMjE1OTI5O1xufVxuXG4jdGFicy1ib3JkZXIge1xuICBiYWNrZ3JvdW5kOiAjRkZGRkZGIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcbiAgYm94LXNoYWRvdzogMHB4IDBweCAyNHB4ICMwMDkzRTkxRjtcbiAgYm9yZGVyLXJhZGl1czogMzZweCAzNnB4IDBweCAwcHg7XG4gIG9wYWNpdHk6IDE7XG59XG5cbiNjb25maXJtYXIge1xuICB0b3A6IDcyMXB4O1xuICBsZWZ0OiAxNnB4O1xuICB3aWR0aDogMzQzcHg7XG4gIGhlaWdodDogNTBweDtcbiAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQgbGluZWFyLWdyYWRpZW50KDI3MGRlZywgIzBBQkYwNCAwJSwgIzA5QTYwMyAxMDAlKSAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XG4gIGJveC1zaGFkb3c6IDBweCAzcHggMTZweCAjMDA5M0U5Mjk7XG4gIGJvcmRlci1yYWRpdXM6IDUwcHg7XG4gIG9wYWNpdHk6IDE7XG4gIGNvbG9yOiB3aGl0ZTtcbn1cblxuLnRleHQtYm9sZCB7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBjb2xvcjogYmxhY2s7XG59XG5cbi5henVsIHtcbiAgY29sb3I6ICMwMDkzRTk7XG59Il19 */");
+/* harmony default export */ __webpack_exports__["default"] = ("ion-content {\n  --background:#0F215929;\n}\n\n#tabs-border {\n  background: #FFFFFF 0% 0% no-repeat padding-box;\n  box-shadow: 0px 0px 24px #0093E91F;\n  border-radius: 36px 36px 0px 0px;\n  opacity: 1;\n}\n\n#confirmar {\n  top: 721px;\n  left: 16px;\n  width: 343px;\n  height: 50px;\n  background: transparent -webkit-gradient(linear, right top, left top, from(#0ABF04), to(#09A603)) 0% 0% no-repeat padding-box;\n  background: transparent linear-gradient(270deg, #0ABF04 0%, #09A603 100%) 0% 0% no-repeat padding-box;\n  box-shadow: 0px 3px 16px #0093E929;\n  border-radius: 50px;\n  opacity: 1;\n  color: white;\n}\n\n.text-bold {\n  font-weight: bold;\n  color: black;\n}\n\n.azul {\n  color: #0093E9;\n}\n\nion-card {\n  z-index: 3;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFnZXMvcmVjYXJnYS10YXJqZXRhL2M6XFxVc2Vyc1xcdXNlclxcRGVza3RvcFxcSU9OSUNcXHN3YXBwaS1hcHAvc3JjXFxhcHBcXHBhZ2VzXFxyZWNhcmdhLXRhcmpldGFcXHJlY2FyZ2EtdGFyamV0YS5wYWdlLnNjc3MiLCJzcmMvYXBwL3BhZ2VzL3JlY2FyZ2EtdGFyamV0YS9yZWNhcmdhLXRhcmpldGEucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksc0JBQUE7QUNDSjs7QURDQTtFQUNJLCtDQUFBO0VBQ0Esa0NBQUE7RUFDQSxnQ0FBQTtFQUNBLFVBQUE7QUNFSjs7QURBQTtFQUNJLFVBQUE7RUFDSixVQUFBO0VBQ0EsWUFBQTtFQUNBLFlBQUE7RUFDQSw2SEFBQTtFQUFBLHFHQUFBO0VBQ0Esa0NBQUE7RUFDQSxtQkFBQTtFQUNBLFVBQUE7RUFDQSxZQUFBO0FDR0E7O0FEREE7RUFDSSxpQkFBQTtFQUNBLFlBQUE7QUNJSjs7QURGQTtFQUNJLGNBQUE7QUNLSjs7QURIQTtFQUNJLFVBQUE7QUNNSiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL3JlY2FyZ2EtdGFyamV0YS9yZWNhcmdhLXRhcmpldGEucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW9uLWNvbnRlbnR7XHJcbiAgICAtLWJhY2tncm91bmQ6IzBGMjE1OTI5O1xyXG59XHJcbiN0YWJzLWJvcmRlcntcclxuICAgIGJhY2tncm91bmQ6ICNGRkZGRkYgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xyXG4gICAgYm94LXNoYWRvdzogMHB4IDBweCAyNHB4ICMwMDkzRTkxRjtcclxuICAgIGJvcmRlci1yYWRpdXM6IDM2cHggMzZweCAwcHggMHB4O1xyXG4gICAgb3BhY2l0eTogMTtcclxufVxyXG4jY29uZmlybWFye1xyXG4gICAgdG9wOiA3MjFweDtcclxubGVmdDogMTZweDtcclxud2lkdGg6IDM0M3B4O1xyXG5oZWlnaHQ6IDUwcHg7XHJcbmJhY2tncm91bmQ6dHJhbnNwYXJlbnQgbGluZWFyLWdyYWRpZW50KDI3MGRlZywgIzBBQkYwNCAwJSwgIzA5QTYwMyAxMDAlKSAwJSAwJSBuby1yZXBlYXQgcGFkZGluZy1ib3g7XHJcbmJveC1zaGFkb3c6IDBweCAzcHggMTZweCAjMDA5M0U5Mjk7XHJcbmJvcmRlci1yYWRpdXM6IDUwcHg7XHJcbm9wYWNpdHk6IDE7XHJcbmNvbG9yOiB3aGl0ZTtcclxufVxyXG4udGV4dC1ib2xke1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbiAgICBjb2xvcjogYmxhY2s7XHJcbn1cclxuLmF6dWx7XHJcbiAgICBjb2xvcjogIzAwOTNFOTtcclxufVxyXG5pb24tY2FyZHtcclxuICAgIHotaW5kZXg6IDM7XHJcbn0iLCJpb24tY29udGVudCB7XG4gIC0tYmFja2dyb3VuZDojMEYyMTU5Mjk7XG59XG5cbiN0YWJzLWJvcmRlciB7XG4gIGJhY2tncm91bmQ6ICNGRkZGRkYgMCUgMCUgbm8tcmVwZWF0IHBhZGRpbmctYm94O1xuICBib3gtc2hhZG93OiAwcHggMHB4IDI0cHggIzAwOTNFOTFGO1xuICBib3JkZXItcmFkaXVzOiAzNnB4IDM2cHggMHB4IDBweDtcbiAgb3BhY2l0eTogMTtcbn1cblxuI2NvbmZpcm1hciB7XG4gIHRvcDogNzIxcHg7XG4gIGxlZnQ6IDE2cHg7XG4gIHdpZHRoOiAzNDNweDtcbiAgaGVpZ2h0OiA1MHB4O1xuICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudCBsaW5lYXItZ3JhZGllbnQoMjcwZGVnLCAjMEFCRjA0IDAlLCAjMDlBNjAzIDEwMCUpIDAlIDAlIG5vLXJlcGVhdCBwYWRkaW5nLWJveDtcbiAgYm94LXNoYWRvdzogMHB4IDNweCAxNnB4ICMwMDkzRTkyOTtcbiAgYm9yZGVyLXJhZGl1czogNTBweDtcbiAgb3BhY2l0eTogMTtcbiAgY29sb3I6IHdoaXRlO1xufVxuXG4udGV4dC1ib2xkIHtcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gIGNvbG9yOiBibGFjaztcbn1cblxuLmF6dWwge1xuICBjb2xvcjogIzAwOTNFOTtcbn1cblxuaW9uLWNhcmQge1xuICB6LWluZGV4OiAzO1xufSJdfQ== */");
 
 /***/ }),
 
@@ -120,45 +120,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_method_api_service_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/method-api-service.service */ "./src/app/services/method-api-service.service.ts");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
+
+
 
 
 
 
 let RecargaTarjetaPage = class RecargaTarjetaPage {
-    constructor(_methodsApiRestService) {
+    constructor(_methodsApiRestService, navCtrl) {
         this._methodsApiRestService = _methodsApiRestService;
+        this.navCtrl = navCtrl;
         this.cuentas = [];
         this.cedula = null;
         this.dinero = 0;
+        this.activeBtn = 0;
+        this.saldo = 0;
+        this.total = 0;
     }
     ngOnInit() {
         this.cedula = localStorage.getItem('cedula');
-        this.service('/cuentas/cuentasList/' + this.cedula);
+        this.service('/partner-account-list?cedula=' + this.cedula);
     }
     service(endpoint) {
         this._methodsApiRestService.GetMethod(endpoint)
             .subscribe(response => {
-            if (typeof response[0] === 'undefined' || response[0] === null) {
+            var id = localStorage.getItem('idUser');
+            if (typeof response === 'undefined' || response === null) {
                 //swal.fire("Ups!", "Usuario no encontrado", "error");
             }
             else {
                 for (let x in response) {
                     var plata;
-                    this._methodsApiRestService.GetMethod('/aliados/valuePunto/' + response[x].aliado_id)
-                        .subscribe(data => {
-                        plata = parseInt(response[x].ca_cantPuntos) * parseInt(data[0].al_valueCompre);
-                        let datos = {
-                            id: response[x].id,
-                            cedula: response[x].us_cedula,
-                            aliado: response[x].aliado_id,
-                            status: response[x].ca_status,
-                            cantidad: response[x].ca_cantPuntos,
-                            dinero: plata
-                        };
-                        this.dinero += plata;
-                        this.cuentas.push(datos);
-                    });
+                    plata = (response[x].numberOfPoints) * parseInt(response[x].partner.purchaseValue);
+                    let datos = {
+                        id: response[x].id,
+                        cedula: response[x].user.documentId,
+                        nameAliado: response[x].partner.name,
+                        aliado: response[x].partner.id,
+                        status: response[x].status,
+                        cantidad: response[x].numberOfPoints,
+                        imagen: 'puntossaludables.png',
+                        dinero: plata,
+                        valorCompra: response[x].partner.purchaseValue
+                    };
+                    this.cuentas.push(datos);
                 }
+                this._methodsApiRestService.GetMethod('/user/' + id + '/card')
+                    .subscribe(data => {
+                    if (data === null || data === undefined) {
+                        sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Ups!", "El usuario no tiene una tarjeta.", "error");
+                        this.navCtrl.navigateRoot('/tarjeta-swappi');
+                    }
+                    this.saldo = data['amount'];
+                    this.idcard = data['id'];
+                }, error => {
+                    if (!error.ok) {
+                        sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Ups!", "Ocurrió un error obteniendo información de la tarjeta.", "warning");
+                        this.navCtrl.navigateRoot('/tarjeta-swappi');
+                    }
+                });
             }
         }, error => {
             if (!error.ok) {
@@ -166,29 +187,56 @@ let RecargaTarjetaPage = class RecargaTarjetaPage {
             }
         });
     }
+    getPoints(event, aliadoId) {
+        let index = this.cuentas.findIndex(c => c.aliado === aliadoId);
+        var cuenta = this.cuentas[index];
+        if (event.target.value != undefined && event.target.value !== "") {
+            let numberOfPoints = parseInt(event.target.value, 10);
+            let purchaseValue = parseFloat(this.cuentas[index].valorCompra);
+            this.total = numberOfPoints * purchaseValue;
+            this.dinero = this.total + this.saldo;
+        }
+        else {
+            this.total = 0;
+            this.dinero = 0;
+        }
+    }
     recargar() {
         if (this.selec > this.dinero) {
-            console.log("te pasaste");
+            sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Evento de Aplicaicon", 'La recarga de puntos sobre pasa el limite', 'warning');
         }
         else {
             console.log(this.selec);
             let datos = {
-                "usuario": this.cedula,
-                "monto": this.selec,
+                "card": {
+                    "id": this.idcard
+                },
+                "user": {
+                    "documentId": this.cedula
+                },
+                "quantity": this.dinero
             };
-            this._methodsApiRestService.PostMethod('/tarjetas/descargar', datos)
+            this._methodsApiRestService.PostMethod('/recharge', datos)
                 .subscribe(response => {
                 console.log(response);
-            }, error => {
-                if (!error.ok) {
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Ups!", error, "error");
+                if (response['id'] != null) {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Exito!", "Tarjeta recargada con éxito", "success");
+                    this.navCtrl.navigateRoot('/inicio');
+                }
+                else {
+                    error => {
+                        if (!error.ok) {
+                            sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire("Ups!", error, "error");
+                        }
+                    };
                 }
             });
         }
     }
 };
 RecargaTarjetaPage.ctorParameters = () => [
-    { type: _services_method_api_service_service__WEBPACK_IMPORTED_MODULE_2__["MethodApiServiceService"] }
+    { type: _services_method_api_service_service__WEBPACK_IMPORTED_MODULE_2__["MethodApiServiceService"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["NavController"] }
 ];
 RecargaTarjetaPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -196,7 +244,8 @@ RecargaTarjetaPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./recarga-tarjeta.page.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/pages/recarga-tarjeta/recarga-tarjeta.page.html")).default,
         styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./recarga-tarjeta.page.scss */ "./src/app/pages/recarga-tarjeta/recarga-tarjeta.page.scss")).default]
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_method_api_service_service__WEBPACK_IMPORTED_MODULE_2__["MethodApiServiceService"]])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_method_api_service_service__WEBPACK_IMPORTED_MODULE_2__["MethodApiServiceService"],
+        _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["NavController"]])
 ], RecargaTarjetaPage);
 
 
